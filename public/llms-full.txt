@@ -1,0 +1,136 @@
+# Pax Brasiliana
+> Um movimento para reacender a indústria, a criatividade e a ambição brasileira.
+
+## Required
+- Site: https://paxbrasiliana.com
+- Contato: contato@paxbrasiliana.com
+
+---
+
+## Sobre
+
+A Pax Brasiliana é um movimento para reacender a indústria brasileira, a criatividade e a ambição. Acreditamos no trabalho duro de construir coisas — e na coragem de agir quando é mais fácil não fazer nada.
+
+### Nossa visão
+O novo sonho brasileiro deve ser maior. Podemos construir empresas que exportam para o mundo inteiro, infraestrutura que transforma o território e uma cultura que inspira ambição produtiva ao invés de conformismo.
+
+### Nosso objetivo
+Reconhecemos que nosso objetivo é ambicioso, mas alcançável. Para o Brasil prosperar, acreditamos que precisamos:
+- Alcançar 5% de crescimento real do PIB per capita
+- Aumentar a criação de novos negócios industriais
+- Restaurar a capacidade manufatureira soberana
+
+### Crenças Fundadoras
+- **Inclinação para Construir**: Escolhemos a dificuldade em vez do pessimismo. O caminho difícil de fazer coisas é melhor do que o caminho fácil de reclamar delas.
+- **Menos rentismo, mais empreendedorismo**: Valorizamos a criação acima da extração. Construir coisas reais que importam mais do que engenharia financeira.
+- **Restaurar a Oportunidade Justa**: Reviver o princípio igualitário de que todos merecem uma chance. Não por meio de esmolas, mas por meio de oportunidade.
+- **Sonhar mais alto**: Rejeitamos a narrativa de que nossos melhores dias ficaram para trás. O futuro é construído por aqueles que se recusam a aceitar limitações.
+- **Nem Esquerda nem Direita, mas para frente**: Somos apartidários e focados em resultados. Boas ideias não pertencem a nenhum partido político.
+- **O Brasil merece beleza**: O que construímos deve ser bonito. Cidades, fábricas, produtos e infraestrutura podem e devem inspirar orgulho estético.
+
+### FAQ
+- **A Pax Brasiliana é um partido político?** Não. Somos explicitamente apartidários. Trabalhamos com qualquer pessoa que queira construir, independentemente de filiação política.
+- **Como as doações são utilizadas?** 100% das doações apoiam as operações do movimento — eventos, pesquisa, projetos e construção de comunidade.
+- **O que o movimento faz?** Organizamos eventos, publicamos ensaios, desenvolvemos projetos e criamos ferramentas que apoiam construtores em todo o país.
+- **Quem dirige o movimento?** Um coletivo de voluntários com uma pequena equipe operacional. Nós mesmos somos construtores, fazendo isso porque acreditamos.
+- **Como o movimento é financiado?** Por meio de doações, vendas de produtos e contribuições de apoiadores. Somos transparentes sobre como os recursos são utilizados.
+- **Como posso participar?** O movimento é aberto a todos. Participe pela página Participe, compareça a eventos, contribua com ensaios ou desenvolva projetos.
+
+---
+
+## Manifesto — Um chamado para construir o Brasil
+
+### Introdução
+O Brasil tem tudo o que precisa para ser uma das grandes civilizações do século XXI: território continental, recursos naturais imensuráveis, população jovem e criativa, posição geográfica estratégica e uma cultura vibrante que o mundo inteiro admira.
+
+E no entanto, nos contentamos com tão pouco. Exportamos soja e minério de ferro em estado bruto. Importamos fertilizantes, baterias, semicondutores e medicamentos. Nossos melhores talentos emigram. Nossas cidades se degradam. Nossa indústria encolhe.
+
+**Isso não é destino. É escolha.** E escolhas podem ser mudadas.
+
+A Pax Brasiliana nasce da convicção de que o Brasil pode — e deve — construir coisas grandiosas. Não por nostalgia de um passado idealizado, mas pela crença inabalável em um futuro que ainda não foi escrito.
+
+### Princípios para uma Nova Ambição Nacional
+- **Inclinação para construir**: Escolher a dificuldade de criar em vez do conforto de reclamar.
+- **Estratégia, não simbolismo**: Ideias que não viram projetos são entretenimento intelectual. Valorizamos execução sobre discurso.
+- **Mudança estrutural**: Não basta crescer — é preciso transformar a estrutura produtiva.
+- **Pensar em décadas**: O ciclo eleitoral pensa em 4 anos. O mercado financeiro pensa em trimestres. Nós pensamos em gerações.
+- **Amor ao risco**: Uma sociedade que pune o fracasso mata a inovação.
+- **Restaurar a oportunidade justa**: A oportunidade justa nunca foi sobre esmola. Era sobre chances iguais de tentar, competir e prosperar.
+
+### Um Reset Cultural
+- **Celebrar construtores**: Os engenheiros, fundadores, operários, pesquisadores e artesãos que criam coisas reais devem ser os heróis culturais do Brasil.
+- **Otimismo anti-doomer**: Rejeitamos a narrativa de que o Brasil é um caso perdido.
+- **Comunidade e conexão**: Construir não é atividade solitária.
+- **Beleza importa**: O que construímos deve ser bonito.
+- **Um Brasil para ter orgulho**: Queremos um Brasil que o mundo admire.
+
+### Um Imperativo Econômico
+O Brasil precisa de crescimento real — não inflado por ciclos de commodities, mas sustentado por produtividade, inovação e valor agregado. O caminho passa por:
+- Reindustrialização inteligente em setores estratégicos: defesa, energia, semicondutores, farmacêutico, aeroespacial
+- Infraestrutura de classe mundial: ferrovias, portos, energia nuclear, telecomunicações
+- Educação técnica de excelência que forme engenheiros, técnicos e operadores
+- Desburocratização radical que libere empreendedores para criar sem pedir permissão
+- Capital paciente direcionado a indústrias produtivas, não a especulação imobiliária
+
+**O futuro não acontece por acaso.** Ele é desenhado, planejado e construído por pessoas que se recusam a aceitar o status quo.
+
+---
+
+## Projects
+
+### O que o Brasil pode construir?
+Uma base pesquisável de produtos fabricados no Brasil, manufaturas nacionais e lacunas produtivas. Visibilidade para quem já constrói — e inspiração para quem quer começar.
+- Busca por produto ou fabricante
+- Base de manufatura brasileira mapeada
+- Status de produção nacional por categoria
+
+### Rastreador B3
+Acompanhamento de 50 empresas listadas na B3 que operam em defesa, manufatura, energia, agtech, tecnologia, saúde e infraestrutura.
+- Preços e variações do dia
+- Sparklines de tendência de 30 dias
+- Filtro por setor e busca por ticker
+
+---
+
+## Essays
+
+### É Hora de Construir
+Pax Brasiliana é um movimento para reacender a indústria, a criatividade e a ambição. Esta é uma breve introdução à nossa missão.
+
+### O Velho Sonho Brasileiro Acabou
+Podemos honrar nosso passado sem viver nele. O futuro pertence a quem o constrói.
+
+### Um Renascimento Industrial
+Como reconstruir a indústria local e criar prosperidade real para pessoas comuns.
+
+### Capacidade Soberana Importa
+Por que ser dono da nossa infraestrutura crítica não é opcional — é existencial.
+
+### Sonhe Mais Alto
+Rejeitamos a narrativa de que nossos melhores dias ficaram para trás. Ambição é um recurso nacional.
+
+### Restaurando a Oportunidade Justa
+A oportunidade justa nunca foi sobre esmolas. Era sobre oportunidade. Vamos trazê-la de volta.
+
+---
+
+## Loja
+Apoie o movimento. 100% de cada compra é destinado diretamente à missão da Pax Brasiliana.
+- Camiseta Pax Brasiliana — R$ 150,00
+- Bandeira do Apoiador Inicial — R$ 30.000,00
+- Boné Pax Brasiliana — R$ 180,00
+
+---
+
+## Contato
+contato@paxbrasiliana.com
+
+---
+
+## Política de Privacidade
+- **Informações que Coletamos**: Informações que você fornece diretamente, como nome, e-mail e localização.
+- **Como Usamos Suas Informações**: Comunicar atualizações do movimento. Não vendemos dados a terceiros.
+- **Armazenamento de Dados**: Dados armazenados com segurança e retidos apenas pelo tempo necessário.
+- **Seus Direitos**: Solicitar acesso, correção ou exclusão de informações pessoais a qualquer momento.
+- **Cookies**: Cookies mínimos para fins analíticos.
+- **Contato**: Pela página de Contato ou por e-mail.

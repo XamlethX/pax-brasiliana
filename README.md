@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pax Brasiliana
 
-## Getting Started
+Um movimento para avivar a industria, criatividade e ambicao brasileira. **Brasil Surgis.**
 
-First, run the development server:
+## Stack
+
+- **Next.js 14** (App Router)
+- **Tailwind CSS** com tokens customizados
+- **Framer Motion** para scroll animations
+- **Google Fonts** (Bebas Neue + Inter)
+- Dark mode fixo, mobile-first
+
+## Rodar localmente
 
 ```bash
+# Instalar dependencias
+npm install
+
+# Servidor de desenvolvimento
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abra [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Build de producao
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+## Estrutura
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+  app/
+    layout.tsx        # Layout raiz com fonts e metadata
+    page.tsx          # Home page
+    globals.css       # Estilos globais, grain, grid overlay
+  components/
+    Header.tsx        # Nav fixa com hide-on-scroll
+    Hero.tsx          # Wordmark full-screen
+    Diagnostico.tsx   # Secao 1 — diagnostico com stats
+    Prova.tsx         # Secao 2 — casos de sucesso
+    Visao.tsx         # Secao 3 — tres pilares com parallax
+    Chamado.tsx       # Secao 4 — Brasil Surgis
+    CTA.tsx           # Form de e-mail + estado
+    Footer.tsx        # Links e social
+    SectionReveal.tsx # Wrapper de animacao scroll
+    StatBlock.tsx     # Bloco de estatistica animado
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Paleta
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Token     | Hex       | Uso                  |
+|-----------|-----------|----------------------|
+| preto     | `#0f0f0f` | Background           |
+| creme     | `#e8d5a3` | Texto principal      |
+| ferrugem  | `#c4873a` | Acentos e destaques  |
+| floresta  | `#2d4a2d` | Secundario           |

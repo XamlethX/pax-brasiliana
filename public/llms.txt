@@ -1,0 +1,37 @@
+# Pax Brasiliana
+> Um movimento para reacender a indústria, a criatividade e a ambição brasileira.
+
+## Required
+- Site: https://paxbrasiliana.com
+- Contato: contato@paxbrasiliana.com
+
+## Core Pages
+- [Sobre](/about): Visão, objetivos e crenças fundadoras
+- [Manifesto](/manifesto): Princípios, reset cultural e imperativo econômico
+- [Projetos](/projetos): Dados, análises e ferramentas interativas
+- [Ensaios](/essays): Análises e perspectivas sobre o futuro brasileiro
+- [Loja](/store): Produtos que apoiam o movimento
+- [Contato](/contact): Entre em contato
+- [Participe](/get-involved): Junte-se ao movimento
+- [Contribua](/contribute): Contribua com o movimento
+- [Newsletter](/newsletter): Inscreva-se para atualizações
+
+## Projects
+- [O que o Brasil pode construir?](/projetos/o-que-o-brasil-pode-construir): Base pesquisável de produtos fabricados no Brasil, manufaturas nacionais e lacunas produtivas
+- [Rastreador B3](/projetos/rastreador-b3): Acompanhamento de 50 empresas listadas na B3 em defesa, manufatura, energia, agtech, tecnologia, saúde e infraestrutura
+
+## Essays
+- [É Hora de Construir](/essays/its-time-to-build): Introdução à missão da Pax Brasiliana
+- [O Velho Sonho Brasileiro Acabou](/essays/the-old-dream-is-dead): O futuro pertence a quem o constrói
+- [Um Renascimento Industrial](/essays/manufacturing-renaissance): Reconstruir a indústria local e criar prosperidade real
+- [Capacidade Soberana Importa](/essays/sovereign-capability): Infraestrutura crítica é existencial
+- [Sonhe Mais Alto](/essays/dream-bigger): Ambição é um recurso nacional
+- [Restaurando a Oportunidade Justa](/essays/fair-go-restored): Oportunidade pela via da produção
+
+## Data
+- [Rastreador B3](/projetos/rastreador-b3): Preços, variações, volume e sparklines de 50 empresas na B3
+
+## Optional
+- [Política de Privacidade](/privacy)
+- [LLMS.TXT](/llms.txt)
+- [LLMS-FULL.TXT](/llms-full.txt)
