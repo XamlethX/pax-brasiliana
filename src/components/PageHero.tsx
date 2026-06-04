@@ -16,7 +16,7 @@ export default function PageHero({
             alt=""
             className="w-full h-full object-cover origin-center ken-burns"
           />
-          <div className="absolute inset-0 bg-black/30" />
+          <div className="media-overlay" aria-hidden="true" />
         </div>
       )}
       <div className="relative z-10 w-full px-5 lg:px-10 pb-20 pt-32">

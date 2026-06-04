@@ -57,6 +57,12 @@ const culturalReset = [
   },
 ];
 
+const dashedBorder = {
+  borderTop: "0.5px dashed",
+  borderImage:
+    "repeating-linear-gradient(to right, #463C2E4D 0px, #463C2E4D 6px, transparent 6px, transparent 8px) 1",
+} as React.CSSProperties;
+
 export default function ManifestoPage() {
   useScrollReveal();
 
@@ -67,13 +73,13 @@ export default function ManifestoPage() {
         <PageHero
           title="Um chamado para construir o Brasil"
           description="Um movimento cultural-industrial voltado a imaginar, construir e acelerar o futuro brasileiro."
-          image="/images/hero.jpg"
+          image="/images/cidade-futura.png"
         />
 
         {/* Introduction */}
-        <section className="bg-[#F8F6E8] flex flex-col lg:flex-row border-b-[0.5px] border-b-[#463C2E]/30">
+        <section className="bg-mist flex flex-col lg:flex-row border-b-[0.5px] border-b-bark/30">
           <div className="w-full lg:w-1/3 px-5 lg:pl-10 lg:pr-0 pt-16 lg:pt-20 pb-10 lg:pb-20">
-            <p className="text-accents text-[#463C2E]/50 border-l-[1px] border-[#F45141] pl-5 py-[9px]">
+            <p className="text-accents text-bark/50 border-l-[1px] border-clay pl-5 py-[9px] font-mono">
               INTRODUÇÃO
             </p>
           </div>
@@ -96,9 +102,9 @@ export default function ManifestoPage() {
         </section>
 
         {/* Principles */}
-        <section className="bg-[#F8F6E8] flex flex-col lg:flex-row border-b-[0.5px] border-b-[#463C2E]/30">
+        <section className="bg-mist flex flex-col lg:flex-row border-b-[0.5px] border-b-bark/30">
           <div className="w-full lg:w-1/3 px-5 lg:pl-10 lg:pr-0 pt-16 lg:pt-20 pb-10 lg:pb-20">
-            <p className="text-accents text-[#463C2E]/50 border-l-[1px] border-[#F45141] pl-5 py-[9px]">
+            <p className="text-accents text-bark/50 border-l-[1px] border-clay pl-5 py-[9px] font-mono">
               PRINCÍPIOS PARA UMA NOVA AMBIÇÃO NACIONAL
             </p>
           </div>
@@ -107,25 +113,13 @@ export default function ManifestoPage() {
               {principles.map((p, i) => (
                 <div
                   key={p.title}
-                  className={`bg-[#E4DECC] border-[0.5px] border-[#463C2E] p-5 min-h-[200px] flex flex-col fade-in-up stagger-${Math.min(i + 1, 5)}`}
+                  className={`bg-sand border-[0.5px] border-bark p-5 min-h-[200px] flex flex-col fade-in-up stagger-${Math.min(i + 1, 5)}`}
                 >
-                  <h3
-                    className="text-[20px] lg:text-[24px] leading-[120%] tracking-[-0.02em] text-[#463C2E] font-bold"
-                    style={{ fontFamily: "var(--font-heading)" }}
-                  >
+                  <h3 className="text-[20px] lg:text-[24px] leading-[120%] tracking-[-0.02em] text-bark font-bold font-heading">
                     {p.title}
                   </h3>
-                  <div
-                    className="my-4"
-                    style={{
-                      borderTop: "0.5px dashed",
-                      borderColor: "#463C2E4D",
-                      backgroundImage: "none",
-                      borderImage:
-                        "repeating-linear-gradient(to right, #463C2E4D 0px, #463C2E4D 6px, transparent 6px, transparent 8px) 1",
-                    }}
-                  />
-                  <p className="text-[#463C2E]/70 text-[14px] lg:text-[16px] leading-[140%]">
+                  <div className="my-4" style={dashedBorder} />
+                  <p className="text-bark/70 text-[14px] lg:text-[16px] leading-[140%]">
                     {p.desc}
                   </p>
                 </div>
@@ -135,9 +129,9 @@ export default function ManifestoPage() {
         </section>
 
         {/* Cultural Reset */}
-        <section className="bg-[#F8F6E8] flex flex-col lg:flex-row border-b-[0.5px] border-b-[#463C2E]/30">
+        <section className="bg-mist flex flex-col lg:flex-row border-b-[0.5px] border-b-bark/30">
           <div className="w-full lg:w-1/3 px-5 lg:pl-10 lg:pr-0 pt-16 lg:pt-20 pb-10 lg:pb-20">
-            <p className="text-accents text-[#463C2E]/50 border-l-[1px] border-[#F45141] pl-5 py-[9px]">
+            <p className="text-accents text-bark/50 border-l-[1px] border-clay pl-5 py-[9px] font-mono">
               UM RESET CULTURAL
             </p>
           </div>
@@ -147,15 +141,12 @@ export default function ManifestoPage() {
                 {culturalReset.map((item, i) => (
                   <div
                     key={item.title}
-                    className={`bg-[#E4DECC] border-[0.5px] border-[#463C2E] p-5 flex flex-col fade-in-up stagger-${Math.min(i + 1, 5)}`}
+                    className={`bg-sand border-[0.5px] border-bark p-5 flex flex-col fade-in-up stagger-${Math.min(i + 1, 5)}`}
                   >
-                    <h3
-                      className="text-[16px] lg:text-[18px] leading-[130%] text-[#463C2E] font-bold"
-                      style={{ fontFamily: "var(--font-heading)" }}
-                    >
+                    <h3 className="text-[16px] lg:text-[18px] leading-[130%] text-bark font-bold font-heading">
                       {item.title}
                     </h3>
-                    <p className="mt-3 text-[#463C2E]/70 text-[14px] lg:text-[16px] leading-[140%]">
+                    <p className="mt-3 text-bark/70 text-[14px] lg:text-[16px] leading-[140%]">
                       {item.desc}
                     </p>
                   </div>
@@ -166,9 +157,9 @@ export default function ManifestoPage() {
         </section>
 
         {/* Economic Imperative */}
-        <section className="bg-[#F8F6E8] flex flex-col lg:flex-row border-b-[0.5px] border-b-[#463C2E]/30">
+        <section className="bg-mist flex flex-col lg:flex-row border-b-[0.5px] border-b-bark/30">
           <div className="w-full lg:w-1/3 px-5 lg:pl-10 lg:pr-0 pt-16 lg:pt-20 pb-10 lg:pb-20">
-            <p className="text-accents text-[#463C2E]/50 border-l-[1px] border-[#F45141] pl-5 py-[9px]">
+            <p className="text-accents text-bark/50 border-l-[1px] border-clay pl-5 py-[9px] font-mono">
               UM IMPERATIVO ECONÔMICO
             </p>
           </div>
@@ -195,39 +186,32 @@ export default function ManifestoPage() {
         <section className="relative min-h-[600px] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 z-0">
             <img
-              src="/images/hero.jpg"
+              src="/images/foguete-orbital.png"
               alt=""
               className="w-full h-full object-cover ken-burns"
             />
             <div className="absolute inset-0 bg-black/40" />
           </div>
           <div className="relative z-10 text-center px-5 lg:px-10 py-20">
-            <h2
-              className="text-h3 text-[#F8F6E8] fade-in-up"
-              style={{ textWrap: "balance" }}
-            >
+            <h2 className="text-h3 text-mist fade-in-up font-heading" style={{ textWrap: "balance" } as React.CSSProperties}>
               O novo sonho brasileiro
             </h2>
-            <p className="text-[#F8F6E8]/70 mt-8 max-w-[600px] mx-auto text-[14px] lg:text-[16px] leading-[140%] fade-in-up stagger-2">
+            <p className="text-mist/70 mt-8 max-w-[600px] mx-auto text-[14px] lg:text-[16px] leading-[140%] fade-in-up stagger-2">
               Não é um sonho de consumo. É um sonho de construção. De ver o nome
               do Brasil em satélites, em patentes, em produtos que o mundo inteiro
               quer comprar. De criar cidades bonitas, indústrias sofisticadas e
               uma cultura que inspira.
             </p>
-            <p className="text-[#F8F6E8] mt-8 text-[20px] lg:text-[24px] leading-[120%] fade-in-up stagger-3 font-bold" style={{ fontFamily: "var(--font-heading)" }}>
+            <p className="text-mist mt-8 text-[20px] lg:text-[24px] leading-[120%] fade-in-up stagger-3 font-bold font-heading">
               É hora de construir o Brasil.
             </p>
             <Link
               href="/get-involved"
-              className="mt-10 inline-flex items-center gap-2 bg-[#F8F6E8] text-[#463C2E] text-[12px] tracking-[-0.06em] uppercase px-4 py-3.5 transition-opacity duration-300 hover:opacity-80 fade-in-up stagger-4"
-              style={{ fontFamily: "var(--font-mono)" }}
+              className="mt-10 inline-flex items-center gap-2 bg-mist text-bark text-[12px] tracking-[-0.06em] uppercase px-4 py-3.5 transition-opacity duration-300 hover:opacity-80 fade-in-up stagger-4 font-mono"
             >
               JUNTE-SE AO MOVIMENTO
               <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
-                <path
-                  d="M6.295 0.705L10.085 4.5H0V5.5H10.085L6.295 9.295L7 10L12 5L7 0L6.295 0.705Z"
-                  fill="#463C2E"
-                />
+                <path d="M6.295 0.705L10.085 4.5H0V5.5H10.085L6.295 9.295L7 10L12 5L7 0L6.295 0.705Z" fill="currentColor" />
               </svg>
             </Link>
           </div>

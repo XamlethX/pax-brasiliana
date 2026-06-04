@@ -30,7 +30,7 @@ function FooterLink({ label, href, external }: { label: string; href: string; ex
     <a
       href={href}
       {...props}
-      className="w-fit text-[#463C2E] relative
+      className="w-fit text-bark relative
                  before:absolute before:bottom-0 before:left-0 before:right-0
                  before:h-[1px] before:bg-current before:origin-left
                  before:scale-x-0 hover:before:scale-x-100
@@ -43,51 +43,88 @@ function FooterLink({ label, href, external }: { label: string; href: string; ex
 
 export default function Footer() {
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "success">("idle");
+  const [company, setCompany] = useState(""); // honeypot
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
+    "idle"
+  );
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (status === "loading") return;
+    setStatus("loading");
+    try {
+      const res = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, company }),
+      });
+      if (!res.ok) throw new Error();
+      setStatus("success");
+      setEmail("");
+    } catch {
+      setStatus("error");
+    }
+  };
 
   return (
-    <footer className="bg-[#c3be92] relative">
+    <footer className="bg-khaki relative">
       <div className="mx-auto grid-lines">
         {/* 3 columns */}
-        <div className="flex flex-col lg:flex-row lg:border-b-[0.5px] border-b-[#463C2E4D] lg:pb-10">
+        <div className="flex flex-col lg:flex-row lg:border-b-[0.5px] border-b-bark/30 lg:pb-10">
           {/* Col 1: Logo + Newsletter */}
           <div className="lg:w-1/3 px-2.5 lg:pl-5 lg:pr-0">
-            <div className="mt-auto text-paragraphs flex flex-col gap-10 px-2.5 lg:px-5 border-b-[0.5px] border-b-[#463C2E4D] lg:border-b-0 pb-10 lg:pb-0 pt-10 lg:pt-20">
+            <div className="mt-auto text-paragraphs flex flex-col gap-10 px-2.5 lg:px-5 border-b-[0.5px] border-b-bark/30 lg:border-b-0 pb-10 lg:pb-0 pt-10 lg:pt-20">
               <img
                 src="/images/logo-dark.png"
                 alt="Pax Brasiliana"
-                className="object-contain w-[73px] h-auto border-l-[3px] border-l-[#E4DECC] shadow-[0_4px_20px_rgba(0,0,0,0.15)]"
+                className="object-contain w-[73px] h-auto border-l-[3px] border-l-sand shadow-[0_4px_20px_rgba(0,0,0,0.15)]"
               />
-              <form
-                className="flex flex-col gap-5"
-                style={{ fontFamily: "var(--font-mono)" }}
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setStatus("success");
-                }}
-              >
+              <form className="flex flex-col gap-5 font-mono" onSubmit={handleSubmit}>
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Email"
-                  className="text-accents text-[#463C2E] uppercase outline-none py-5 border-b border-dashed border-[#463C2E] w-full bg-transparent placeholder:text-[#463C2E]/60"
+                  aria-label="Email para newsletter"
+                  disabled={status === "loading"}
+                  className="text-accents text-bark uppercase outline-none py-5 border-b border-dashed border-bark w-full bg-transparent placeholder:text-bark/60 disabled:opacity-50"
+                />
+                {/* Honeypot — hidden from users, catches bots */}
+                <input
+                  type="text"
+                  name="company"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  value={company}
+                  onChange={(e) => setCompany(e.target.value)}
+                  className="hidden"
                 />
                 <button
                   type="submit"
-                  className="uppercase text-accents bg-[#463C2E] text-[#F8F6E8] px-4 py-3.5 hover:opacity-80 transition-opacity duration-300 self-start"
+                  disabled={status === "loading" || status === "success"}
+                  className="uppercase text-accents bg-bark text-mist px-4 py-3.5 hover:opacity-80 transition-opacity duration-300 self-start disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  {status === "success" ? "Inscrito" : "Inscrever-se"}
+                  {status === "loading"
+                    ? "Enviando…"
+                    : status === "success"
+                    ? "Inscrito ✓"
+                    : "Inscrever-se"}
                 </button>
+                {status === "error" && (
+                  <p role="alert" className="text-accents text-clay">
+                    Erro ao inscrever. Tente novamente.
+                  </p>
+                )}
               </form>
             </div>
           </div>
 
           {/* Col 2: Sitemap */}
-          <div className="text-accents uppercase lg:w-1/3 px-2.5 lg:pl-5 lg:pr-0" style={{ fontFamily: "var(--font-mono)" }}>
-            <div className="flex flex-col gap-6 pt-10 px-2.5 lg:px-0 border-b-[0.5px] border-b-[#463C2E4D] lg:border-b-0 pb-10 lg:pb-0">
-              <div className="text-[#463C2E]/40">MAPA DO SITE</div>
+          <div className="text-accents uppercase lg:w-1/3 px-2.5 lg:pl-5 lg:pr-0 font-mono">
+            <div className="flex flex-col gap-6 pt-10 px-2.5 lg:px-0 border-b-[0.5px] border-b-bark/30 lg:border-b-0 pb-10 lg:pb-0">
+              <div className="text-bark/40">MAPA DO SITE</div>
               {sitemap.map((link) => (
                 <FooterLink key={link.href} {...link} />
               ))}
@@ -95,9 +132,9 @@ export default function Footer() {
           </div>
 
           {/* Col 3: Social */}
-          <div className="text-accents uppercase lg:w-1/3 px-2.5 lg:pl-5 lg:pr-0" style={{ fontFamily: "var(--font-mono)" }}>
-            <div className="flex flex-col gap-6 pt-10 px-2.5 lg:px-0 border-b-[0.5px] border-b-[#463C2E4D] lg:border-b-0 pb-10 lg:pb-0">
-              <div className="text-[#463C2E]/40">REDES SOCIAIS</div>
+          <div className="text-accents uppercase lg:w-1/3 px-2.5 lg:pl-5 lg:pr-0 font-mono">
+            <div className="flex flex-col gap-6 pt-10 px-2.5 lg:px-0 border-b-[0.5px] border-b-bark/30 lg:border-b-0 pb-10 lg:pb-0">
+              <div className="text-bark/40">REDES SOCIAIS</div>
               {social.map((link) => (
                 <FooterLink key={link.href} {...link} external />
               ))}
@@ -108,8 +145,7 @@ export default function Footer() {
         {/* Wordmark */}
         <div className="mt-10 px-5 lg:px-10 overflow-hidden">
           <p
-            className="text-[clamp(4rem,12vw,10rem)] leading-[1] tracking-[-0.06em] text-[#463C2E] whitespace-nowrap select-none"
-            style={{ fontFamily: "var(--font-heading)", fontWeight: 900 }}
+            className="text-[clamp(4rem,12vw,10rem)] leading-[1] tracking-[-0.06em] text-bark whitespace-nowrap select-none font-heading font-black"
             aria-hidden="true"
           >
             PAX BRASILIANA
@@ -118,10 +154,7 @@ export default function Footer() {
 
         {/* Legal / Copyright */}
         <div className="my-10 flex flex-col lg:flex-row gap-5 px-2.5 lg:px-0">
-          <div
-            className="lg:w-1/3 uppercase text-black text-accents px-2.5 lg:pl-10 lg:pr-5"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
+          <div className="lg:w-1/3 uppercase text-bark text-accents px-2.5 lg:pl-10 lg:pr-5 font-mono">
             Todos os direitos reservados, Pax Brasiliana.
           </div>
           <div className="px-2.5 flex gap-10 lg:pl-5 lg:pr-0 flex-wrap">
@@ -129,8 +162,7 @@ export default function Footer() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="uppercase text-black text-accents transition-opacity duration-300 hover:opacity-60"
-                style={{ fontFamily: "var(--font-mono)" }}
+                className="uppercase text-bark text-accents font-mono transition-opacity duration-300 hover:opacity-60"
               >
                 {link.label}
               </Link>

@@ -23,7 +23,7 @@ const products: Record<
     description:
       "Camiseta 100% algodão pima brasileiro, fabricada em São Paulo. Corte moderno, confortável e durável. Estampa minimalista com o emblema Pax Brasiliana. Feita no Brasil, para quem constrói o Brasil.",
     sizes: ["P", "M", "G", "GG", "XGG"],
-    image: "/images/logo-dark.png",
+    image: "/images/product-tee.svg",
   },
   "early-supporters-flag": {
     title: "Bandeira do Apoiador Inicial",
@@ -39,7 +39,7 @@ const products: Record<
     description:
       "Boné estruturado com bordado frontal do emblema Pax Brasiliana. Fabricado no Brasil com algodão orgânico. Fecho ajustável em metal. Para usar enquanto constrói.",
     sizes: ["Único"],
-    image: "/images/logo-dark.png",
+    image: "/images/product-cap.svg",
   },
 };
 
@@ -55,40 +55,66 @@ export default function ProductDetailPage() {
   const product = products[slug];
   const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
+  const [checkoutStatus, setCheckoutStatus] = useState<"idle" | "loading" | "error">("idle");
 
   if (!product) {
     return (
-      <>
+      <div className="flex flex-col min-h-dvh">
         <Navbar />
-        <main className="min-h-screen bg-[#F8F6E8] flex items-center justify-center">
+        <main id="main-content" className="flex-1 bg-mist flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-h3 text-[#463C2E]">Produto não encontrado</h1>
+            <h1 className="text-h3 text-bark">Produto não encontrado</h1>
             <Link
               href="/store"
-              className="text-accents text-[#463C2E]/50 mt-6 inline-block link-underline pb-1"
+              className="text-accents text-bark/50 mt-6 inline-block link-underline pb-1"
             >
               VOLTAR À LOJA
             </Link>
           </div>
         </main>
         <Footer />
-      </>
+      </div>
     );
   }
 
   const related = allProducts.filter((p) => p.slug !== slug).slice(0, 2);
 
+  const needsSize = product.sizes.length > 1;
+
+  const handleCheckout = async () => {
+    if (needsSize && !selectedSize) {
+      alert("Selecione um tamanho.");
+      return;
+    }
+    setCheckoutStatus("loading");
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          slug,
+          title: product.title,
+          price: product.price,
+          quantity,
+          size: selectedSize || product.sizes[0],
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.url) throw new Error(data.error ?? "Erro");
+      window.location.href = data.url;
+    } catch {
+      setCheckoutStatus("error");
+    }
+  };
+
   return (
-    <>
+    <div className="flex flex-col min-h-dvh">
       <Navbar />
-      <main className="bg-[#F8F6E8]">
+      <main className="flex-1 bg-mist">
         {/* Breadcrumb */}
         <div className="pt-28 px-5 lg:px-10">
           <div className="max-w-[1200px] mx-auto">
-            <nav
-              className="text-accents text-[#463C2E]/50 flex items-center gap-2"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
+            <nav className="text-accents text-bark/50 flex items-center gap-2 font-mono">
               <Link
                 href="/store"
                 className="link-underline pb-0.5 transition-opacity duration-300 hover:opacity-60"
@@ -96,7 +122,7 @@ export default function ProductDetailPage() {
                 LOJA
               </Link>
               <span>/</span>
-              <span className="text-[#463C2E]">{product.title.toUpperCase()}</span>
+              <span className="text-bark">{product.title.toUpperCase()}</span>
             </nav>
           </div>
         </div>
@@ -105,111 +131,102 @@ export default function ProductDetailPage() {
         <section className="px-5 lg:px-10 py-12 lg:py-20">
           <div className="max-w-[1200px] mx-auto grid lg:grid-cols-2 gap-10 lg:gap-16">
             {/* Image */}
-            <div className="aspect-square bg-[#E4DECC] border-[0.5px] border-[#463C2E] flex items-center justify-center overflow-hidden fade-in-up">
+            <div className="aspect-square bg-sand border-[0.5px] border-bark overflow-hidden fade-in-up">
               <img
                 src={product.image}
                 alt={product.title}
-                className="w-1/3 h-auto object-contain"
+                className="w-full h-full object-cover"
               />
             </div>
 
             {/* Info */}
             <div className="flex flex-col fade-in-up stagger-2">
-              <h1
-                className="text-[clamp(1.8rem,4vw,3rem)] leading-[1.1] tracking-[-0.02em] text-[#463C2E] font-bold"
-                style={{ fontFamily: "var(--font-heading)" }}
-              >
+              <h1 className="text-[clamp(1.8rem,4vw,3rem)] leading-[1.1] tracking-[-0.02em] text-bark font-bold font-heading">
                 {product.title}
               </h1>
 
-              <p
-                className="text-[24px] lg:text-[32px] text-[#463C2E] mt-4"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
+              <p className="text-[24px] lg:text-[32px] text-bark mt-4 font-mono">
                 R${" "}
                 {product.price.toLocaleString("pt-BR", {
                   minimumFractionDigits: 2,
                 })}
               </p>
 
-              <p className="mt-6 text-[#463C2E]/70 text-[14px] lg:text-[16px] leading-[160%]">
+              <p className="mt-6 text-bark/70 text-[14px] lg:text-[16px] leading-[160%]">
                 {product.description}
               </p>
 
               {/* Size selector */}
-              <div className="mt-8">
-                <p
-                  className="text-accents text-[#463C2E]/50 mb-3"
-                  style={{ fontFamily: "var(--font-mono)" }}
-                >
-                  TAMANHO
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {product.sizes.map((size) => (
-                    <button
-                      key={size}
-                      onClick={() => setSelectedSize(size)}
-                      className={`px-4 py-2.5 text-[12px] tracking-[-0.06em] uppercase border transition-all duration-200 ${
-                        selectedSize === size
-                          ? "border-[#463C2E] bg-[#463C2E] text-[#F8F6E8]"
-                          : "border-[#463C2E]/30 text-[#463C2E] hover:border-[#463C2E]"
-                      }`}
-                      style={{ fontFamily: "var(--font-mono)" }}
-                    >
-                      {size}
-                    </button>
-                  ))}
+              {needsSize && (
+                <div className="mt-8">
+                  <p className="text-accents text-bark/50 mb-3 font-mono">
+                    TAMANHO
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {product.sizes.map((size) => (
+                      <button
+                        key={size}
+                        onClick={() => setSelectedSize(size)}
+                        className={`px-4 py-2.5 text-[12px] tracking-[-0.06em] uppercase border transition-all duration-200 font-mono ${
+                          selectedSize === size
+                            ? "border-bark bg-bark text-mist"
+                            : "border-bark/30 text-bark hover:border-bark"
+                        }`}
+                      >
+                        {size}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Quantity */}
               <div className="mt-6">
-                <p
-                  className="text-accents text-[#463C2E]/50 mb-3"
-                  style={{ fontFamily: "var(--font-mono)" }}
-                >
+                <p className="text-accents text-bark/50 mb-3 font-mono">
                   QUANTIDADE
                 </p>
-                <div className="flex items-center border border-[#463C2E]/30 w-fit">
+                <div className="flex items-center border border-bark/30 w-fit">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="px-4 py-2.5 text-[#463C2E] hover:bg-[#E4DECC] transition-colors"
+                    className="px-4 py-2.5 text-bark hover:bg-sand transition-colors"
                   >
                     −
                   </button>
-                  <span
-                    className="px-4 py-2.5 text-[14px] text-[#463C2E] tabular-nums min-w-[3rem] text-center"
-                    style={{ fontFamily: "var(--font-mono)" }}
-                  >
+                  <span className="px-4 py-2.5 text-[14px] text-bark tabular-nums min-w-[3rem] text-center font-mono">
                     {quantity}
                   </span>
                   <button
                     onClick={() => setQuantity(quantity + 1)}
-                    className="px-4 py-2.5 text-[#463C2E] hover:bg-[#E4DECC] transition-colors"
+                    className="px-4 py-2.5 text-bark hover:bg-sand transition-colors"
                   >
                     +
                   </button>
                 </div>
               </div>
 
-              {/* Add to cart */}
+              {/* Checkout */}
+              {checkoutStatus === "error" && (
+                <p className="mt-4 text-clay text-accents font-mono">
+                  Erro ao processar. Tente novamente.
+                </p>
+              )}
               <button
-                className="mt-8 uppercase leading-none flex gap-2 px-4 py-4 items-center bg-[#463C2E] text-[#F8F6E8] w-full justify-between transition-all duration-300 hover:opacity-80 cursor-pointer text-accents"
-                style={{ fontFamily: "var(--font-mono)" }}
+                onClick={handleCheckout}
+                disabled={checkoutStatus === "loading"}
+                className="mt-8 uppercase leading-none flex gap-2 px-4 py-4 items-center bg-bark text-mist w-full justify-between transition-all duration-300 hover:opacity-80 cursor-pointer text-accents font-mono disabled:opacity-50"
               >
-                <span>ADICIONAR AO CARRINHO</span>
+                <span>
+                  {checkoutStatus === "loading" ? "REDIRECIONANDO..." : "COMPRAR AGORA"}
+                </span>
                 <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
                   <path
                     d="M6.295 0.705L10.085 4.5H0V5.5H10.085L6.295 9.295L7 10L12 5L7 0L6.295 0.705Z"
-                    fill="#F8F6E8"
+                    fill="currentColor"
                   />
                 </svg>
               </button>
 
-              <p
-                className="mt-4 text-[#463C2E]/40 text-[11px] leading-[160%]"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
+              <p className="mt-4 text-bark/40 text-[11px] leading-[160%] font-mono">
                 100% DO VALOR É DESTINADO À MISSÃO DA PAX BRASILIANA.
                 FABRICADO NO BRASIL.
               </p>
@@ -219,12 +236,9 @@ export default function ProductDetailPage() {
 
         {/* Related Products */}
         {related.length > 0 && (
-          <section className="px-5 lg:px-10 pb-16 lg:pb-20 border-t-[0.5px] border-[#463C2E]/30 pt-12">
+          <section className="px-5 lg:px-10 pb-16 lg:pb-20 border-t-[0.5px] border-bark/30 pt-12">
             <div className="max-w-[1200px] mx-auto">
-              <p
-                className="text-accents text-[#463C2E]/50 mb-8 border-l-[1px] border-[#F45141] pl-5 py-[9px]"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
+              <p className="text-accents text-bark/50 mb-8 border-l-[1px] border-clay pl-5 py-[9px] font-mono">
                 OUTROS PRODUTOS
               </p>
               <div className="grid sm:grid-cols-2 gap-8">
@@ -234,24 +248,18 @@ export default function ProductDetailPage() {
                     href={`/store/product/${p.slug}`}
                     className="group"
                   >
-                    <div className="aspect-square bg-[#E4DECC] border-[0.5px] border-[#463C2E] flex items-center justify-center overflow-hidden">
+                    <div className="aspect-square bg-sand border-[0.5px] border-bark overflow-hidden">
                       <img
                         src={p.image}
                         alt={p.title}
-                        className="w-1/3 h-auto object-contain transition-transform duration-700 group-hover:scale-110"
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
                     </div>
                     <div className="mt-4 flex items-start justify-between">
-                      <h3
-                        className="text-base text-[#463C2E] font-bold"
-                        style={{ fontFamily: "var(--font-heading)" }}
-                      >
+                      <h3 className="text-base text-bark font-bold font-heading">
                         {p.title}
                       </h3>
-                      <span
-                        className="text-sm text-[#463C2E]"
-                        style={{ fontFamily: "var(--font-mono)" }}
-                      >
+                      <span className="text-sm text-bark font-mono">
                         R${" "}
                         {p.price.toLocaleString("pt-BR", {
                           minimumFractionDigits: 2,
@@ -266,6 +274,6 @@ export default function ProductDetailPage() {
         )}
       </main>
       <Footer />
-    </>
+    </div>
   );
 }

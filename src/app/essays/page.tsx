@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
-export default function EssaysPage() {
+export default function EssaysRedirect() {
   redirect("/ensaios");
 }

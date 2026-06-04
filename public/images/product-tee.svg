@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" fill="none">
+  <rect width="800" height="800" fill="#463C2E"/>
+  <!-- T-shirt silhouette -->
+  <path d="M280 220 L220 260 L180 320 L240 340 L240 580 L560 580 L560 340 L620 320 L580 260 L520 220 C510 240 490 260 470 265 C450 270 430 272 400 272 C370 272 350 270 330 265 C310 260 290 240 280 220Z" fill="#F8F6E8" fill-opacity="0.08" stroke="#F8F6E8" stroke-width="1.5" stroke-opacity="0.2"/>
+  <!-- PAX BRASILIANA text -->
+  <text x="400" y="430" font-family="'Barlow', sans-serif" font-weight="900" font-size="38" letter-spacing="-1" fill="#F8F6E8" fill-opacity="0.75" text-anchor="middle">PAX BRASILIANA</text>
+</svg>

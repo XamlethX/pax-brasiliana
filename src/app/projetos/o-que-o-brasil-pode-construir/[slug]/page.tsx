@@ -33,16 +33,13 @@ function Pennant({ status }: { status: Status }) {
 
 function StatusBadge({ status }: { status: Status }) {
   const config: Record<Status, { bg: string; text: string; label: string }> = {
-    produz: { bg: "bg-[#67D24D]", text: "text-[#463C2E]", label: "PRODUZ" },
-    parcial: { bg: "bg-[#F5A623]", text: "text-[#463C2E]", label: "PARCIAL" },
+    produz: { bg: "bg-[#67D24D]", text: "text-bark", label: "PRODUZ" },
+    parcial: { bg: "bg-[#F5A623]", text: "text-bark", label: "PARCIAL" },
     importa: { bg: "bg-[#F45142]", text: "text-white", label: "IMPORTA" },
   };
   const c = config[status];
   return (
-    <span
-      className={`inline-block px-2.5 py-1 ${c.bg} ${c.text} text-[10px] lg:text-[12px] tracking-[-0.06em] uppercase leading-none`}
-      style={{ fontFamily: "var(--font-mono)" }}
-    >
+    <span className={`inline-block px-2.5 py-1 ${c.bg} ${c.text} text-[10px] lg:text-[12px] tracking-[-0.06em] uppercase leading-none font-mono`}>
       {c.label}
     </span>
   );
@@ -62,10 +59,7 @@ function DashedDivider({ label }: { label: string }) {
             borderImage: "repeating-linear-gradient(to right, #463C2E4D 0px, #463C2E4D 6px, transparent 6px, transparent 8px) 1",
           }}
         />
-        <span
-          className="text-[10px] lg:text-[12px] tracking-[-0.06em] uppercase text-[#463C2E] whitespace-nowrap shrink-0"
-          style={{ fontFamily: "var(--font-mono)" }}
-        >
+        <span className="text-[10px] lg:text-[12px] tracking-[-0.06em] uppercase text-bark whitespace-nowrap shrink-0 font-mono">
           {label}
         </span>
         <div
@@ -99,12 +93,12 @@ function SupplyChainNode({
     <div
       onClick={onClick}
       className={`
-        relative bg-[#E4DECC] border border-[#68D34D]
+        relative bg-sand border border-[#68D34D]
         p-[6px] pt-6 lg:p-5
-        flex flex-col-reverse lg:flex-row lg:items-center gap-[10px] lg:gap-5
-        w-[102px] h-auto lg:w-[240px] lg:min-h-[120px] overflow-hidden
+        flex flex-col lg:items-start gap-[10px] lg:gap-3
+        w-[102px] h-auto lg:w-[240px] lg:min-h-[100px] overflow-hidden
         cursor-pointer transition-all duration-200
-        ${isSelected ? "shadow-md ring-2 ring-[#417ce5]" : "hover:shadow-sm"}
+        ${isSelected ? "shadow-md ring-2 ring-coast" : "hover:shadow-sm"}
         ${dimmed ? "opacity-30" : "opacity-100"}
       `}
     >
@@ -113,16 +107,9 @@ function SupplyChainNode({
       </div>
 
       <div className="flex-1 mt-4 lg:mt-0">
-        <h4
-          className="text-[6px] lg:text-[12px] leading-[130%] tracking-[-0.06em] text-[#463C2E] uppercase lg:py-4"
-          style={{ fontFamily: "var(--font-mono)" }}
-        >
+        <h4 className="text-[6px] lg:text-[12px] leading-[130%] tracking-[-0.06em] text-bark uppercase lg:py-2 font-mono">
           {item.nome}
         </h4>
-      </div>
-
-      <div className="h-[40px] w-[60px] lg:h-auto lg:w-20 flex items-center justify-center shrink-0">
-        <span className="text-2xl lg:text-4xl">{item.icon}</span>
       </div>
     </div>
   );
@@ -196,43 +183,40 @@ export default function ProdutoPage() {
 
   if (!produto) {
     return (
-      <>
+      <div className="flex flex-col min-h-dvh">
         <Navbar />
-        <main className="min-h-screen bg-[#F8F6E8] flex items-center justify-center">
+        <main id="main-content" className="flex-1 bg-mist flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-h3 text-[#463C2E]">Produto não encontrado</h1>
+            <h1 className="text-h3 text-bark">Produto não encontrado</h1>
             <Link
               href="/projetos/o-que-o-brasil-pode-construir"
-              className="text-accents text-[#463C2E]/50 mt-6 inline-block link-underline pb-1"
+              className="text-accents text-bark/50 mt-6 inline-block link-underline pb-1"
             >
               VOLTAR AOS PROJETOS
             </Link>
           </div>
         </main>
         <Footer />
-      </>
+      </div>
     );
   }
 
   return (
-    <>
+    <div className="flex flex-col min-h-dvh">
       <Navbar />
-      <main className="min-h-screen bg-[#F8F6E8]">
+      <main className="flex-1 bg-mist">
         {/* Hero — shared with listing page */}
-        <div className="pt-40 pb-16 lg:pb-20 px-5 lg:px-10 border-b-[0.5px] border-[#463C2E]/30">
+        <div className="pt-40 pb-16 lg:pb-20 px-5 lg:px-10 border-b-[0.5px] border-bark/30">
           <div className="grid grid-cols-1 lg:grid-cols-[33.33%_33.33%_33.33%] items-center gap-10 lg:gap-0">
             <div className="lg:pl-0 lg:pr-5">
-              <h1
-                className="text-[48px] lg:text-[64px] leading-[90%] tracking-[-0.04em] text-[#463C2E] font-bold"
-                style={{ fontFamily: "var(--font-heading)" }}
-              >
+              <h1 className="text-[48px] lg:text-[64px] leading-[90%] tracking-[-0.04em] text-bark font-bold font-heading">
                 O que o Brasil
                 <br />
                 pode construir?
               </h1>
             </div>
             <div>
-              <p className="text-[14px] lg:text-[16px] leading-[140%] text-[#463C2E]/70">
+              <p className="text-[14px] lg:text-[16px] leading-[140%] text-bark/70">
                 De placas solares a foguetes orbitais. Um mapa da capacidade
                 produtiva brasileira — o que já fazemos, o que poderíamos fazer,
                 e o que ainda importamos.
@@ -242,20 +226,19 @@ export default function ProdutoPage() {
         </div>
 
         {/* Navigation bar — BACK + status badges */}
-        <div className="border-b-[0.5px] border-[#463C2E]/30 px-5 lg:px-10 py-4 flex flex-col gap-5 lg:flex-row items-start lg:items-center justify-between">
+        <div className="border-b-[0.5px] border-bark/30 px-5 lg:px-10 py-4 flex flex-col gap-5 lg:flex-row items-start lg:items-center justify-between">
           <Link
             href="/projetos/o-que-o-brasil-pode-construir"
-            className="inline-flex items-center gap-2.5 text-[12px] lg:text-[14px] tracking-[-0.06em] uppercase text-[#463C2E] hover:opacity-60 transition-opacity cursor-pointer"
-            style={{ fontFamily: "var(--font-mono)" }}
+            className="inline-flex items-center gap-2.5 text-[12px] lg:text-[14px] tracking-[-0.06em] uppercase text-bark hover:opacity-60 transition-opacity cursor-pointer font-mono"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path d="M15 18L9 12L15 6" stroke="#463C2E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
             VOLTAR
           </Link>
-          <div className="flex flex-wrap items-center gap-2" style={{ fontFamily: "var(--font-mono)" }}>
+          <div className="flex flex-wrap items-center gap-2 font-mono">
             {counts.produz > 0 && (
-              <span className="px-3 py-1.5 bg-[#67D24D] text-[#463C2E] text-[10px] lg:text-[12px] tracking-[-0.06em] uppercase leading-none">
+              <span className="px-3 py-1.5 bg-[#67D24D] text-bark text-[10px] lg:text-[12px] tracking-[-0.06em] uppercase leading-none">
                 {counts.produz} PRODUZ
               </span>
             )}
@@ -265,11 +248,11 @@ export default function ProdutoPage() {
               </span>
             )}
             {counts.parcial > 0 && (
-              <span className="px-3 py-1.5 bg-[#F5A623] text-[#463C2E] text-[10px] lg:text-[12px] tracking-[-0.06em] uppercase leading-none">
+              <span className="px-3 py-1.5 bg-[#F5A623] text-bark text-[10px] lg:text-[12px] tracking-[-0.06em] uppercase leading-none">
                 {counts.parcial} PARCIAL
               </span>
             )}
-            <span className="text-[#463C2E] text-[10px] lg:text-[12px] tracking-[-0.06em] uppercase leading-none ml-2.5">
+            <span className="text-bark text-[10px] lg:text-[12px] tracking-[-0.06em] uppercase leading-none ml-2.5">
               {counts.total} TOTAL
             </span>
           </div>
@@ -278,12 +261,9 @@ export default function ProdutoPage() {
         {/* Main content — supply chain + sidebar */}
         <div className="flex flex-col-reverse lg:flex-row relative">
           {/* Supply chain visualization */}
-          <div className="flex-1 px-2.5 lg:px-[55px] py-10 relative border-t-[0.5px] border-t-[#463C2E]/30 lg:border-t-0 mx-2.5 lg:mx-0">
+          <div className="flex-1 px-2.5 lg:px-[55px] py-10 relative border-t-[0.5px] border-t-bark/30 lg:border-t-0 mx-2.5 lg:mx-0">
             {/* PRODUTO FINAL */}
-            <p
-              className="text-[10px] lg:text-[12px] tracking-[-0.06em] text-[#463C2E] uppercase text-center mb-5 lg:mb-6"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
+            <p className="text-[10px] lg:text-[12px] tracking-[-0.06em] text-bark uppercase text-center mb-5 lg:mb-6 font-mono">
               PRODUTO FINAL
             </p>
             <div className="flex flex-wrap gap-5 lg:gap-[55px] justify-center">
@@ -299,19 +279,16 @@ export default function ProdutoPage() {
               ))}
             </div>
 
-            {/* Inline filter bar — matches BA position after final product */}
-            <div
-              className="sticky bottom-0 z-10 mt-6 mb-2 border-[0.5px] border-[#463C2E] bg-[#F8F6E8] pl-2.5 pr-2.5 lg:pl-7 lg:pr-4 py-2.5 flex items-center gap-4 flex-wrap"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              <span className="text-[10px] lg:text-[12px] tracking-[-0.06em] uppercase text-[#463C2E]">
+            {/* Inline filter bar */}
+            <div className="sticky bottom-0 z-10 mt-6 mb-2 border-[0.5px] border-bark bg-mist pl-2.5 pr-2.5 lg:pl-7 lg:pr-4 py-2.5 flex items-center gap-4 flex-wrap font-mono">
+              <span className="text-[10px] lg:text-[12px] tracking-[-0.06em] uppercase text-bark">
                 FILTRAR
               </span>
               {[
-                { value: "all", label: "TODOS", bg: "bg-[#E4DECC]", text: "text-[#463C2E]" },
-                { value: "produz", label: "PRODUZ", bg: "bg-[#67D24D]", text: "text-[#463C2E]" },
+                { value: "all", label: "TODOS", bg: "bg-sand", text: "text-bark" },
+                { value: "produz", label: "PRODUZ", bg: "bg-[#67D24D]", text: "text-bark" },
                 { value: "importa", label: "IMPORTA", bg: "bg-[#F45142]", text: "text-white" },
-                { value: "parcial", label: "PARCIAL", bg: "bg-[#F5A623]", text: "text-[#463C2E]" },
+                { value: "parcial", label: "PARCIAL", bg: "bg-[#F5A623]", text: "text-bark" },
               ].map((opt) => (
                 <button
                   key={opt.value}
@@ -319,7 +296,7 @@ export default function ProdutoPage() {
                   className={`px-3 py-1.5 text-[10px] lg:text-[12px] tracking-[-0.06em] uppercase leading-none transition-all duration-200
                     ${filterStatus === opt.value
                       ? `${opt.bg} ${opt.text}`
-                      : "text-[#463C2E]/50 hover:text-[#463C2E]"
+                      : "text-bark/50 hover:text-bark"
                     }`}
                 >
                   {opt.label}
@@ -367,12 +344,9 @@ export default function ProdutoPage() {
           </div>
 
           {/* Sidebar */}
-          <div className="lg:w-[33.33%] shrink-0 border-b lg:border-b-0 lg:border-l border-[#463C2E]/30">
+          <div className="lg:w-[33.33%] shrink-0 border-b lg:border-b-0 lg:border-l border-bark/30">
             <div className="sticky top-0 pl-5 pr-5 lg:px-10 py-10 pb-5 max-h-screen overflow-y-auto">
-              <h3
-                className="text-[20px] lg:text-[24px] leading-[120%] tracking-[-0.02em] text-[#463C2E] text-center mb-5 font-bold"
-                style={{ fontFamily: "var(--font-heading)" }}
-              >
+              <h3 className="text-[20px] lg:text-[24px] leading-[120%] tracking-[-0.02em] text-bark text-center mb-5 font-bold font-heading">
                 Cadeia Produtiva
               </h3>
 
@@ -381,11 +355,8 @@ export default function ProdutoPage() {
                 {(["produto_final", "componente", "materia_prima"] as NivelCadeia[]).map(
                   (nivel, i) => (
                     <div key={nivel}>
-                      <div className="border-[0.5px] border-[#463C2E]/30 py-3 text-center">
-                        <span
-                          className="text-[10px] lg:text-[12px] tracking-[-0.06em] text-[#463C2E] uppercase"
-                          style={{ fontFamily: "var(--font-mono)" }}
-                        >
+                      <div className="border-[0.5px] border-bark/30 py-3 text-center">
+                        <span className="text-[10px] lg:text-[12px] tracking-[-0.06em] text-bark uppercase font-mono">
                           {nivelLabels[nivel]}
                         </span>
                       </div>
@@ -403,37 +374,26 @@ export default function ProdutoPage() {
 
               {/* Instruction or detail */}
               {!selectedItem ? (
-                <p
-                  className="text-[10px] lg:text-[12px] tracking-[-0.06em] text-[#463C2E]/40 uppercase text-center my-5 lg:my-10"
-                  style={{ fontFamily: "var(--font-mono)" }}
-                >
+                <p className="text-[10px] lg:text-[12px] tracking-[-0.06em] text-bark/40 uppercase text-center my-5 lg:my-10 font-mono">
                   CLIQUE EM UM NÓ PARA
                   <br />
                   RASTREAR DEPENDÊNCIAS
                 </p>
               ) : (
-                <div className="border-t border-[#463C2E]/20 pt-6">
+                <div className="border-t border-bark/20 pt-6">
                   {/* Header */}
                   <div className="flex items-start justify-between mb-4">
-                    <div className="flex items-start gap-4 flex-1 min-w-0">
-                      <div className="w-12 h-12 bg-[#E4DECC]flex items-center justify-center shrink-0">
-                        <span className="text-2xl">{selectedItem.icon}</span>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h4 className="font-bold text-[#463C2E]">{selectedItem.nome}</h4>
-                        <p
-                          className="text-[10px] lg:text-[12px] tracking-[-0.06em] uppercase text-[#463C2E]/50 mt-1"
-                          style={{ fontFamily: "var(--font-mono)" }}
-                        >
-                          {nivelLabels[selectedItem.nivel]}
-                        </p>
-                      </div>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-bold text-bark font-heading">{selectedItem.nome}</h4>
+                      <p className="text-[10px] lg:text-[12px] tracking-[-0.06em] uppercase text-bark/50 mt-1 font-mono">
+                        {nivelLabels[selectedItem.nivel]}
+                      </p>
                     </div>
                     <button
                       onClick={() => setSelectedId(null)}
-                      className="p-1 hover:bg-[#E4DECC]transition-colors shrink-0"
+                      className="p-1 hover:bg-sand transition-colors shrink-0 ml-4"
                     >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#463C2E" strokeWidth="2" strokeOpacity="0.5">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-bark/50">
                         <path d="M6 6l12 12M6 18L18 6" />
                       </svg>
                     </button>
@@ -441,10 +401,7 @@ export default function ProdutoPage() {
 
                   {/* Status */}
                   <div className="mb-4">
-                    <p
-                      className="text-[10px] lg:text-[12px] tracking-[-0.06em] uppercase text-[#463C2E]/50 mb-1"
-                      style={{ fontFamily: "var(--font-mono)" }}
-                    >
+                    <p className="text-[10px] lg:text-[12px] tracking-[-0.06em] uppercase text-bark/50 mb-1 font-mono">
                       PRODUZIDO NO BRASIL?
                     </p>
                     <StatusBadge status={selectedItem.status} />
@@ -452,39 +409,30 @@ export default function ProdutoPage() {
 
                   {/* Description */}
                   <div className="mb-4">
-                    <p
-                      className="text-[10px] lg:text-[12px] tracking-[-0.06em] uppercase text-[#463C2E]/50 mb-1"
-                      style={{ fontFamily: "var(--font-mono)" }}
-                    >
+                    <p className="text-[10px] lg:text-[12px] tracking-[-0.06em] uppercase text-bark/50 mb-1 font-mono">
                       DESCRIÇÃO
                     </p>
-                    <p className="text-[14px] leading-[160%] text-[#463C2E]/70">
+                    <p className="text-[14px] leading-[160%] text-bark/70">
                       {selectedItem.descricao}
                     </p>
                   </div>
 
                   {/* Capacity */}
                   <div className="mb-4">
-                    <p
-                      className="text-[10px] lg:text-[12px] tracking-[-0.06em] uppercase text-[#463C2E]/50 mb-1"
-                      style={{ fontFamily: "var(--font-mono)" }}
-                    >
+                    <p className="text-[10px] lg:text-[12px] tracking-[-0.06em] uppercase text-bark/50 mb-1 font-mono">
                       CAPACIDADE BRASILEIRA
                     </p>
-                    <p className="text-[14px] leading-[160%] text-[#463C2E]/70">
+                    <p className="text-[14px] leading-[160%] text-bark/70">
                       {selectedItem.capacidade}
                     </p>
                   </div>
 
                   {/* Global context */}
                   <div className="mb-4">
-                    <p
-                      className="text-[10px] lg:text-[12px] tracking-[-0.06em] uppercase text-[#463C2E]/50 mb-1"
-                      style={{ fontFamily: "var(--font-mono)" }}
-                    >
+                    <p className="text-[10px] lg:text-[12px] tracking-[-0.06em] uppercase text-bark/50 mb-1 font-mono">
                       CONTEXTO GLOBAL
                     </p>
-                    <p className="text-[14px] leading-[160%] text-[#463C2E]/70">
+                    <p className="text-[14px] leading-[160%] text-bark/70">
                       {selectedItem.contextoGlobal}
                     </p>
                   </div>
@@ -492,18 +440,14 @@ export default function ProdutoPage() {
                   {/* Companies */}
                   {selectedItem.empresas.length > 0 && (
                     <div>
-                      <p
-                        className="text-[10px] lg:text-[12px] tracking-[-0.06em] uppercase text-[#463C2E]/50 mb-2"
-                        style={{ fontFamily: "var(--font-mono)" }}
-                      >
+                      <p className="text-[10px] lg:text-[12px] tracking-[-0.06em] uppercase text-bark/50 mb-2 font-mono">
                         EMPRESAS
                       </p>
                       <div>
                         {selectedItem.empresas.map((empresa) => (
                           <div
                             key={empresa}
-                            className="flex justify-between items-center py-2 border-b border-[#463C2E]/10 text-[14px] text-[#463C2E] uppercase"
-                            style={{ fontFamily: "var(--font-mono)", fontSize: "12px" }}
+                            className="flex justify-between items-center py-2 border-b border-bark/10 text-[12px] text-bark uppercase font-mono"
                           >
                             {empresa}
                           </div>
@@ -518,11 +462,8 @@ export default function ProdutoPage() {
         </div>
 
         {/* Navigation to other products */}
-        <section className="border-t-[0.5px] border-[#463C2E]/30 px-5 lg:px-10 py-10">
-          <p
-            className="text-[12px] tracking-[-0.06em] uppercase text-[#463C2E]/50 mb-6"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
+        <section className="border-t-[0.5px] border-bark/30 px-5 lg:px-10 py-10">
+          <p className="text-[12px] tracking-[-0.06em] uppercase text-bark/50 mb-6 font-mono">
             EXPLORAR OUTROS PRODUTOS
           </p>
           <div className="flex flex-wrap gap-3">
@@ -534,13 +475,10 @@ export default function ProdutoPage() {
                   <Link
                     key={p.slug}
                     href={`/projetos/o-que-o-brasil-pode-construir/${p.slug}`}
-                    className="inline-flex items-center gap-2 px-4 py-3 bg-[#E4DECC] border-[0.5px] border-[#463C2E] hover:shadow-sm transition-all duration-200"
+                    className="inline-flex items-center gap-2 px-4 py-3 bg-sand border-[0.5px] border-bark hover:shadow-sm transition-all duration-200"
                   >
                     <span className={`inline-block w-1.5 h-1.5 rounded-full ${psc.color}`} />
-                    <span
-                      className="text-[12px] tracking-[-0.06em] uppercase text-[#463C2E]"
-                      style={{ fontFamily: "var(--font-mono)" }}
-                    >
+                    <span className="text-[12px] tracking-[-0.06em] uppercase text-bark font-mono">
                       {p.nome}
                     </span>
                   </Link>
@@ -550,6 +488,6 @@ export default function ProdutoPage() {
         </section>
       </main>
       <Footer />
-    </>
+    </div>
   );
 }
