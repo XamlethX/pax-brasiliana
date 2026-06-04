@@ -618,6 +618,28 @@ export default function CadeiaProdutivaBrasileiraPage() {
     [filtrados]
   );
 
+  // Sectors that have companies under the current filters *except* the sector
+  // filter itself — so the legend can dim empty sectors while keeping every
+  // populated sector switchable.
+  const setoresPresentes = useMemo(() => {
+    const q = normalizar(busca.trim());
+    const tokens = q.split(/\s+/).filter(Boolean);
+    const set = new Set<string>();
+    for (const fab of fabricantes) {
+      if (estadoFiltro && fab.localizacao.estado !== estadoFiltro) continue;
+      if (origemFiltro === "MNC" && !isMNC(fab)) continue;
+      if (origemFiltro === "BR" && isMNC(fab)) continue;
+      if (tokens.length) {
+        const haystack = normalizar(
+          [fab.nome, fab.setor, fab.descricao, fab.produtos.join(" "), fab.localizacao.cidade, fab.localizacao.estado].join(" ")
+        );
+        if (!tokens.every((t) => haystack.includes(t))) continue;
+      }
+      set.add(fab.setor);
+    }
+    return set;
+  }, [busca, estadoFiltro, origemFiltro]);
+
   function limparFiltros() {
     setBusca("");
     setEstadoFiltro("");
@@ -780,6 +802,9 @@ export default function CadeiaProdutivaBrasileiraPage() {
               fabricantes={fabricantesComCoordenadas}
               onSelect={setFabricanteSelecionado}
               selecionado={fabricanteSelecionado}
+              setorAtivo={setorFiltro}
+              onSelectSetor={setSetorFiltro}
+              setoresPresentes={setoresPresentes}
             />
 
             {/* Floating search + filters + autocomplete */}

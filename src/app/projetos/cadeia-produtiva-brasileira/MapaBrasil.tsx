@@ -4,49 +4,14 @@ import { useEffect, useRef, useState } from "react";
 import type { Map as MaplibreMap, GeoJSONSource } from "maplibre-gl";
 import type { FeatureCollection, Point } from "geojson";
 import type { Fabricante } from "@/data/fabricantes";
+import { colorFor, sectorColors } from "./sectorColors";
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
 const BRAZIL_CENTER: [number, number] = [-51.9253, -14.235];
 const CARTO_DARK_STYLE =
   "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json";
-const FALLBACK_COLOR = "#F8F6E8";
 const SELECT_ZOOM = 8;
-
-const sectorColors: Readonly<Record<string, string>> = Object.freeze({
-  "Aeroespacial": "#2563eb",
-  "Agronegócio / Equipamentos": "#16a34a",
-  "Alimentos": "#84cc16",
-  "Autopeças": "#0891b2",
-  "Automotivo": "#0891b2",
-  "Baterias": "#f59e0b",
-  "Biotecnologia / Saúde": "#db2777",
-  "Calçados": "#a16207",
-  "Celulose e Papel": "#65a30d",
-  "Compressores / Manufatura": "#0891b2",
-  "Construção / Infraestrutura": "#64748b",
-  "Defesa": "#7c3aed",
-  "Eletrônica": "#e11d48",
-  "Energia / Petroquímica": "#ea580c",
-  "Energia Renovável": "#16a34a",
-  "Fundição": "#6d6300",
-  "Logística": "#64748b",
-  "Máquinas-Ferramentas": "#0284c7",
-  "Materiais de Construção": "#78716c",
-  "Mineração": "#dc2626",
-  "Motores Elétricos": "#059669",
-  "Petroquímica": "#ea580c",
-  "Siderurgia": "#b91c1c",
-  "Software Industrial": "#4f46e5",
-  "Telecomunicações": "#7c3aed",
-  "Têxtil": "#9333ea",
-  "Veículos Pesados": "#1d4ed8",
-  "Cosméticos / Higiene": "#be185d",
-  "Química Industrial": "#0e7490",
-  "Móveis": "#92400e",
-});
-
-const colorFor = (setor: string) => sectorColors[setor] ?? FALLBACK_COLOR;
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -59,6 +24,12 @@ interface Props {
   fabricantes: FabricanteMarcado[];
   onSelect: (fab: Fabricante) => void;
   selecionado: Fabricante | null;
+  /** Currently active sector filter (highlights its legend entry). */
+  setorAtivo?: string;
+  /** Click a legend entry to filter by that sector (toggles off if active). */
+  onSelectSetor?: (setor: string) => void;
+  /** Sectors present in the current results, for dimming empty legend entries. */
+  setoresPresentes?: ReadonlySet<string>;
 }
 
 interface DotProps {
@@ -106,7 +77,14 @@ const escapeHTML = (s: string) =>
 
 // ─── Component ───────────────────────────────────────────────────────────────
 
-export default function MapaBrasil({ fabricantes, onSelect, selecionado }: Props) {
+export default function MapaBrasil({
+  fabricantes,
+  onSelect,
+  selecionado,
+  setorAtivo,
+  onSelectSetor,
+  setoresPresentes,
+}: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MaplibreMap | null>(null);
   const tooltipRef = useRef<HTMLDivElement | null>(null);
@@ -353,31 +331,50 @@ export default function MapaBrasil({ fabricantes, onSelect, selecionado }: Props
           overflowY: "auto",
         }}
       >
-        {Object.entries(sectorColors).map(([s, c]) => (
-          <div
-            key={s}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 5,
-              textTransform: "uppercase",
-              color: "rgba(248,246,232,0.6)",
-              whiteSpace: "nowrap",
-            }}
-          >
-            <span
+        {Object.entries(sectorColors).map(([s, c]) => {
+          const ativo = setorAtivo === s;
+          const algumAtivo = Boolean(setorAtivo);
+          const presente = !setoresPresentes || setoresPresentes.has(s);
+          const opacity = ativo ? 1 : !presente ? 0.28 : algumAtivo ? 0.5 : 0.6;
+          return (
+            <button
+              key={s}
+              type="button"
+              onClick={() => onSelectSetor?.(ativo ? "" : s)}
+              title={ativo ? `Limpar filtro: ${s}` : `Filtrar por ${s}`}
               style={{
-                width: 7,
-                height: 7,
-                borderRadius: "50%",
-                background: c,
-                flexShrink: 0,
-                display: "inline-block",
+                display: "flex",
+                alignItems: "center",
+                gap: 5,
+                textTransform: "uppercase",
+                color: `rgba(248,246,232,${opacity})`,
+                whiteSpace: "nowrap",
+                background: ativo ? "rgba(248,246,232,0.12)" : "transparent",
+                border: "none",
+                padding: "1px 3px",
+                margin: "-1px -3px",
+                font: "inherit",
+                cursor: onSelectSetor ? "pointer" : "default",
+                textAlign: "left",
+                fontWeight: ativo ? 700 : 400,
               }}
-            />
-            {s}
-          </div>
-        ))}
+            >
+              <span
+                style={{
+                  width: 7,
+                  height: 7,
+                  borderRadius: "50%",
+                  background: c,
+                  flexShrink: 0,
+                  display: "inline-block",
+                  outline: ativo ? "1.5px solid rgba(248,246,232,0.8)" : "none",
+                  outlineOffset: 1,
+                }}
+              />
+              {s}
+            </button>
+          );
+        })}
       </div>
 
       {/* Loading splash — fades out once style+source ready */}
