@@ -37,7 +37,7 @@ export const ensaios: Ensaio[] = [
     isoDate: "2026-06-04",
     category: "cultura",
     categoryLabel: "Cultura",
-    image: "/images/cidade-futura.png",
+    image: "/images/laboratorio-robos.png",
     intro:
       "Olhamos para o estado das nossas instituições, para nosso lugar no mundo, para nossa cultura, e a pergunta retorna: é isso? Temos a maior bacia hidrográfica do planeta. A maior floresta tropical. Uma das demografias mais jovens do hemisfério. E produzimos, sistematicamente, uma elite que imita em vez de inventar e instituições que gerem em vez de construir.",
     sections: [
