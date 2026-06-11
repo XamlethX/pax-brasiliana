@@ -27,7 +27,7 @@ const projetos = [
       "Base de manufatura brasileira mapeada",
       "Status de produção nacional por categoria",
     ],
-    image: "/images/usina-nuclear.png",
+    image: "/images/o-que-o-brasil-cover.jpg",
   },
   {
     slug: "rastreador-b3",
