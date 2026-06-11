@@ -3,6 +3,12 @@ import Image from "next/image";
 interface ManifestoSectionProps {
   lines: string[];
   image: string;
+  /**
+   * Optional portrait crop served on mobile (< 1024px). When set, the wide
+   * `image` is art-directed to desktop only via <picture>, so phones get a
+   * portrait composition instead of a hard side-crop of a panorama.
+   */
+  imageMobile?: string;
   /** Describe the image when it carries meaning; leave empty for decorative. */
   alt?: string;
   overlay?: boolean;
@@ -14,6 +20,7 @@ interface ManifestoSectionProps {
 export default function ManifestoSection({
   lines,
   image,
+  imageMobile,
   alt = "",
   overlay = true,
   align = "end",
@@ -23,15 +30,30 @@ export default function ManifestoSection({
   return (
     <section className="grid-lines relative z-10 min-h-screen flex flex-col px-5 lg:px-10 py-20">
       <div className="absolute inset-0 overflow-hidden">
-        <Image
-          src={image}
-          alt={alt}
-          aria-hidden={alt ? undefined : "true"}
-          fill
-          sizes="100vw"
-          loading="lazy"
-          className="object-cover ken-burns"
-        />
+        {imageMobile ? (
+          // Art direction: portrait on mobile, panorama on desktop. Native
+          // <picture> so only the matching source downloads.
+          <picture>
+            <source media="(min-width: 1024px)" srcSet={image} />
+            <img
+              src={imageMobile}
+              alt={alt}
+              aria-hidden={alt ? undefined : "true"}
+              loading="lazy"
+              className="absolute inset-0 w-full h-full object-cover ken-burns"
+            />
+          </picture>
+        ) : (
+          <Image
+            src={image}
+            alt={alt}
+            aria-hidden={alt ? undefined : "true"}
+            fill
+            sizes="100vw"
+            loading="lazy"
+            className="object-cover ken-burns"
+          />
+        )}
       </div>
 
       {overlay && (
