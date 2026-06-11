@@ -14,7 +14,7 @@ export default function NotFound() {
           </h1>
           <Link
             href="/"
-            className="inline-flex items-center gap-2 px-6 py-3.5 bg-bark text-mist font-mono text-accents uppercase transition-opacity duration-300 hover:opacity-80"
+            className="inline-flex items-center gap-2 px-6 py-3.5 bg-bark text-mist font-mono text-accents uppercase transition-opacity duration-300 ease-out hover:opacity-80"
           >
             VOLTAR AO INÍCIO
             <svg width="12" height="10" viewBox="0 0 12 10" fill="none">

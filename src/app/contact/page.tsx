@@ -69,7 +69,7 @@ export default function ContactPage() {
                   Você também pode escrever diretamente para{" "}
                   <a
                     href="mailto:contato@paxbrasiliana.com"
-                    className="underline underline-offset-4 decoration-mist/40 hover:decoration-mist transition-colors duration-300"
+                    className="underline underline-offset-4 decoration-mist/40 hover:decoration-mist transition-colors duration-300 ease-out"
                   >
                     contato@paxbrasiliana.com
                   </a>
@@ -160,7 +160,7 @@ export default function ContactPage() {
                       <button
                         type="submit"
                         disabled={status === "loading"}
-                        className="uppercase font-mono leading-none flex gap-2 px-4 py-3.5 items-center bg-bark text-mist w-full justify-between mt-10 transition-all duration-300 hover:opacity-80 cursor-pointer text-accents disabled:opacity-50"
+                        className="uppercase font-mono leading-none flex gap-2 px-4 py-3.5 items-center bg-bark text-mist w-full justify-between mt-10 transition-all duration-300 ease-out hover:opacity-80 cursor-pointer text-accents disabled:opacity-50"
                       >
                         <span>{status === "loading" ? "ENVIANDO..." : "ENVIAR MENSAGEM"}</span>
                         <svg width="12" height="10" viewBox="0 0 12 10" fill="none">

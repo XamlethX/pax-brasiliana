@@ -33,10 +33,10 @@ export default function HeroSection() {
           <text
             x="0"
             y="100"
-            fontFamily="'Barlow', sans-serif"
+            fontFamily="'Barlow Semi Condensed', sans-serif"
             fontWeight="900"
             fontSize="120"
-            letterSpacing="-6"
+            letterSpacing="-2"
             fill="#F8F6E8"
             opacity="0.92"
           >

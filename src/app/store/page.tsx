@@ -103,13 +103,13 @@ export default function StorePage() {
               <Link
                 key={product.slug}
                 href={`/store/product/${product.slug}`}
-                className={`group block bg-mist border-[0.5px] border-bark overflow-hidden transition-colors duration-300 fade-in-up stagger-${Math.min(i + 1, 3)}`}
+                className={`group block bg-mist border-[0.5px] border-bark overflow-hidden transition-colors duration-300 ease-out fade-in-up stagger-${Math.min(i + 1, 3)}`}
               >
                 <div className="aspect-square overflow-hidden bg-sand">
                   <img
                     src={product.image}
                     alt={product.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                     loading="lazy"
                   />
                 </div>

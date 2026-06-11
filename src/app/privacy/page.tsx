@@ -61,7 +61,7 @@ export default function PrivacyPage() {
                     <a
                       key={section.id}
                       href={`#${section.id}`}
-                      className={`font-mono text-accents uppercase toc-link py-2.5 pl-2.5 lg:pl-5 border-l transition-colors duration-200 ${
+                      className={`font-mono text-accents uppercase toc-link py-2.5 pl-2.5 lg:pl-5 border-l transition-colors duration-200 ease-out ${
                         activeTocId === section.id
                           ? "text-bark border-l-clay"
                           : "text-bark/40 border-l-transparent hover:text-bark/70"

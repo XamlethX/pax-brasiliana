@@ -78,7 +78,7 @@ export default function ProjectsPreview() {
                   <button
                     type="button"
                     onClick={() => window.location.href = item.href}
-                    className="inline-flex items-center gap-2 px-2.5 py-2.5 bg-coast text-mist uppercase text-accents transition-opacity duration-300 hover:opacity-80 w-fit"
+                    className="inline-flex items-center gap-2 px-2.5 py-2.5 bg-coast text-mist uppercase text-accents transition-opacity duration-300 ease-out hover:opacity-80 w-fit"
                   >
                     {item.cta}
                     <ArrowRight />

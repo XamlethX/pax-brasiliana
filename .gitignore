@@ -48,3 +48,6 @@ skills-lock.json
 /unpkg.com/
 /www.googletagmanager.com/
 /test-results/
+
+# BA reference assets (proprietary fonts — never commit)
+ba-reference/

@@ -70,7 +70,7 @@ const ProductIllustration = ({ slug }: { slug: string }) => {
     ),
   };
   return (
-    <span className="text-bark/40 group-hover:text-bark/60 transition-colors duration-200">
+    <span className="text-bark/40 group-hover:text-bark/60 transition-colors duration-200 ease-out">
       {icons[slug] || icons["energia"]}
     </span>
   );
@@ -92,7 +92,7 @@ const StackIcon = () => (
 );
 
 const ChevronIcon = ({ open }: { open: boolean }) => (
-  <svg className={`w-4 h-4 transition-transform duration-200 ${open ? "rotate-180" : ""}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+  <svg className={`w-4 h-4 transition-transform duration-200 ease-out ${open ? "rotate-180" : ""}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
     <path d="M6 9l6 6 6-6" />
   </svg>
 );
@@ -276,7 +276,7 @@ export default function OQueOBrasilPodeConstruir() {
                       <Link
                         key={p.slug}
                         href={`/projetos/o-que-o-brasil-pode-construir/${p.slug}`}
-                        className="group block bg-sand border border-bark/20 overflow-hidden hover:border-bark/50 transition-colors duration-200"
+                        className="group block bg-sand border border-bark/20 overflow-hidden hover:border-bark/50 transition-colors duration-200 ease-out"
                       >
                         {/* Image zone */}
                         <div className="relative overflow-hidden">
@@ -285,15 +285,15 @@ export default function OQueOBrasilPodeConstruir() {
                               <img
                                 src="/images/foguete-orbital.png"
                                 alt="Lançamento de foguete"
-                                className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                                className="w-full h-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
                               />
-                              <span className="absolute top-4 left-4 text-mist/70 group-hover:text-mist transition-colors duration-200">
+                              <span className="absolute top-4 left-4 text-mist/70 group-hover:text-mist transition-colors duration-200 ease-out">
                                 <StackIcon />
                               </span>
                             </div>
                           ) : (
                             <div className="p-5 pb-0">
-                              <span className="text-bark/25 group-hover:text-bark/40 transition-colors duration-200">
+                              <span className="text-bark/25 group-hover:text-bark/40 transition-colors duration-200 ease-out">
                                 <StackIcon />
                               </span>
                               <div className="h-[180px] flex items-end justify-center pb-4 pt-2">
@@ -308,7 +308,7 @@ export default function OQueOBrasilPodeConstruir() {
                           <h3 className="font-heading text-[22px] text-bark leading-tight mt-4">{p.nome}</h3>
                           <p className="font-mono text-[11px] uppercase text-bark/50 mt-1 tracking-[0.06em]">{p.categoria}</p>
                           <div className="mt-5">
-                            <span className="inline-flex items-center gap-2 bg-coast text-mist font-mono text-[11px] uppercase px-3 py-2.5 hover:opacity-80 transition-opacity duration-200">
+                            <span className="inline-flex items-center gap-2 bg-coast text-mist font-mono text-[11px] uppercase px-3 py-2.5 hover:opacity-80 transition-opacity duration-200 ease-out">
                               VER MAIS
                               <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
                                 <path d="M1 5h10M7 1l4 4-4 4" stroke="currentColor" strokeWidth="1.5" />

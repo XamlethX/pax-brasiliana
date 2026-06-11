@@ -1,61 +1,68 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import JoinCTA from "@/components/JoinCTA";
 
 const beliefs = [
   {
-    title: "Inclinação para construir",
-    desc: "O caminho difícil de fazer coisas concretas é melhor do que o caminho fácil de criticar quem tenta. Escolhemos a dificuldade.",
+    title: "Viés para Construir",
+    desc: "Pessimismo é fácil e abundante. Construir é difícil. Nós escolhemos o difícil.",
   },
   {
-    title: "Indústria como destino",
-    desc: "Exportar soja in natura quando poderíamos exportar satélites é uma escolha política, não um destino geográfico. Escolhas mudam.",
+    title: "Menos rent-seeking, mais risco",
+    desc: "Apoiamos quem cria valor, não quem o extrai. Rejeitamos a cultura do cartório e defendemos quem aposta em si mesmo e nos seus.",
   },
   {
-    title: "Capital produtivo, não rentista",
-    desc: "Um real investido em fábrica cria empregos, tecnologia e exportações. Um real em título público cria juros. Sabemos qual preferir.",
+    title: "Restaurar o Orgulho de Fazer",
+    desc: "A capacidade de construir grandes coisas está sendo enterrada sob burocracia e descrença. Precisamos ressuscitá-la como princípio nacional.",
   },
   {
-    title: "Pensar em gerações",
-    desc: "Ferrovias, usinas e universidades técnicas não rendem votos em quatro anos. Por isso a política não as constrói. Nós sim.",
+    title: "Sonhar na escala do Brasil",
+    desc: "Não deixamos os sem imaginação controlarem a narrativa. Inspiramos brasileiros a sonhar na medida do país que temos, e apoiamos uns aos outros em empreitadas arriscadas.",
   },
   {
-    title: "Apartidário e focado em resultados",
-    desc: "Não somos de esquerda nem de direita. Somos a favor de crescimento industrial, desburocratização e capacidade produtiva soberana.",
+    title: "Construtores, não espectadores",
+    desc: "O Brasil real é construído por quem age, não por quem espera a solução política chegar.",
   },
   {
-    title: "O Brasil merece beleza",
-    desc: "Cidades, fábricas, produtos e infraestrutura podem e devem inspirar orgulho estético — não apenas funcional.",
+    title: "Brasileiro e orgulhoso",
+    desc: "O complexo de vira-lata corroeu nossa autoestima como nação. Precisamos restaurar a coesão nacional por meio de transparência, otimismo e ambição.",
   },
 ];
 
-const faqs = [
+const faqs: { q: string; a: string; cta?: { label: string; href: string } }[] = [
   {
     q: "A Pax Brasiliana é um partido político?",
-    a: "Não. Somos explicitamente apartidários. Trabalhamos com engenheiros, fundadores, pesquisadores e criadores de qualquer espectro político — o que nos une é a crença de que o Brasil precisa construir mais.",
+    a: "A Pax Brasiliana é explicitamente apartidária. Somos um movimento independente, sem fins lucrativos, e zelamos pela nossa independência política e editorial. Nosso compromisso é com o desenvolvimento do Brasil, não com partidos, governos ou ideologias específicas.",
   },
   {
-    q: "O que distingue a Pax de outros movimentos?",
-    a: "Foco em construção material, não apenas discurso. Nos importamos com fábricas, ferrovias, semicondutores e satélites — não com posicionamento ideológico. Se você fabrica coisas, você é um de nós.",
+    q: "Como são usadas as doações?",
+    a: "A Pax Brasiliana é uma organização sem fins lucrativos registrada. 100% das doações nos ajudam a construir e manter o movimento, desde infraestrutura digital até atividades comunitárias, operações e muito mais.\n\nConforme a Pax Brasiliana cresce, seremos transparentes sobre como o apoio é utilizado e direcionaremos recursos para trabalhos que expandem nosso impacto e ajudam mais brasileiros a se envolver.",
+    cta: { label: "Fazer uma doação", href: "/doar" },
   },
   {
-    q: "O que o movimento faz concretamente?",
-    a: "Publicamos ensaios e análises, desenvolvemos ferramentas como o rastreador da B3 e o mapa de capacidade produtiva, organizamos encontros e conectamos pessoas que estão construindo o Brasil.",
+    q: "O que a Pax Brasiliana faz?",
+    a: "A Pax Brasiliana está no início de sua jornada. Vamos organizar eventos, publicar ensaios e conteúdo, empoderar construtores, e lançar nossos próprios projetos e iniciativas. Inscreva-se na nossa newsletter para atualizações ou nos diga se tem interesse em se envolver.",
   },
   {
-    q: "Quem dirige o movimento?",
-    a: "Um coletivo de voluntários com uma pequena equipe operacional. Somos construtores fazendo isso porque acreditamos — não porque é o caminho mais fácil.",
+    q: "Quem está por trás do projeto?",
+    a: "A Pax Brasiliana é um coletivo de voluntários apaixonados e apoiadores, com um pequeno time guiando sua direção.",
   },
   {
-    q: "Como o movimento é financiado?",
-    a: "Por meio de doações, vendas da loja e contribuições de apoiadores. 100% vai para as operações do movimento. Somos transparentes sobre o uso dos recursos.",
+    q: "Como vocês são financiados?",
+    a: "A Pax Brasiliana é financiada por doações, merchandising, e apoiadores que exibem com orgulho a bandeira da Pax Brasiliana. Se você quer nos apoiar, doe aqui ou visite nossa loja.",
+    cta: { label: "Doar agora", href: "/doar" },
   },
   {
-    q: "Como posso participar?",
-    a: "Inscreva-se na página Participe, contribua com um ensaio, desenvolva um projeto ou simplesmente compartilhe o movimento com quem constrói o Brasil.",
+    q: "Qual é o objetivo de vocês?",
+    a: "Nossos objetivos iniciais são plantar uma bandeira em torno dessa mudança de mentalidade necessária, e conseguir que brasileiros discutam aberta e sinceramente a necessidade de construir. Essa construção deve tomar muitas formas - precisamos de mais pessoas começando empresas, restaurando o orgulho nacional, e defendendo ações que levem a mudança estrutural.",
+  },
+  {
+    q: "Como entro no movimento?",
+    a: "Qualquer um que queira fazer parte da Pax Brasiliana é bem-vindo. Reconhecemos que patriotismo tem significados diferentes para cada brasileiro, mas somos otimistas que podemos construir um país mais unido e capaz, juntos.\n\nVamos organizar uma ampla gama de atividades, muitas das quais apresentarão oportunidades para pessoas de todas as habilidades e origens se envolver diretamente.\n\nPor favor, preencha nosso formulário para se manter atualizado sobre todas as oportunidades relevantes para se envolver. Siga-nos no LinkedIn, X, Instagram.",
   },
 ];
 
@@ -128,8 +135,8 @@ export default function AboutPage() {
             </div>
             {/* Column 2: Description */}
             <div className="lg:w-1/3 flex items-center lg:h-full justify-center px-5">
-              <p className="text-paragraphs">
-                A Pax Brasiliana é um movimento para reacender a indústria brasileira, a criatividade e a ambição. Acreditamos no trabalho duro de construir coisas — e na coragem de agir quando é mais fácil não fazer nada.
+              <p className="text-paragraphs text-[16px] lg:text-[18px] leading-[150%]">
+                A Pax Brasiliana é um movimento e uma mudança de mentalidade para tirar o país da estagnação. Nossa missão é reacender a indústria, a criatividade e a ambição brasileiras. Buscamos fortalecer a confiança de quem constrói o país, empreendedores, engenheiros, cientistas, trabalhadores, criadores e inovadores, enquanto defendemos um Brasil onde a inovação, o empreendedorismo e o progresso possam florescer.
               </p>
             </div>
           </div>
@@ -152,7 +159,7 @@ export default function AboutPage() {
                     e.preventDefault();
                     scrollToSection(item.id);
                   }}
-                  className={`sidebar-nav-item py-[9px] pl-5 text-accents uppercase font-mono border-l-[1px] transition-colors duration-300 ${
+                  className={`sidebar-nav-item py-[9px] pl-5 text-accents uppercase font-mono border-l-[1px] transition-colors duration-300 ease-out ${
                     activeSection === item.id
                       ? "border-clay text-bark"
                       : "border-transparent text-bark/40"
@@ -174,18 +181,16 @@ export default function AboutPage() {
               <div className="lg:w-1/2 flex flex-col gap-10 px-5">
                 <div className="text-paragraphs font-heading text-bark">Nossa visão</div>
                 <span className="text-paragraphs text-bark">
-                  O Brasil tem o maior potencial de energia solar do planeta, a maior reserva de água doce, o maior território cultivável e uma população jovem e criativa. Ainda assim, exportamos commodities e importamos o que poderíamos fabricar. Isso acaba agora.
+                  O novo sonho brasileiro precisa ser maior: um país que cria e fabrica, que exporta ideias e inovação — não apenas commodities —, que constrói empresas, tecnologias e uma cultura admirada pelo mundo, e que deixa para as próximas gerações um legado de prosperidade ainda maior.
                 </span>
               </div>
               <div className="lg:w-1/2 flex flex-col gap-10 px-5 lg:pr-10">
                 <div className="text-paragraphs font-heading text-bark">Nosso objetivo</div>
                 <div className="text-paragraphs text-bark flex flex-col gap-5">
-                  <p>A Pax Brasiliana existe para mudar a conversa — de &ldquo;por que o Brasil não funciona&rdquo; para &ldquo;o que o Brasil pode construir&rdquo;. Nosso foco é prático:</p>
+                  <p>Reconhecemos que nosso motor de crescimento travou, e nossa cultura está dividida. Nossos objetivos são que o Brasil:</p>
                   <ul className="list-disc pl-6 space-y-2">
-                    <li>Produzir pesquisa e análise sobre capacidade industrial brasileira</li>
-                    <li>Conectar pessoas que constroem coisas reais</li>
-                    <li>Celebrar e amplificar construtores, fundadores e criadores</li>
-                    <li>Pressionar pela reindustrialização como agenda nacional</li>
+                    <li>Alcance 10% de crescimento real do PIB per capita até 2035</li>
+                    <li>Reverta a fuga de cérebros</li>
                   </ul>
                 </div>
               </div>
@@ -252,7 +257,7 @@ export default function AboutPage() {
                     >
                       <span>{faq.q}</span>
                       <svg
-                        className={`transition-transform duration-300 flex-shrink-0 w-4 h-4 ${openFaq === i ? "rotate-45" : ""}`}
+                        className={`transition-transform duration-300 ease-out flex-shrink-0 w-4 h-4 ${openFaq === i ? "rotate-45" : ""}`}
                         viewBox="0 0 16 16"
                         fill="none"
                       >
@@ -260,13 +265,24 @@ export default function AboutPage() {
                       </svg>
                     </button>
                     <div
-                      className="grid transition-all duration-300"
+                      className="grid transition-all duration-300 ease-out"
                       style={{ gridTemplateRows: openFaq === i ? "1fr" : "0fr" }}
                     >
                       <div className="overflow-hidden">
-                        <p className="text-paragraphs text-bark pb-5 lg:pb-6">
+                        <p className="text-paragraphs text-bark pb-5 lg:pb-6 whitespace-pre-line">
                           {faq.a}
                         </p>
+                        {faq.cta && (
+                          <Link
+                            href={faq.cta.href}
+                            className="inline-flex items-center gap-2 text-accents uppercase font-mono text-clay pb-5 lg:pb-6 link-underline transition-opacity duration-300 ease-out hover:opacity-60"
+                          >
+                            {faq.cta.label}
+                            <svg width="12" height="10" viewBox="0 0 12 10" fill="none" aria-hidden="true">
+                              <path d="M6.295 0.705L10.085 4.5H0V5.5H10.085L6.295 9.295L7 10L12 5L7 0L6.295 0.705Z" fill="currentColor" />
+                            </svg>
+                          </Link>
+                        )}
                       </div>
                     </div>
                   </div>

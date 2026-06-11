@@ -28,13 +28,13 @@ export default function AppError({
         <div className="mt-8 flex flex-wrap gap-3 justify-center font-mono">
           <button
             onClick={() => reset()}
-            className="uppercase leading-none px-6 py-3 bg-bark text-mist text-accents transition-opacity duration-300 hover:opacity-80"
+            className="uppercase leading-none px-6 py-3 bg-bark text-mist text-accents transition-opacity duration-300 ease-out hover:opacity-80"
           >
             TENTAR NOVAMENTE
           </button>
           <Link
             href="/"
-            className="uppercase leading-none px-6 py-3 border border-bark text-bark text-accents transition-opacity duration-300 hover:opacity-80 flex items-center"
+            className="uppercase leading-none px-6 py-3 border border-bark text-bark text-accents transition-opacity duration-300 ease-out hover:opacity-80 flex items-center"
           >
             VOLTAR AO INÍCIO
           </Link>

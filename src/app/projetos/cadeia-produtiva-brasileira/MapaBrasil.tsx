@@ -391,7 +391,7 @@ export default function MapaBrasil({
           zIndex: 20,
           opacity: ready ? 0 : 1,
           pointerEvents: ready ? "none" : "auto",
-          transition: "opacity 0.45s ease",
+          transition: "opacity 0.3s var(--ease-out)",
         }}
         aria-hidden={ready}
       >

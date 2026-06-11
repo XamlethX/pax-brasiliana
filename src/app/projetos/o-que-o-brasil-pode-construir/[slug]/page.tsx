@@ -97,7 +97,7 @@ function SupplyChainNode({
         p-[6px] pt-6 lg:p-5
         flex flex-col lg:items-start gap-[10px] lg:gap-3
         w-[102px] h-auto lg:w-[240px] lg:min-h-[100px] overflow-hidden
-        cursor-pointer transition-all duration-200
+        cursor-pointer transition-all duration-200 ease-out
         ${isSelected ? "shadow-md ring-2 ring-coast" : "hover:shadow-sm"}
         ${dimmed ? "opacity-30" : "opacity-100"}
       `}
@@ -293,7 +293,7 @@ export default function ProdutoPage() {
                 <button
                   key={opt.value}
                   onClick={() => { setFilterStatus(opt.value); setSelectedId(null); }}
-                  className={`px-3 py-1.5 text-[10px] lg:text-[12px] tracking-[-0.06em] uppercase leading-none transition-all duration-200
+                  className={`px-3 py-1.5 text-[10px] lg:text-[12px] tracking-[-0.06em] uppercase leading-none transition-all duration-200 ease-out
                     ${filterStatus === opt.value
                       ? `${opt.bg} ${opt.text}`
                       : "text-bark/50 hover:text-bark"
@@ -475,7 +475,7 @@ export default function ProdutoPage() {
                   <Link
                     key={p.slug}
                     href={`/projetos/o-que-o-brasil-pode-construir/${p.slug}`}
-                    className="inline-flex items-center gap-2 px-4 py-3 bg-sand border-[0.5px] border-bark hover:shadow-sm transition-all duration-200"
+                    className="inline-flex items-center gap-2 px-4 py-3 bg-sand border-[0.5px] border-bark hover:shadow-sm transition-all duration-200 ease-out"
                   >
                     <span className={`inline-block w-1.5 h-1.5 rounded-full ${psc.color}`} />
                     <span className="text-[12px] tracking-[-0.06em] uppercase text-bark font-mono">

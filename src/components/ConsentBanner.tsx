@@ -60,14 +60,14 @@ export default function ConsentBanner() {
           <button
             type="button"
             onClick={() => decide("denied")}
-            className="uppercase text-accents border border-mist/40 text-mist px-4 py-3 hover:opacity-80 transition-opacity duration-300"
+            className="uppercase text-accents border border-mist/40 text-mist px-4 py-3 hover:opacity-80 transition-opacity duration-300 ease-out"
           >
             Recusar
           </button>
           <button
             type="button"
             onClick={() => decide("granted")}
-            className="uppercase text-accents bg-mist text-bark px-4 py-3 hover:opacity-80 transition-opacity duration-300"
+            className="uppercase text-accents bg-mist text-bark px-4 py-3 hover:opacity-80 transition-opacity duration-300 ease-out"
           >
             Aceitar
           </button>

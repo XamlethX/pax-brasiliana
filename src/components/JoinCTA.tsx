@@ -39,7 +39,7 @@ export default function JoinCTA() {
               </select>
               <input type="text" placeholder="PROFISSÃO" required className="text-accents text-[#463C2E] uppercase outline-none py-5 border-b border-dashed border-[#463C2E]/30 w-full bg-transparent placeholder:text-[#463C2E]/40" />
             </div>
-            <button type="submit" className="uppercase leading-none flex gap-2 px-4 py-3.5 items-center bg-[#463C2E] text-[#F8F6E8] w-full justify-between mt-10 transition-all duration-300 hover:opacity-80 cursor-pointer text-accents" style={{ fontFamily: "var(--font-mono)" }}>
+            <button type="submit" className="uppercase leading-none flex gap-2 px-4 py-3.5 items-center bg-[#463C2E] text-[#F8F6E8] w-full justify-between mt-10 transition-all duration-300 ease-out hover:opacity-80 cursor-pointer text-accents" style={{ fontFamily: "var(--font-mono)" }}>
               <span>JUNTE-SE AO MOVIMENTO</span>
               <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
                 <path d="M6.295 0.705L10.085 4.5H0V5.5H10.085L6.295 9.295L7 10L12 5L7 0L6.295 0.705Z" fill="#F8F6E8" />

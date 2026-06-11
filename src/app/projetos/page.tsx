@@ -32,13 +32,13 @@ const projetos = [
   {
     slug: "rastreador-b3",
     title: "Rastreador B3",
-    desc: "Acompanhamento de empresas listadas na B3 que operam em defesa, manufatura, energia, agtech, tecnologia, saúde e infraestrutura. Dados simulados para demonstração.",
+    desc: "Acompanhamento de empresas listadas na B3 que operam em defesa, manufatura, energia, agtech, tecnologia, saúde e infraestrutura. Cotações em tempo real via brapi.dev, com fallback Yahoo Finance.",
     features: [
       "Preços e variações do dia",
       "Sparklines de tendência de preço",
       "Filtro por setor e busca por ticker",
     ],
-    image: "/images/estacao-trem.png",
+    image: "/images/rastreador-b3-cover.png",
   },
 ];
 
@@ -124,7 +124,7 @@ export default function ProjetosPage() {
                   </div>
                   <Link
                     href={`/projetos/${project.slug}`}
-                    className="mt-auto uppercase font-mono leading-none flex gap-2 px-4 py-3.5 items-center transition-all duration-300 hover:opacity-80 text-accents text-mist bg-bark w-full justify-between"
+                    className="mt-auto uppercase font-mono leading-none flex gap-2 px-4 py-3.5 items-center transition-all duration-300 ease-out hover:opacity-80 text-accents text-mist bg-bark w-full justify-between"
                   >
                     <span>Explorar projeto</span>
                     <svg width="12" height="10" viewBox="0 0 12 10" fill="none" aria-hidden="true">
@@ -174,7 +174,7 @@ export default function ProjetosPage() {
                 </div>
                 <Link
                   href="/contribute"
-                  className="uppercase font-mono leading-none flex gap-2 px-4 py-3.5 items-center transition-all duration-300 hover:opacity-80 text-accents text-mist bg-bark mt-10 w-full lg:w-auto lg:absolute lg:bottom-5 lg:left-5 lg:right-5 justify-between"
+                  className="uppercase font-mono leading-none flex gap-2 px-4 py-3.5 items-center transition-all duration-300 ease-out hover:opacity-80 text-accents text-mist bg-bark mt-10 w-full lg:w-auto lg:absolute lg:bottom-5 lg:left-5 lg:right-5 justify-between"
                   style={{ zIndex: 2, position: "relative" }}
                 >
                   <span>ENTRE EM CONTATO</span>

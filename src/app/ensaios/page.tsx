@@ -52,7 +52,7 @@ export default function EssaysPage() {
             <img
               src={featured.image}
               alt={`Ensaio em destaque: ${featured.title}`}
-              className="absolute inset-0 w-full h-full object-cover z-[2] transition-transform duration-[400ms] group-hover:scale-[1.02]"
+              className="absolute inset-0 w-full h-full object-cover z-[2] transition-transform duration-300 ease-out group-hover:scale-[1.02]"
             />
             <div className="media-overlay z-[2]" aria-hidden="true" />
             <div className="z-[3] relative p-2.5 lg:p-5 lg:pt-10 flex flex-col justify-between h-full">
@@ -104,7 +104,7 @@ export default function EssaysPage() {
                 key={cat.value}
                 onClick={() => setFilter(cat.value)}
                 aria-pressed={filter === cat.value}
-                className={`py-2.5 font-mono text-accents uppercase cursor-pointer transition-colors duration-300 whitespace-nowrap bg-transparent border-none ${
+                className={`py-2.5 font-mono text-accents uppercase cursor-pointer transition-colors duration-300 ease-out whitespace-nowrap bg-transparent border-none ${
                   filter === cat.value
                     ? "text-bark"
                     : "text-bark/40 hover:text-bark/70"
@@ -199,7 +199,7 @@ export default function EssaysPage() {
               </div>
               <Link href="/contribute" className="z-[2] mt-10">
                 <span
-                  className="uppercase font-mono leading-none flex gap-2 px-4 py-3.5 items-center transition-all duration-300 hover:opacity-80 text-accents text-mist bg-bark"
+                  className="uppercase font-mono leading-none flex gap-2 px-4 py-3.5 items-center transition-all duration-300 ease-out hover:opacity-80 text-accents text-mist bg-bark"
                 >
                   ENTRE EM CONTATO
                   <ArrowIcon />

@@ -207,7 +207,7 @@ export default function ManifestoPage() {
             </p>
             <Link
               href="/get-involved"
-              className="mt-10 inline-flex items-center gap-2 bg-mist text-bark text-[12px] tracking-[-0.06em] uppercase px-4 py-3.5 transition-opacity duration-300 hover:opacity-80 fade-in-up stagger-4 font-mono"
+              className="mt-10 inline-flex items-center gap-2 bg-mist text-bark text-[12px] tracking-[-0.06em] uppercase px-4 py-3.5 transition-opacity duration-300 ease-out hover:opacity-80 fade-in-up stagger-4 font-mono"
             >
               JUNTE-SE AO MOVIMENTO
               <svg width="12" height="10" viewBox="0 0 12 10" fill="none">

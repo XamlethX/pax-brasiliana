@@ -68,8 +68,9 @@ export default function RastreadorB3() {
   const [sort, setSort] = useState("sector");
   const [view, setView] = useState<"grid" | "table">("grid");
 
-  // Live data overlays the static seed (nome/setor/descrição/marketCap stay,
-  // preço/variação/sparkline/52s/volume come from Yahoo Finance via /api/b3).
+  // Live data overlays the static seed (nome/setor/descrição stay; preço,
+  // variação, sparkline, 52s, volume and market cap come from brapi.dev —
+  // with Yahoo Finance fallback — via /api/b3).
   const [acoes, setAcoes] = useState<Acao[]>(acoesSeed);
   const [live, setLive] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -96,6 +97,10 @@ export default function RastreadorB3() {
               high52: q.high52,
               low52: q.low52,
               volume: q.volume,
+              marketCap:
+                typeof q.marketCap === "string" && q.marketCap !== "—"
+                  ? q.marketCap
+                  : a.marketCap,
             };
           })
         );
@@ -175,7 +180,7 @@ export default function RastreadorB3() {
     return (
       <article
         key={stock.ticker}
-        className="flex flex-col gap-3.5 bg-mist border border-bark/20 p-5 transition-colors duration-150 hover:border-bark/40"
+        className="flex flex-col gap-3.5 bg-mist border border-bark/20 p-5 transition-colors duration-200 ease-out hover:border-bark/40"
       >
         <div className="flex justify-between items-start">
           <span className="font-mono text-[18px] font-bold tracking-[0.02em] text-bark">{stock.ticker}</span>
@@ -219,7 +224,7 @@ export default function RastreadorB3() {
     );
   };
 
-  const chipBase = "font-mono text-[12px] uppercase tracking-[0.08em] px-3.5 py-2 whitespace-nowrap transition-colors duration-150 border";
+  const chipBase = "font-mono text-[12px] uppercase tracking-[0.08em] px-3.5 py-2 whitespace-nowrap transition-colors duration-200 ease-out border";
 
   return (
     <div className="flex flex-col min-h-dvh">
@@ -331,7 +336,7 @@ export default function RastreadorB3() {
               <div className="flex border border-bark/30">
                 <button
                   onClick={() => setView("grid")}
-                  className="p-2 transition-colors duration-200 w-[36px] h-[36px] flex items-center justify-center"
+                  className="p-2 transition-colors duration-200 ease-out w-[36px] h-[36px] flex items-center justify-center"
                   style={{ background: view === "grid" ? "var(--bark)" : "transparent", color: view === "grid" ? "var(--mist)" : "var(--bark)" }}
                   aria-label="Grade"
                 >
@@ -344,7 +349,7 @@ export default function RastreadorB3() {
                 </button>
                 <button
                   onClick={() => setView("table")}
-                  className="p-2 transition-colors duration-200 w-[36px] h-[36px] flex items-center justify-center border-l border-bark/30"
+                  className="p-2 transition-colors duration-200 ease-out w-[36px] h-[36px] flex items-center justify-center border-l border-bark/30"
                   style={{ background: view === "table" ? "var(--bark)" : "transparent", color: view === "table" ? "var(--mist)" : "var(--bark)" }}
                   aria-label="Tabela"
                 >
@@ -472,7 +477,7 @@ export default function RastreadorB3() {
 
             <div className="mt-10 pt-6 text-center border-t border-bark/15">
               <p className="font-mono text-[10px] uppercase tracking-[0.12em] leading-relaxed text-bark/40">
-                {live ? `Cotações via ${source ?? "Yahoo Finance"}` : "Valores de referência"} · sparkline de 30 dias (fechamento diário, Yahoo Finance) · atraso de até 15 min. Não constitui recomendação de investimento.
+                {live ? `Cotações via ${source ?? "brapi.dev"}` : "Valores de referência"} · sparkline de 30 dias (fechamento diário) · atraso de até 15 min. Não constitui recomendação de investimento.
               </p>
               <p className="font-mono text-[10px] uppercase tracking-[0.12em] mt-1 text-bark/40">
                 Curado com tese de capacidade soberana.

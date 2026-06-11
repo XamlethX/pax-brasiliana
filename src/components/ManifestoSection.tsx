@@ -52,18 +52,17 @@ export default function ManifestoSection({
         <h2
           className={`max-w-[1200px] text-mist ${italic ? "italic" : ""}`}
           style={{
-            fontFamily: "'Barlow', sans-serif",
+            fontFamily: "'Barlow Semi Condensed', sans-serif",
             fontWeight: 900,
             fontSize: "clamp(2.8rem, 6vw, 6.25rem)",
-            lineHeight: 1.05,
-            letterSpacing: "-0.04em",
+            lineHeight: 1.15,
+            letterSpacing: "-0.02em",
           }}
         >
           {lines.join(" ")}
         </h2>
         {attribution && (
           <div className="mt-8 flex items-center gap-3">
-            <div className="w-8 h-[1px] bg-mist/40" />
             <p
               className="text-mist/85 font-mono uppercase tracking-[0.14em]"
               style={{ fontSize: "clamp(10px, 1.1vw, 13px)" }}

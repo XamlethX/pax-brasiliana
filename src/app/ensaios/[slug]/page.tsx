@@ -61,7 +61,7 @@ export default function EnsaioDetailPage() {
             <div className="max-w-[800px] mx-auto">
               <Link
                 href="/ensaios"
-                className="text-accents text-[#463C2E]/50 mb-10 inline-flex items-center gap-2 link-underline pb-1 transition-opacity duration-300 hover:opacity-60"
+                className="text-accents text-[#463C2E]/50 mb-10 inline-flex items-center gap-2 link-underline pb-1 transition-opacity duration-300 ease-out hover:opacity-60"
               >
                 <svg
                   width="12"
@@ -129,7 +129,7 @@ export default function EnsaioDetailPage() {
                     <a
                       key={i}
                       href={`#section-${i}`}
-                      className="text-[14px] lg:text-[16px] text-[#463C2E]/70 hover:text-[#463C2E] transition-colors duration-200"
+                      className="text-[14px] lg:text-[16px] text-[#463C2E]/70 hover:text-[#463C2E] transition-colors duration-200 ease-out"
                     >
                       {i + 1}. {s.heading}
                     </a>
@@ -168,7 +168,7 @@ export default function EnsaioDetailPage() {
             </p>
             <Link
               href="/get-involved"
-              className="mt-6 inline-flex items-center gap-2 bg-[#463C2E] text-[#F8F6E8] text-[12px] tracking-[-0.06em] uppercase px-4 py-3.5 transition-opacity duration-300 hover:opacity-80"
+              className="mt-6 inline-flex items-center gap-2 bg-[#463C2E] text-[#F8F6E8] text-[12px] tracking-[-0.06em] uppercase px-4 py-3.5 transition-opacity duration-300 ease-out hover:opacity-80"
               style={{ fontFamily: "var(--font-mono)" }}
             >
               PARTICIPE

@@ -117,7 +117,7 @@ export default function ProductDetailPage() {
             <nav className="text-accents text-bark/50 flex items-center gap-2 font-mono">
               <Link
                 href="/store"
-                className="link-underline pb-0.5 transition-opacity duration-300 hover:opacity-60"
+                className="link-underline pb-0.5 transition-opacity duration-300 ease-out hover:opacity-60"
               >
                 LOJA
               </Link>
@@ -167,7 +167,7 @@ export default function ProductDetailPage() {
                       <button
                         key={size}
                         onClick={() => setSelectedSize(size)}
-                        className={`px-4 py-2.5 text-[12px] tracking-[-0.06em] uppercase border transition-all duration-200 font-mono ${
+                        className={`px-4 py-2.5 text-[12px] tracking-[-0.06em] uppercase border transition-all duration-200 ease-out font-mono ${
                           selectedSize === size
                             ? "border-bark bg-bark text-mist"
                             : "border-bark/30 text-bark hover:border-bark"
@@ -213,7 +213,7 @@ export default function ProductDetailPage() {
               <button
                 onClick={handleCheckout}
                 disabled={checkoutStatus === "loading"}
-                className="mt-8 uppercase leading-none flex gap-2 px-4 py-4 items-center bg-bark text-mist w-full justify-between transition-all duration-300 hover:opacity-80 cursor-pointer text-accents font-mono disabled:opacity-50"
+                className="mt-8 uppercase leading-none flex gap-2 px-4 py-4 items-center bg-bark text-mist w-full justify-between transition-all duration-300 ease-out hover:opacity-80 cursor-pointer text-accents font-mono disabled:opacity-50"
               >
                 <span>
                   {checkoutStatus === "loading" ? "REDIRECIONANDO..." : "COMPRAR AGORA"}
@@ -252,7 +252,7 @@ export default function ProductDetailPage() {
                       <img
                         src={p.image}
                         alt={p.title}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-110"
                       />
                     </div>
                     <div className="mt-4 flex items-start justify-between">

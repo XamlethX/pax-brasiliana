@@ -1,12 +1,11 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, type ChangeEvent, type FormEvent } from "react";
 import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import Link from "next/link";
 import {
-  fabricantes,
+  fabricantes as fabricantesSeed,
   mncIds,
   coordenadasEstados,
   coordenadasCidades,
@@ -366,11 +365,77 @@ function PainelDetalhe({
 
 // ─── Contribute modal ─────────────────────────────────────────────────────────
 
+const SIGLA_POR_ESTADO: Record<string, string> = {
+  Acre: "AC", Alagoas: "AL", Amazonas: "AM", Amapá: "AP", Bahia: "BA",
+  Ceará: "CE", "Distrito Federal": "DF", "Espírito Santo": "ES", Goiás: "GO",
+  Maranhão: "MA", "Minas Gerais": "MG", "Mato Grosso do Sul": "MS",
+  "Mato Grosso": "MT", Pará: "PA", Paraíba: "PB", Pernambuco: "PE", Piauí: "PI",
+  Paraná: "PR", "Rio de Janeiro": "RJ", "Rio Grande do Norte": "RN",
+  Rondônia: "RO", Roraima: "RR", "Rio Grande do Sul": "RS",
+  "Santa Catarina": "SC", Sergipe: "SE", "São Paulo": "SP", Tocantins: "TO",
+};
+
 function ModalContribuir({ onClose }: { onClose: () => void }) {
+  const [form, setForm] = useState({
+    nome: "",
+    website: "",
+    setor: "",
+    estado: "",
+    cidade: "",
+    produtos: "",
+    descricao: "",
+    funcionarios: "",
+    fundacao: "",
+    origem: "BR",
+    contato_email: "",
+    company: "", // honeypot
+  });
+  const [status, setStatus] = useState<"idle" | "sending" | "ok" | "error">("idle");
+  const [erro, setErro] = useState("");
+
+  const set = (k: keyof typeof form) => (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => setForm((f) => ({ ...f, [k]: e.target.value }));
+
+  const fieldCls =
+    "w-full bg-sand border-[0.5px] border-bark/30 px-3 py-2 text-[13px] text-bark placeholder:text-bark/30 focus:border-bark/60 focus:outline-none";
+  const labelCls = "font-mono text-[10px] uppercase tracking-[0.1em] text-bark/40 mb-1 block";
+
+  async function submit(e: FormEvent) {
+    e.preventDefault();
+    if (!form.nome.trim()) {
+      setErro("Informe o nome da empresa.");
+      setStatus("error");
+      return;
+    }
+    setStatus("sending");
+    setErro("");
+    try {
+      const res = await fetch("/api/fabricantes/contribuir", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...form,
+          sigla: SIGLA_POR_ESTADO[form.estado] ?? "",
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data?.ok) {
+        setStatus("ok");
+      } else {
+        setErro(data?.error ?? "Não foi possível enviar. Tente novamente.");
+        setStatus("error");
+      }
+    } catch {
+      setErro("Erro de conexão. Tente novamente.");
+      setStatus("error");
+    }
+  }
+
   return (
     <div className="fixed inset-0 z-[2000] flex items-center justify-center">
       <div className="absolute inset-0 bg-bark/40" onClick={onClose} />
-      <div className="relative z-[1] bg-mist border border-bark/20 w-full max-w-[520px] mx-4 p-8 shadow-lg">
+      <div className="relative z-[1] bg-mist border border-bark/20 w-full max-w-[560px] mx-4 p-8 shadow-lg max-h-[90vh] overflow-y-auto">
         <div className="flex items-start justify-between mb-6">
           <div>
             <p className="font-mono text-accents text-bark/40 uppercase mb-1">Contribuição comunitária</p>
@@ -383,20 +448,126 @@ function ModalContribuir({ onClose }: { onClose: () => void }) {
           </button>
         </div>
 
-        <p className="text-[14px] text-bark/60 leading-[150%] mb-6">
-          Conhece uma fabricante, indústria ou empresa que deveria estar aqui?
-          Envie uma sugestão pelo nosso formulário de contribuição.
-        </p>
+        {status === "ok" ? (
+          <div className="py-8 text-center">
+            <p className="text-[15px] text-bark leading-[150%] mb-2">
+              Contribuição recebida. Obrigado.
+            </p>
+            <p className="text-[13px] text-bark/50 leading-[150%] mb-6">
+              Sua sugestão entra na fila de moderação. Depois de revisada, a
+              empresa aparece no índice.
+            </p>
+            <button
+              type="button"
+              onClick={onClose}
+              className="uppercase font-mono leading-none flex gap-2 px-4 py-3.5 items-center cursor-pointer transition-all hover:opacity-80 text-accents text-mist bg-bark w-full justify-between"
+            >
+              <span>FECHAR</span>
+              <ArrowIcon />
+            </button>
+          </div>
+        ) : (
+          <form onSubmit={submit} className="flex flex-col gap-4">
+            <p className="text-[13px] text-bark/60 leading-[150%] -mt-2">
+              Conhece uma fabricante, indústria ou empresa que deveria estar
+              aqui? Submeta e nós revisamos.
+            </p>
 
-        <Link href="/contribute" onClick={onClose}>
-          <button
-            type="button"
-            className="uppercase font-mono leading-none flex gap-2 px-4 py-3.5 items-center cursor-pointer transition-all hover:opacity-80 text-accents text-mist bg-bark w-full justify-between"
-          >
-            <span>IR AO FORMULÁRIO</span>
-            <ArrowIcon />
-          </button>
-        </Link>
+            {/* honeypot — escondido de humanos */}
+            <input
+              type="text"
+              tabIndex={-1}
+              autoComplete="off"
+              value={form.company}
+              onChange={set("company")}
+              className="hidden"
+              aria-hidden="true"
+            />
+
+            <div>
+              <label className={labelCls}>Empresa *</label>
+              <input className={fieldCls} value={form.nome} onChange={set("nome")} placeholder="Ex.: WEG" />
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className={labelCls}>Setor</label>
+                <select className={fieldCls} value={form.setor} onChange={set("setor")}>
+                  <option value="">Selecione…</option>
+                  {setoresBrasileiros.map((s) => (
+                    <option key={s} value={s}>{s}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className={labelCls}>Capital</label>
+                <select className={fieldCls} value={form.origem} onChange={set("origem")}>
+                  <option value="BR">Nacional (BR)</option>
+                  <option value="MNC">Multinacional (MNC)</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className={labelCls}>Estado</label>
+                <select className={fieldCls} value={form.estado} onChange={set("estado")}>
+                  <option value="">Selecione…</option>
+                  {estadosBrasileiros.map((e) => (
+                    <option key={e} value={e}>{e}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className={labelCls}>Cidade</label>
+                <input className={fieldCls} value={form.cidade} onChange={set("cidade")} placeholder="Ex.: Jaraguá do Sul" />
+              </div>
+            </div>
+
+            <div>
+              <label className={labelCls}>Website</label>
+              <input className={fieldCls} value={form.website} onChange={set("website")} placeholder="https://" />
+            </div>
+
+            <div>
+              <label className={labelCls}>Produtos (separados por vírgula)</label>
+              <input className={fieldCls} value={form.produtos} onChange={set("produtos")} placeholder="Motores elétricos, automação, energia" />
+            </div>
+
+            <div>
+              <label className={labelCls}>Descrição</label>
+              <textarea className={`${fieldCls} resize-none`} rows={2} value={form.descricao} onChange={set("descricao")} placeholder="O que a empresa fabrica e por que importa." />
+            </div>
+
+            <div className="grid grid-cols-3 gap-3">
+              <div>
+                <label className={labelCls}>Funcionários</label>
+                <input className={fieldCls} value={form.funcionarios} onChange={set("funcionarios")} placeholder="5000+" />
+              </div>
+              <div>
+                <label className={labelCls}>Fundação</label>
+                <input className={fieldCls} value={form.fundacao} onChange={set("fundacao")} placeholder="1961" inputMode="numeric" />
+              </div>
+              <div>
+                <label className={labelCls}>Seu email</label>
+                <input className={fieldCls} value={form.contato_email} onChange={set("contato_email")} placeholder="opcional" type="email" />
+              </div>
+            </div>
+
+            {status === "error" && erro && (
+              <p className="font-mono text-[11px] text-clay uppercase">{erro}</p>
+            )}
+
+            <button
+              type="submit"
+              disabled={status === "sending"}
+              className="uppercase font-mono leading-none flex gap-2 px-4 py-3.5 items-center cursor-pointer transition-all hover:opacity-80 disabled:opacity-50 text-accents text-mist bg-bark w-full justify-between mt-1"
+            >
+              <span>{status === "sending" ? "ENVIANDO…" : "SUBMETER EMPRESA"}</span>
+              <ArrowIcon />
+            </button>
+          </form>
+        )}
       </div>
     </div>
   );
@@ -592,6 +763,28 @@ export default function CadeiaProdutivaBrasileiraPage() {
   const [fabricanteSelecionado, setFabricanteSelecionado] = useState<Fabricante | null>(null);
   const [modalContribuir, setModalContribuir] = useState(false);
 
+  // Index data: seeded from the static dataset for an instant first paint, then
+  // hydrated from /api/fabricantes (Supabase). The API falls back to the same
+  // static set, so this never empties the page.
+  const [fabricantes, setFabricantes] = useState<Fabricante[]>(fabricantesSeed);
+
+  useEffect(() => {
+    let active = true;
+    fetch("/api/fabricantes", { cache: "no-store" })
+      .then((r) => r.json())
+      .then((data) => {
+        if (active && data?.ok && Array.isArray(data.fabricantes) && data.fabricantes.length) {
+          setFabricantes(data.fabricantes as Fabricante[]);
+        }
+      })
+      .catch(() => {
+        /* keep the seed — the page already works offline */
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+
   const filtrados = useMemo(() => {
     const q = normalizar(busca.trim());
     return fabricantes.filter((fab) => {
@@ -605,7 +798,7 @@ export default function CadeiaProdutivaBrasileiraPage() {
       );
       return q.split(/\s+/).filter(Boolean).every((token) => haystack.includes(token));
     });
-  }, [busca, estadoFiltro, setorFiltro, origemFiltro]);
+  }, [busca, estadoFiltro, setorFiltro, origemFiltro, fabricantes]);
 
   const fabricantesComCoordenadas = useMemo(
     () =>
@@ -638,7 +831,7 @@ export default function CadeiaProdutivaBrasileiraPage() {
       set.add(fab.setor);
     }
     return set;
-  }, [busca, estadoFiltro, origemFiltro]);
+  }, [busca, estadoFiltro, origemFiltro, fabricantes]);
 
   function limparFiltros() {
     setBusca("");

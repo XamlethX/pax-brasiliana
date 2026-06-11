@@ -6,9 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed:fabricantes": "tsx scripts/seed-fabricantes.ts"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.108.1",
     "framer-motion": "^12.38.0",
     "maplibre-gl": "^5.24.0",
     "next": "14.2.35",

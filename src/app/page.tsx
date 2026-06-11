@@ -33,7 +33,7 @@ export default function Home() {
         <HeroSection />
 
         {/* 2. Statement */}
-        <section className="bg-khaki grid-lines py-20 lg:min-h-screen flex items-center justify-center flex-col relative">
+        <section className="grid-lines py-20 lg:min-h-screen flex items-center justify-center flex-col relative" style={{ backgroundColor: "var(--iron)" }}>
           <div className="px-5 lg:px-10 text-center relative z-10">
             <h2 className="text-h2 font-heading text-bark text-center flex flex-col">
               O Brasil é o país do<br />futuro... e sempre será.
@@ -131,8 +131,8 @@ export default function Home() {
         {/* 8. Manifesto — Darcy Ribeiro quote */}
         <ManifestoSection
           lines={['"O Brasil é a Nova Roma.', 'Uma Roma que o mundo', 'vai ver espantado."']}
-          image="/images/datacenter-cave.png"
-          alt="Data center soberano instalado em caverna de rocha vermelha brasileira"
+          image="/images/steel-mill.png"
+          alt="Siderúrgica brasileira de larga escala com trabalhadores e pontes rolantes sob vegetação"
           italic
           attribution="Darcy Ribeiro"
           overlay

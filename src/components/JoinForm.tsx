@@ -85,7 +85,7 @@ export default function JoinForm() {
               <button
                 type="submit"
                 disabled={status === "loading"}
-                className="uppercase leading-none flex gap-2 px-4 py-3.5 items-center bg-[#463C2E] text-[#F8F6E8] w-full justify-between mt-4 transition-all duration-300 hover:opacity-80 cursor-pointer text-accents disabled:opacity-60 disabled:cursor-not-allowed"
+                className="uppercase leading-none flex gap-2 px-4 py-3.5 items-center bg-[#463C2E] text-[#F8F6E8] w-full justify-between mt-4 transition-all duration-300 ease-out hover:opacity-80 cursor-pointer text-accents disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 <span>
                   {status === "loading" ? "ENVIANDO…" : "JUNTE-SE AO MOVIMENTO"}
