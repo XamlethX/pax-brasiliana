@@ -23,41 +23,16 @@ export default function HeroSection() {
 
       {/* Wordmark — full width, bottom of hero */}
       <div className="absolute bottom-0 inset-x-0 z-10 w-full pb-6 lg:pb-6 px-5 lg:px-10">
-        {/* Mobile: stacked, two lines, full-bleed (BA-style impact) */}
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 760 330"
-          className="block lg:hidden w-full h-auto"
+        {/* Mobile: stacked, two lines, natural proportions (no stretching) */}
+        <div
+          className="block lg:hidden text-mist leading-[0.80] tracking-[-0.03em] select-none"
+          style={{ fontFamily: "'Barlow Semi Condensed', sans-serif", fontWeight: 900, opacity: 0.94 }}
           role="img"
           aria-label="Pax Brasiliana"
         >
-          <text
-            x="4"
-            y="150"
-            textLength="752"
-            lengthAdjust="spacingAndGlyphs"
-            fontFamily="'Barlow Semi Condensed', sans-serif"
-            fontWeight="900"
-            fontSize="160"
-            fill="#F8F6E8"
-            opacity="0.94"
-          >
-            PAX
-          </text>
-          <text
-            x="4"
-            y="312"
-            textLength="752"
-            lengthAdjust="spacingAndGlyphs"
-            fontFamily="'Barlow Semi Condensed', sans-serif"
-            fontWeight="900"
-            fontSize="160"
-            fill="#F8F6E8"
-            opacity="0.94"
-          >
-            BRASILIANA
-          </text>
-        </svg>
+          <span className="block text-[15.5vw]">PAX</span>
+          <span className="block text-[15.5vw]">BRASILIANA</span>
+        </div>
 
         {/* Desktop: single line, full width */}
         <svg

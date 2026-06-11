@@ -97,7 +97,7 @@ export default function Home() {
             style={{ willChange: "transform" }}
             className="flex flex-col items-center justify-center gap-8 px-5 lg:px-10 pb-25 lg:pb-0"
           >
-            <h2 className="text-h1 text-coast text-center flex flex-col">
+            <h2 className="font-heading font-black leading-[0.95] tracking-[-0.03em] text-[44px] lg:text-[160px] text-coast text-center flex flex-col">
               <span>Está na hora</span>
               <span>de construir.</span>
             </h2>

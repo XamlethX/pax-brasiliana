@@ -146,7 +146,7 @@ export default function Footer() {
         {/* Wordmark */}
         <div className="mt-10 px-5 lg:px-10 overflow-hidden">
           <p
-            className="text-[clamp(4rem,12vw,10rem)] leading-[1] tracking-[-0.06em] text-bark whitespace-nowrap select-none font-heading font-black"
+            className="text-[clamp(2.25rem,11vw,10rem)] leading-[1] tracking-[-0.06em] text-bark whitespace-nowrap select-none font-heading font-black"
             aria-hidden="true"
           >
             PAX BRASILIANA
