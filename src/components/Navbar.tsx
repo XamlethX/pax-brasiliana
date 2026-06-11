@@ -120,7 +120,7 @@ export default function Navbar() {
         <div className="lg:w-1/3 flex items-start gap-2.5 justify-end pr-5 lg:pr-10 ml-auto lg:ml-0">
           <Link
             href="/get-involved"
-            className="hidden lg:inline-flex items-center h-[38px] px-4 bg-bark text-mist text-accents font-mono uppercase transition-opacity duration-300 ease-out hover:opacity-80"
+            className="inline-flex items-center h-[38px] px-3.5 lg:px-4 bg-bark text-mist text-accents font-mono uppercase transition-opacity duration-300 ease-out hover:opacity-80"
           >
             PARTICIPE
           </Link>

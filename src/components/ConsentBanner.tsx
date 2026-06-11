@@ -47,7 +47,7 @@ export default function ConsentBanner() {
       aria-label="Aviso de privacidade"
       className="fixed bottom-0 inset-x-0 z-[70] bg-bark text-mist border-t-[0.5px] border-mist/30"
     >
-      <div className="max-w-[1100px] mx-auto px-5 lg:px-10 py-5 flex flex-col lg:flex-row lg:items-center gap-5 lg:gap-10">
+      <div className="max-w-[1100px] mx-auto px-5 lg:px-10 py-4 lg:py-5 flex flex-col lg:flex-row lg:items-center gap-3.5 lg:gap-10">
         <p className="text-[13px] lg:text-[14px] leading-[150%] text-mist/80 flex-1">
           Usamos cookies para entender como o site é utilizado e melhorar sua
           experiência. Você pode aceitar ou recusar. Saiba mais na nossa{" "}
