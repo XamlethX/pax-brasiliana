@@ -97,6 +97,11 @@ export default function MapaBrasil({
   onSelectRef.current = onSelect;
 
   const [ready, setReady] = useState(false);
+  // Legend collapses on mobile so it doesn't blanket the map; opens on desktop.
+  const [legendaAberta, setLegendaAberta] = useState(false);
+  useEffect(() => {
+    setLegendaAberta(window.innerWidth >= 1024);
+  }, []);
 
   // Init map once
   useEffect(() => {
@@ -312,12 +317,44 @@ export default function MapaBrasil({
 
       <div ref={containerRef} style={{ position: "absolute", inset: 0 }} />
 
-      {/* Legend */}
+      {/* Legend — collapsible (closed on mobile so it never blankets the map) */}
       <div
         style={{
           position: "absolute",
           bottom: 32,
           right: 12,
+          zIndex: 5,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-end",
+          gap: 6,
+          maxWidth: "calc(100% - 24px)",
+        }}
+      >
+        <button
+          type="button"
+          onClick={() => setLegendaAberta((v) => !v)}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+            background: "rgba(20,20,20,0.85)",
+            border: "0.5px solid rgba(248,246,232,0.12)",
+            padding: "6px 10px",
+            fontFamily: "'Martian Mono', monospace",
+            fontSize: 9,
+            textTransform: "uppercase",
+            letterSpacing: "0.06em",
+            color: "rgba(248,246,232,0.7)",
+            cursor: "pointer",
+          }}
+        >
+          Setores
+          <span style={{ opacity: 0.6 }}>{legendaAberta ? "▾" : "▸"}</span>
+        </button>
+      {legendaAberta && (
+      <div
+        style={{
           background: "rgba(20,20,20,0.85)",
           border: "0.5px solid rgba(248,246,232,0.12)",
           padding: "8px 12px",
@@ -326,8 +363,8 @@ export default function MapaBrasil({
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
           gap: "3px 14px",
-          zIndex: 5,
           maxHeight: 200,
+          maxWidth: "100%",
           overflowY: "auto",
         }}
       >
@@ -375,6 +412,8 @@ export default function MapaBrasil({
             </button>
           );
         })}
+      </div>
+      )}
       </div>
 
       {/* Loading splash — fades out once style+source ready */}

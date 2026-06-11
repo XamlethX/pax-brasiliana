@@ -24,7 +24,7 @@ export default function Home() {
     HTMLElement,
     HTMLDivElement,
     HTMLDivElement
-  >({ maxTranslate: 180, mediaTranslate: 48, mediaRotate: 6 });
+  >({ maxTranslate: 180, mediaTranslate: 34 });
 
   return (
     <div className="flex flex-col min-h-dvh">

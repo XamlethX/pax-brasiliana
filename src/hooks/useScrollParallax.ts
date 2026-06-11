@@ -7,8 +7,6 @@ interface UseScrollParallaxOptions {
   minWidth?: number;
   /** Media (flag) vertical travel, in px. Active on ALL viewports. */
   mediaTranslate?: number;
-  /** Media (flag) tilt, in degrees, driven by scroll. Active on ALL viewports. */
-  mediaRotate?: number;
 }
 
 /**
@@ -24,8 +22,7 @@ export function useScrollParallax<
 >({
   maxTranslate = 180,
   minWidth = 1024,
-  mediaTranslate = 44,
-  mediaRotate = 5,
+  mediaTranslate = 40,
 }: UseScrollParallaxOptions = {}) {
   const sectionRef = useRef<S>(null);
   const textRef = useRef<T>(null);
@@ -45,10 +42,10 @@ export function useScrollParallax<
       let progress = (window.innerHeight - rect.top) / window.innerHeight;
       progress = Math.max(0, Math.min(1, progress));
 
-      // Flag / media — reacts to scroll on every viewport.
+      // Flag / media — gentle upward drift as the section scrolls through.
+      // No tilt: rotation read as "falling" and looked off. Subtle rise only.
       if (media) {
-        const shift = (progress - 0.5) * 2; // -1 .. 1 across the section
-        media.style.transform = `translate3d(0, ${shift * mediaTranslate}px, 0) rotate(${shift * mediaRotate}deg)`;
+        media.style.transform = `translate3d(0, ${-progress * mediaTranslate}px, 0)`;
       }
 
       // Text — desktop-only drift (avoids overlap on tight mobile layouts).
@@ -71,7 +68,7 @@ export function useScrollParallax<
       window.removeEventListener("resize", onScroll);
       if (raf) cancelAnimationFrame(raf);
     };
-  }, [maxTranslate, minWidth, mediaTranslate, mediaRotate]);
+  }, [maxTranslate, minWidth, mediaTranslate]);
 
   return { sectionRef, textRef, mediaRef };
 }

@@ -762,6 +762,9 @@ export default function CadeiaProdutivaBrasileiraPage() {
   const [origemFiltro, setOrigemFiltro] = useState<"" | "BR" | "MNC">("");
   const [fabricanteSelecionado, setFabricanteSelecionado] = useState<Fabricante | null>(null);
   const [modalContribuir, setModalContribuir] = useState(false);
+  // Map view: collapse the secondary filters on mobile so the floating card
+  // stays compact and doesn't eat the map. Always expanded on desktop (lg:).
+  const [filtrosExpandidos, setFiltrosExpandidos] = useState(false);
 
   // Index data: seeded from the static dataset for an instant first paint, then
   // hydrated from /api/fabricantes (Supabase). The API falls back to the same
@@ -867,61 +870,97 @@ export default function CadeiaProdutivaBrasileiraPage() {
       ? "w-full bg-mist/95 border border-bark/20 px-3 py-2 font-mono text-[12px] text-bark focus:outline-none focus:border-bark/60 transition-colors"
       : "bg-transparent border border-bark/20 px-4 py-2.5 font-mono text-[12px] text-bark focus:outline-none focus:border-bark/60 transition-colors min-w-[180px]";
 
-    return (
-      <div className={overlay ? "flex flex-col gap-2" : "flex flex-col lg:flex-row gap-3"}>
-        <input
-          type="search"
-          value={busca}
-          onChange={(e) => setBusca(e.target.value)}
-          placeholder="Buscar empresa, produto, cidade..."
-          className={inputCls}
-          aria-label="Buscar"
-        />
-        <select
-          value={estadoFiltro}
-          onChange={(e) => setEstadoFiltro(e.target.value)}
-          className={selectCls}
-          aria-label="Estado"
-        >
-          <option value="">Todos os estados</option>
-          {estadosBrasileiros.map((e) => (
-            <option key={e} value={e}>{e}</option>
-          ))}
-        </select>
-        <select
-          value={setorFiltro}
-          onChange={(e) => setSetorFiltro(e.target.value)}
-          className={overlay ? selectCls : `${selectCls} min-w-[200px]`}
-          aria-label="Setor"
-        >
-          <option value="">Todos os setores</option>
-          {setoresBrasileiros.map((s) => (
-            <option key={s} value={s}>{s}</option>
-          ))}
-        </select>
-        <div className={`flex gap-0 border border-bark/20 ${overlay ? "w-full" : ""}`}>
-          {(["", "BR", "MNC"] as const).map((o) => (
-            <button
-              key={o || "all"}
-              onClick={() => setOrigemFiltro(o)}
-              className={`font-mono text-accents uppercase ${overlay ? "px-2 py-2 flex-1" : "px-3 py-2.5"} transition-colors whitespace-nowrap ${
-                origemFiltro === o
-                  ? "bg-bark text-mist"
-                  : "text-bark/50 hover:text-bark"
-              }`}
-            >
-              {o === "" ? "Todas" : o === "BR" ? "BR" : "MNC"}
-            </button>
-          ))}
-        </div>
-        {temFiltro && (
+    const searchInput = (
+      <input
+        type="search"
+        value={busca}
+        onChange={(e) => setBusca(e.target.value)}
+        placeholder="Buscar empresa, produto, cidade..."
+        className={inputCls}
+        aria-label="Buscar"
+      />
+    );
+    const estadoSelect = (
+      <select
+        value={estadoFiltro}
+        onChange={(e) => setEstadoFiltro(e.target.value)}
+        className={selectCls}
+        aria-label="Estado"
+      >
+        <option value="">Todos os estados</option>
+        {estadosBrasileiros.map((e) => (
+          <option key={e} value={e}>{e}</option>
+        ))}
+      </select>
+    );
+    const setorSelect = (
+      <select
+        value={setorFiltro}
+        onChange={(e) => setSetorFiltro(e.target.value)}
+        className={overlay ? selectCls : `${selectCls} min-w-[200px]`}
+        aria-label="Setor"
+      >
+        <option value="">Todos os setores</option>
+        {setoresBrasileiros.map((s) => (
+          <option key={s} value={s}>{s}</option>
+        ))}
+      </select>
+    );
+    const origemToggle = (
+      <div className={`flex gap-0 border border-bark/20 ${overlay ? "w-full" : ""}`}>
+        {(["", "BR", "MNC"] as const).map((o) => (
           <button
-            onClick={limparFiltros}
-            className={`font-mono text-accents text-bark/60 hover:text-bark transition-colors border border-bark/20 ${overlay ? "px-2 py-2" : "px-4 py-2.5"} uppercase whitespace-nowrap`}
+            key={o || "all"}
+            onClick={() => setOrigemFiltro(o)}
+            className={`font-mono text-accents uppercase ${overlay ? "px-2 py-2 flex-1" : "px-3 py-2.5"} transition-colors whitespace-nowrap ${
+              origemFiltro === o ? "bg-bark text-mist" : "text-bark/50 hover:text-bark"
+            }`}
           >
-            Limpar filtros
+            {o === "" ? "Todas" : o === "BR" ? "BR" : "MNC"}
           </button>
-        )}
+        ))}
+      </div>
+    );
+    const clearBtn = temFiltro && (
+      <button
+        onClick={limparFiltros}
+        className={`font-mono text-accents text-bark/60 hover:text-bark transition-colors border border-bark/20 ${overlay ? "px-2 py-2" : "px-4 py-2.5"} uppercase whitespace-nowrap`}
+      >
+        Limpar filtros
+      </button>
+    );
+
+    if (overlay) {
+      const ativos = [estadoFiltro, setorFiltro, origemFiltro].filter(Boolean).length;
+      return (
+        <div className="flex flex-col gap-2">
+          {searchInput}
+          {/* Mobile-only toggle: keeps the floating card from eating the map */}
+          <button
+            type="button"
+            onClick={() => setFiltrosExpandidos((v) => !v)}
+            className="lg:hidden flex items-center justify-between font-mono text-accents uppercase text-bark/60 border border-bark/20 px-3 py-2"
+          >
+            <span>Filtros{ativos ? ` · ${ativos}` : ""}</span>
+            <span className="text-bark/40">{filtrosExpandidos ? "−" : "+"}</span>
+          </button>
+          <div className={`${filtrosExpandidos ? "flex" : "hidden"} lg:flex flex-col gap-2`}>
+            {estadoSelect}
+            {setorSelect}
+            {origemToggle}
+            {clearBtn}
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="flex flex-col lg:flex-row gap-3">
+        {searchInput}
+        {estadoSelect}
+        {setorSelect}
+        {origemToggle}
+        {clearBtn}
       </div>
     );
   }

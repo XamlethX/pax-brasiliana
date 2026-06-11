@@ -16,7 +16,12 @@ const navLinks = [
 export default function Navbar() {
   const pathname = usePathname();
   const heroPages = ["/", "/about", "/projetos", "/ensaios", "/store", "/manifesto"];
-  const hasHero = heroPages.some((p) => pathname === p || pathname.startsWith(p + "/"));
+  // Pages that start with a hero path but render a LIGHT top (no dark hero),
+  // where a transparent navbar would make light-colored icons invisible.
+  const noHeroPages = ["/projetos/cadeia-produtiva-brasileira"];
+  const hasHero =
+    !noHeroPages.includes(pathname) &&
+    heroPages.some((p) => pathname === p || pathname.startsWith(p + "/"));
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [drawerClosing, setDrawerClosing] = useState(false);
   const [hidden, setHidden] = useState(false);
@@ -116,8 +121,21 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* Right 1/3: CTA + hamburger */}
+        {/* Right 1/3: cart + CTA + hamburger */}
         <div className="lg:w-1/3 flex items-start gap-2.5 justify-end pr-5 lg:pr-10 ml-auto lg:ml-0">
+          <Link
+            href="/store"
+            aria-label="Carrinho"
+            className={`inline-flex items-center gap-1.5 h-[38px] px-2.5 border font-mono text-accents uppercase transition-colors duration-300 ease-out ${
+              active ? "text-bark border-bark/30 hover:border-bark/60" : "text-mist border-mist/30 hover:border-mist/60"
+            }`}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+              <path d="M5 7h14l-1 13H6L5 7z" />
+              <path d="M9 7a3 3 0 016 0" />
+            </svg>
+            <span>0</span>
+          </Link>
           <Link
             href="/get-involved"
             className="inline-flex items-center h-[38px] px-3.5 lg:px-4 bg-bark text-mist text-accents font-mono uppercase transition-opacity duration-300 ease-out hover:opacity-80"
