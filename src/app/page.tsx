@@ -20,10 +20,11 @@ const WebGLFlag = dynamic(() => import("@/components/WebGLFlag"), {
 export default function Home() {
   useScrollReveal();
   const reducedMotion = usePrefersReducedMotion();
-  const { sectionRef, textRef } = useScrollParallax<
+  const { sectionRef, textRef, mediaRef } = useScrollParallax<
     HTMLElement,
+    HTMLDivElement,
     HTMLDivElement
-  >({ maxTranslate: 180 });
+  >({ maxTranslate: 180, mediaTranslate: 48, mediaRotate: 6 });
 
   return (
     <div className="flex flex-col min-h-dvh">
@@ -68,7 +69,7 @@ export default function Home() {
           ref={sectionRef}
           className="bg-mist grid-lines flex flex-col items-center justify-center gap-20 lg:gap-[140px] pt-16 lg:pt-24 relative border-t-[0.5px] border-t-bark/30 overflow-x-clip"
         >
-          <div className="w-[310px] lg:w-[500px] mb-[-50px] relative" style={{ aspectRatio: "3.55 / 2" }}>
+          <div ref={mediaRef} className="w-[310px] lg:w-[500px] mb-[-50px] relative" style={{ aspectRatio: "3.55 / 2", willChange: "transform" }}>
             {reducedMotion ? (
               <Image
                 src="/images/flag.png"
