@@ -280,16 +280,18 @@ export default function OQueOBrasilPodeConstruir() {
                       >
                         {/* Image zone */}
                         <div className="relative overflow-hidden">
-                          {p.slug === "foguete-orbital" ? (
-                            <div className="h-[220px] relative overflow-hidden">
-                              <img
-                                src="/images/foguete-orbital.png"
-                                alt="Lançamento de foguete"
-                                className="w-full h-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
-                              />
-                              <span className="absolute top-4 left-4 text-mist/70 group-hover:text-mist transition-colors duration-200 ease-out">
+                          {p.imagem ? (
+                            <div className="p-5 pb-0">
+                              <span className="text-bark/25 group-hover:text-bark/40 transition-colors duration-200 ease-out">
                                 <StackIcon />
                               </span>
+                              <div className="h-[180px] flex items-center justify-center pb-4 pt-2">
+                                <img
+                                  src={p.imagem}
+                                  alt={p.nome}
+                                  className="max-h-full max-w-full object-contain"
+                                />
+                              </div>
                             </div>
                           ) : (
                             <div className="p-5 pb-0">

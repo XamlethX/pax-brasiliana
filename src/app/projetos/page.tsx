@@ -16,7 +16,7 @@ const projetos = [
       "Busca por empresa, produto ou cidade",
       "Filtro por estado e setor",
     ],
-    image: "/images/laboratorio-robos.png",
+    image: "/images/cadeia-produtiva-cover.jpg",
   },
   {
     slug: "o-que-o-brasil-pode-construir",

@@ -27,6 +27,7 @@ export interface Produto {
   local: string;
   oportunidade: string;
   fatos: string[];
+  imagem?: string;
   cadeia: ItemCadeia[];
 }
 
@@ -65,6 +66,7 @@ export const produtos: Produto[] = [
       "0% das células são fabricadas no Brasil",
       "Irradiação solar 40% maior que a Alemanha",
     ],
+    imagem: "/images/placas-solares.png",
     cadeia: [
       {
         id: "SOL_PAINEL",
@@ -240,6 +242,7 @@ export const produtos: Produto[] = [
       "R$14B em importação de baterias/ano",
       "Sigma Lithium já exporta concentrado de lítio",
     ],
+    imagem: "/images/baterias.png",
     cadeia: [
       {
         id: "BAT_PACK",
@@ -415,6 +418,7 @@ export const produtos: Produto[] = [
       "US$18B gastos em importação/ano",
       "Embrapa lidera pesquisa em bioinsumos",
     ],
+    imagem: "/images/fertilizante.png",
     cadeia: [
       {
         id: "FERT_NPK",

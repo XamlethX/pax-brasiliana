@@ -51,7 +51,7 @@ export default function Home() {
         <ManifestoSection
           lines={["Isto acaba agora."]}
           image="/images/estacao-trem.png"
-          imageMobile="/images/estacao-trem-portrait.png"
+          imageMobile="/images/estacao-trem-portrait.jpg"
           alt="Estação ferroviária movimentada com trens de alta velocidade em um Brasil futuro"
           overlay
         />
@@ -115,7 +115,7 @@ export default function Home() {
         <ManifestoSection
           lines={['"Faremos dessa terra a maior', 'civilização que o homem já viu."']}
           image="/images/cidade-futura.png"
-          imageMobile="/images/cidade-futura-portrait.png"
+          imageMobile="/images/cidade-futura-portrait.jpg"
           alt="Cidade brasileira futurista à beira-mar com arranha-céus e orla movimentada"
           italic
           attribution="Bautista Vidal"
@@ -135,7 +135,7 @@ export default function Home() {
         <ManifestoSection
           lines={['"O Brasil é a Nova Roma.', 'Uma Roma que o mundo', 'vai ver espantado."']}
           image="/images/steel-mill.png"
-          imageMobile="/images/steel-mill-portrait.png"
+          imageMobile="/images/steel-mill-portrait.jpg"
           alt="Siderúrgica brasileira de larga escala com trabalhadores e pontes rolantes sob vegetação"
           italic
           attribution="Darcy Ribeiro"
@@ -161,7 +161,7 @@ export default function Home() {
         <ManifestoSection
           lines={['"Quem tem um porquê pode', 'suportar quase qualquer como."']}
           image="/images/irrigation-cerrado.png"
-          imageMobile="/images/irrigation-cerrado-portrait.png"
+          imageMobile="/images/irrigation-cerrado-portrait.jpg"
           alt="Sistema de irrigação de larga escala no cerrado brasileiro"
           italic
           attribution="Friedrich Nietzsche"

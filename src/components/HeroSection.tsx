@@ -1,19 +1,18 @@
-import Image from "next/image";
-
 export default function HeroSection() {
   return (
     <section className="relative min-h-[100dvh] bg-bark text-mist overflow-hidden noise-overlay grid-lines">
-      {/* Background image */}
+      {/* Background image — art-directed: portrait 9:16 on mobile, panorama on desktop */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        <Image
-          src="/images/foguete-orbital.png"
-          alt=""
-          aria-hidden="true"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover origin-center ken-burns"
-        />
+        <picture>
+          <source media="(min-width: 1024px)" srcSet="/images/foguete-orbital.png" />
+          <img
+            src="/images/foguete-orbital-portrait.jpg"
+            alt=""
+            aria-hidden="true"
+            fetchPriority="high"
+            className="absolute inset-0 w-full h-full object-cover origin-center ken-burns"
+          />
+        </picture>
         <div className="absolute inset-0 bg-black/30" />
         <div
           className="absolute inset-x-0 bottom-0 h-[55%]"
