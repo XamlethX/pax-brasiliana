@@ -33,6 +33,8 @@ export async function POST(req: NextRequest) {
       payment_method_types: ["card"],
       mode: "payment",
       locale: "pt-BR",
+      shipping_address_collection: { allowed_countries: ["BR"] },
+      phone_number_collection: { enabled: true },
       line_items: [
         {
           price_data: {

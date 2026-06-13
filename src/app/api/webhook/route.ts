@@ -17,9 +17,24 @@ async function handleStoreOrder(session: Stripe.Checkout.Session) {
 
   const customerEmail = session.customer_details?.email;
   const customerName = session.customer_details?.name;
+  const customerPhone = session.customer_details?.phone;
   const amount = brl(session.amount_total ?? 0);
   const productSlug = session.metadata?.slug ?? "—";
   const size = session.metadata?.size;
+
+  const shippingDetails = session.collected_information?.shipping_details;
+  const shipping = shippingDetails?.address ?? session.customer_details?.address;
+  const shippingName = shippingDetails?.name ?? customerName;
+  const addressHtml = shipping
+    ? `
+      <p><strong>Endereço de entrega:</strong><br/>
+      ${esc(shippingName) || "—"}<br/>
+      ${esc(shipping.line1) || ""}${shipping.line2 ? `, ${esc(shipping.line2)}` : ""}<br/>
+      ${esc(shipping.city) || ""} - ${esc(shipping.state) || ""}<br/>
+      CEP: ${esc(shipping.postal_code) || "—"}<br/>
+      ${esc(shipping.country) || ""}</p>
+    `
+    : `<p><strong>Endereço de entrega:</strong> não coletado</p>`;
 
   await resend.emails.send({
     from: FROM,
@@ -31,6 +46,8 @@ async function handleStoreOrder(session: Stripe.Checkout.Session) {
       <p><strong>Valor:</strong> ${esc(amount)}</p>
       <p><strong>Cliente:</strong> ${esc(customerName) || "—"}</p>
       <p><strong>Email:</strong> ${esc(customerEmail) || "—"}</p>
+      <p><strong>Telefone:</strong> ${esc(customerPhone) || "—"}</p>
+      ${addressHtml}
       <p><strong>Session ID:</strong> ${esc(session.id)}</p>
     `,
   });

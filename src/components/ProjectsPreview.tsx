@@ -1,20 +1,24 @@
 import Link from "next/link";
+import { ensaios } from "@/data/ensaios";
+
+// Ensaio em destaque: sempre o mais recente. Mantém o card em sincronia
+// automática com a fonte de dados, sem precisar atualizar à mão.
+const latestEnsaio = ensaios[0];
 
 const featured = [
   {
     title: "O que o Brasil pode construir?",
     description:
       "Um guia interativo e pesquisável que mapeia o que o Brasil produz, o que poderia produzir e o que ainda importa. De placas solares a foguetes orbitais.",
-    image: "/images/usina-nuclear.png",
+    image: "/images/o-que-o-brasil-cover.jpg",
     href: "/projetos/o-que-o-brasil-pode-construir",
     cta: "EXPLORAR PROJETO",
   },
   {
-    title: "Está na hora de construir o Brasil",
-    description:
-      "Pax Brasiliana é um movimento para reacender a indústria, a criatividade e a ambição brasileira. Uma breve introdução à nossa missão.",
-    image: "/images/instituto-pesquisa.png",
-    href: "/ensaios",
+    title: latestEnsaio.title,
+    description: latestEnsaio.desc,
+    image: latestEnsaio.image,
+    href: `/ensaios/${latestEnsaio.slug}`,
     cta: "LER ENSAIO",
   },
 ];

@@ -18,13 +18,13 @@ const products = [
     slug: "early-supporters-flag",
     title: "Bandeira do Apoiador Inicial",
     price: 30000.0,
-    image: "/images/flag.png",
+    image: "/images/flag.jpg",
   },
   {
     slug: "pax-brasiliana-cap",
     title: "Boné Pax Brasiliana",
     price: 180.0,
-    image: "/images/product-cap.svg",
+    image: "/images/product-cap.jpg",
   },
 ];
 
