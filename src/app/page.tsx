@@ -84,8 +84,8 @@ export default function Home() {
                 src="/images/flag.png"
                 width="100%"
                 height="100%"
-                waveSpeed={1.6}
-                waveIntensity={2.5}
+                waveSpeed={0.5}
+                waveIntensity={0.3}
                 shadowStrength={0.3}
                 aspectRatioWidth={3.55}
                 aspectRatioHeight={2.0}
