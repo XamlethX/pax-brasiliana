@@ -9,22 +9,16 @@ import Link from "next/link";
 
 const products = [
   {
-    slug: "pax-brasiliana-tee",
-    title: "Camiseta Pax Brasiliana",
-    price: 150.0,
-    image: "/images/product-tee.svg",
+    slug: "pax-brasiliana-cap",
+    title: "Boné Pax Brasiliana",
+    price: 120.0,
+    image: "/images/product-cap.jpg",
   },
   {
     slug: "early-supporters-flag",
     title: "Bandeira do Apoiador Inicial",
-    price: 30000.0,
+    price: 1000.0,
     image: "/images/flag.jpg",
-  },
-  {
-    slug: "pax-brasiliana-cap",
-    title: "Boné Pax Brasiliana",
-    price: 180.0,
-    image: "/images/product-cap.jpg",
   },
 ];
 
