@@ -11,7 +11,7 @@ export const products: StoreProduct[] = [
   {
     slug: "pax-brasiliana-cap",
     title: "Boné Pax Brasiliana",
-    price: 180.0,
+    price: 120.0,
     description:
       "Boné estruturado com bordado frontal do emblema Pax Brasiliana. Fabricado no Brasil com algodão orgânico. Fecho ajustável em metal. Para usar enquanto constrói.",
     sizes: ["Único"],
@@ -20,7 +20,7 @@ export const products: StoreProduct[] = [
   {
     slug: "early-supporters-flag",
     title: "Bandeira do Apoiador Inicial",
-    price: 30000.0,
+    price: 1000.0,
     description:
       "Bandeira exclusiva para apoiadores iniciais do movimento. Tecido premium, 2.7m x 1.37m, produzida em tiragem limitada. 100% do valor é destinado diretamente à missão da Pax Brasiliana. Inclui certificado de apoiador fundador.",
     sizes: ["Único"],
