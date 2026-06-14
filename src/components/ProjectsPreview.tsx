@@ -10,7 +10,7 @@ const featured = [
     title: "O que o Brasil pode construir?",
     description:
       "Um guia interativo e pesquisável que mapeia o que o Brasil produz, o que poderia produzir e o que ainda importa. De placas solares a foguetes orbitais.",
-    image: "/images/usina-nuclear.png",
+    image: "/images/o-que-o-brasil-cover.jpg",
     href: "/projetos/o-que-o-brasil-pode-construir",
     cta: "EXPLORAR PROJETO",
   },
