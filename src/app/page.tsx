@@ -70,10 +70,10 @@ export default function Home() {
           ref={sectionRef}
           className="bg-mist grid-lines flex flex-col items-center justify-center gap-20 lg:gap-[140px] pt-16 lg:pt-24 relative border-t-[0.5px] border-t-bark/30 overflow-x-clip"
         >
-          <div ref={mediaRef} className="w-[310px] lg:w-[500px] mb-[-50px] relative" style={{ aspectRatio: "3.55 / 2", willChange: "transform" }}>
+          <div ref={mediaRef} className="w-[310px] lg:w-[500px] mb-[-50px] relative animate-float" style={{ aspectRatio: "3.55 / 2", willChange: "transform" }}>
             {reducedMotion ? (
               <Image
-                src="/images/flag.png"
+                src="/images/flag.jpg"
                 alt="Bandeira do Brasil"
                 fill
                 sizes="(min-width: 1024px) 500px, 310px"
@@ -81,11 +81,11 @@ export default function Home() {
               />
             ) : (
               <WebGLFlag
-                src="/images/flag.png"
+                src="/images/flag.jpg"
                 width="100%"
                 height="100%"
-                waveSpeed={1.6}
-                waveIntensity={2.5}
+                waveSpeed={0.8}
+                waveIntensity={0.6}
                 shadowStrength={0.3}
                 aspectRatioWidth={3.55}
                 aspectRatioHeight={2.0}
