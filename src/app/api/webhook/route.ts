@@ -19,6 +19,7 @@ async function handleStoreOrder(session: Stripe.Checkout.Session) {
   const customerName = session.customer_details?.name;
   const customerPhone = session.customer_details?.phone;
   const amount = brl(session.amount_total ?? 0);
+  const shippingAmount = session.shipping_cost?.amount_total;
   const productSlug = session.metadata?.slug ?? "—";
   const size = session.metadata?.size;
 
@@ -43,7 +44,8 @@ async function handleStoreOrder(session: Stripe.Checkout.Session) {
     html: `
       <p><strong>Produto:</strong> ${esc(productSlug)}</p>
       ${size ? `<p><strong>Tamanho:</strong> ${esc(size)}</p>` : ""}
-      <p><strong>Valor:</strong> ${esc(amount)}</p>
+      <p><strong>Valor total:</strong> ${esc(amount)}</p>
+      ${shippingAmount != null ? `<p><strong>Frete incluso:</strong> ${esc(brl(shippingAmount))}</p>` : ""}
       <p><strong>Cliente:</strong> ${esc(customerName) || "—"}</p>
       <p><strong>Email:</strong> ${esc(customerEmail) || "—"}</p>
       <p><strong>Telefone:</strong> ${esc(customerPhone) || "—"}</p>

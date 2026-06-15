@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const { slug, title, price, size } = body ?? {};
+    const { slug, title, price, size, shipping } = body ?? {};
 
     const numericPrice = Number(price);
     const quantity = Math.floor(Number(body?.quantity));
@@ -29,11 +29,31 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Dados do produto inválidos." }, { status: 400 });
     }
 
+    // Frete calculado no frontend via Melhor Envio (CEP do cliente).
+    // Se ausente (ex: cálculo indisponível), segue sem custo de envio.
+    let shippingOptions:
+      | NonNullable<Stripe.Checkout.SessionCreateParams["shipping_options"]>
+      | undefined;
+    const shippingName = shipping?.name;
+    const shippingPrice = Number(shipping?.price);
+    if (typeof shippingName === "string" && shippingName && Number.isFinite(shippingPrice) && shippingPrice >= 0) {
+      shippingOptions = [
+        {
+          shipping_rate_data: {
+            type: "fixed_amount",
+            fixed_amount: { amount: Math.round(shippingPrice * 100), currency: "brl" },
+            display_name: shippingName.slice(0, 100),
+          },
+        },
+      ];
+    }
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
       locale: "pt-BR",
       shipping_address_collection: { allowed_countries: ["BR"] },
+      ...(shippingOptions ? { shipping_options: shippingOptions } : {}),
       phone_number_collection: { enabled: true },
       line_items: [
         {

@@ -1,53 +1,44 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { products as allProducts, getStoreProduct } from "@/data/store";
+import type { ShippingOption } from "@/lib/melhor-envio";
 
-const products: Record<
-  string,
-  {
-    title: string;
-    price: number;
-    description: string;
-    sizes: string[];
-    image: string;
-  }
-> = {
-  "pax-brasiliana-cap": {
-    title: "Boné Pax Brasiliana",
-    price: 120.0,
-    description:
-      "Boné estruturado com bordado frontal do emblema Pax Brasiliana. Fabricado no Brasil com algodão orgânico. Fecho ajustável em metal. Para usar enquanto constrói.",
-    sizes: ["Único"],
-    image: "/images/product-cap.jpg",
-  },
-  "early-supporters-flag": {
-    title: "Bandeira do Apoiador Inicial",
-    price: 1000.0,
-    description:
-      "Bandeira exclusiva para apoiadores iniciais do movimento. Tecido premium, 2.7m x 1.37m, produzida em tiragem limitada. 100% do valor é destinado diretamente à missão da Pax Brasiliana. Inclui certificado de apoiador fundador.",
-    sizes: ["Único"],
-    image: "/images/flag.jpg",
-  },
-};
+const brl = (value: number) =>
+  value.toLocaleString("pt-BR", { minimumFractionDigits: 2 });
 
-const allProducts = Object.entries(products).map(([slug, data]) => ({
-  slug,
-  ...data,
-}));
+function formatCep(value: string): string {
+  const digits = value.replace(/\D/g, "").slice(0, 8);
+  if (digits.length <= 5) return digits;
+  return `${digits.slice(0, 5)}-${digits.slice(5)}`;
+}
 
 export default function ProductDetailPage() {
   useScrollReveal();
   const params = useParams();
   const slug = params.slug as string;
-  const product = products[slug];
+  const product = getStoreProduct(slug);
   const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [checkoutStatus, setCheckoutStatus] = useState<"idle" | "loading" | "error">("idle");
+
+  const [cep, setCep] = useState("");
+  const [shippingOptions, setShippingOptions] = useState<ShippingOption[]>([]);
+  const [selectedShipping, setSelectedShipping] = useState<ShippingOption | null>(null);
+  const [shippingStatus, setShippingStatus] = useState<"idle" | "loading" | "error">("idle");
+  const [shippingError, setShippingError] = useState("");
+
+  // Quantidade mudou: a cotação anterior não vale mais.
+  useEffect(() => {
+    setShippingOptions([]);
+    setSelectedShipping(null);
+    setShippingStatus("idle");
+  }, [quantity]);
 
   if (!product) {
     return (
@@ -73,9 +64,42 @@ export default function ProductDetailPage() {
 
   const needsSize = product.sizes.length > 1;
 
+  const handleCalculateShipping = async () => {
+    const cleanCep = cep.replace(/\D/g, "");
+    if (cleanCep.length !== 8) {
+      setShippingStatus("error");
+      setShippingError("CEP inválido.");
+      return;
+    }
+    setShippingStatus("loading");
+    setShippingError("");
+    setShippingOptions([]);
+    setSelectedShipping(null);
+    try {
+      const res = await fetch("/api/shipping/calculate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ slug, quantity, cep: cleanCep }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? "Erro");
+      const options: ShippingOption[] = data.options ?? [];
+      setShippingOptions(options);
+      setSelectedShipping(options[0] ?? null);
+      setShippingStatus("idle");
+    } catch (err) {
+      setShippingStatus("error");
+      setShippingError(err instanceof Error ? err.message : "Não foi possível calcular o frete.");
+    }
+  };
+
   const handleCheckout = async () => {
     if (needsSize && !selectedSize) {
       alert("Selecione um tamanho.");
+      return;
+    }
+    if (!selectedShipping) {
+      alert("Calcule e selecione o frete antes de continuar.");
       return;
     }
     setCheckoutStatus("loading");
@@ -89,6 +113,10 @@ export default function ProductDetailPage() {
           price: product.price,
           quantity,
           size: selectedSize || product.sizes[0],
+          shipping: {
+            name: `${selectedShipping.company} ${selectedShipping.name}`.trim(),
+            price: selectedShipping.price,
+          },
         }),
       });
       const data = await res.json();
@@ -98,6 +126,8 @@ export default function ProductDetailPage() {
       setCheckoutStatus("error");
     }
   };
+
+  const total = product.price * quantity + (selectedShipping?.price ?? 0);
 
   return (
     <div className="flex flex-col min-h-dvh">
@@ -195,6 +225,78 @@ export default function ProductDetailPage() {
                   </button>
                 </div>
               </div>
+
+              {/* Shipping */}
+              <div className="mt-6">
+                <p className="text-accents text-bark/50 mb-3 font-mono">
+                  CALCULAR FRETE
+                </p>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    maxLength={9}
+                    placeholder="00000-000"
+                    value={cep}
+                    onChange={(e) => setCep(formatCep(e.target.value))}
+                    onKeyDown={(e) => e.key === "Enter" && handleCalculateShipping()}
+                    className="flex-1 min-w-0 px-4 py-2.5 text-[14px] text-bark bg-transparent border border-bark/30 font-mono focus:outline-none focus:border-bark"
+                  />
+                  <button
+                    onClick={handleCalculateShipping}
+                    disabled={shippingStatus === "loading"}
+                    className="px-4 py-2.5 text-[12px] uppercase border border-bark/30 text-bark hover:border-bark transition-all duration-200 ease-out font-mono disabled:opacity-50 whitespace-nowrap"
+                  >
+                    {shippingStatus === "loading" ? "CALCULANDO..." : "CALCULAR"}
+                  </button>
+                </div>
+
+                {shippingStatus === "error" && (
+                  <p className="mt-2 text-clay text-accents font-mono">
+                    {shippingError}
+                  </p>
+                )}
+
+                {shippingOptions.length > 0 && (
+                  <div className="mt-3 flex flex-col gap-2">
+                    {shippingOptions.map((opt) => (
+                      <label
+                        key={opt.id}
+                        className={`flex items-center justify-between gap-3 px-4 py-2.5 text-[12px] border cursor-pointer font-mono transition-all duration-200 ease-out ${
+                          selectedShipping?.id === opt.id
+                            ? "border-bark bg-sand"
+                            : "border-bark/30 hover:border-bark"
+                        }`}
+                      >
+                        <span className="flex items-center gap-2 text-bark">
+                          <input
+                            type="radio"
+                            name="shipping-option"
+                            checked={selectedShipping?.id === opt.id}
+                            onChange={() => setSelectedShipping(opt)}
+                            className="accent-bark"
+                          />
+                          {[opt.company, opt.name].filter(Boolean).join(" ")}
+                          {opt.deliveryTime != null
+                            ? ` · até ${opt.deliveryTime} dia${opt.deliveryTime === 1 ? "" : "s"} úteis`
+                            : ""}
+                        </span>
+                        <span className="text-bark whitespace-nowrap">
+                          R$ {brl(opt.price)}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Total */}
+              {selectedShipping && (
+                <div className="mt-6 flex items-center justify-between border-t-[0.5px] border-bark/30 pt-4 text-bark font-mono">
+                  <span className="text-accents text-bark/50">TOTAL COM FRETE</span>
+                  <span className="text-[18px]">R$ {brl(total)}</span>
+                </div>
+              )}
 
               {/* Checkout */}
               {checkoutStatus === "error" && (
