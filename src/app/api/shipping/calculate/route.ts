@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getStoreProduct } from "@/data/store";
-import { calculateShipping, ShippingNotConfiguredError } from "@/lib/melhor-envio";
+import {
+  calculateShipping,
+  ShippingNotConfiguredError,
+  InvalidPostalCodeError,
+} from "@/lib/melhor-envio";
 
 export const runtime = "nodejs";
 
@@ -47,6 +51,12 @@ export async function POST(req: NextRequest) {
     if (err instanceof ShippingNotConfiguredError) {
       console.error("[shipping/calculate]", err.message);
       return NextResponse.json({ error: "Cálculo de frete não configurado." }, { status: 503 });
+    }
+    if (err instanceof InvalidPostalCodeError) {
+      return NextResponse.json(
+        { error: "CEP não encontrado. Confira o número e tente novamente." },
+        { status: 422 }
+      );
     }
     console.error("[shipping/calculate]", err);
     return NextResponse.json({ error: "Erro ao calcular frete." }, { status: 500 });

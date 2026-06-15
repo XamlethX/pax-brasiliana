@@ -42,6 +42,9 @@ interface MelhorEnvioRawOption {
 
 export class ShippingNotConfiguredError extends Error {}
 
+/** CEP de destino inválido ou não encontrado (Melhor Envio retorna 422). */
+export class InvalidPostalCodeError extends Error {}
+
 export async function calculateShipping(
   toPostalCode: string,
   products: ShippingProductInput[]
@@ -79,11 +82,20 @@ export async function calculateShipping(
     }),
   });
 
+  if (res.status === 422) {
+    // CEP inválido / dados rejeitados pela validação do Melhor Envio.
+    throw new InvalidPostalCodeError("CEP de destino inválido ou não encontrado.");
+  }
   if (!res.ok) {
     throw new Error(`Melhor Envio respondeu ${res.status}`);
   }
 
-  const data: MelhorEnvioRawOption[] = await res.json();
+  const raw = await res.json();
+  // Em alguns erros o Melhor Envio responde 200 com um objeto, não um array.
+  if (!Array.isArray(raw)) {
+    throw new Error("Resposta inesperada do Melhor Envio.");
+  }
+  const data: MelhorEnvioRawOption[] = raw;
 
   return data
     .filter((opt) => !opt.error && (opt.custom_price ?? opt.price) !== undefined)
