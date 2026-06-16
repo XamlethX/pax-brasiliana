@@ -50,7 +50,10 @@ export async function POST(req: NextRequest) {
           <p style="margin:0 0 16px;"><strong>Escreva um ensaio.</strong> Se você tem algo a dizer sobre a ambição e os valores do Brasil, a gente quer ouvir. Esta é uma plataforma de ideias e educação.</p>
           <p style="margin:0 0 16px;"><strong>Contribua com um projeto.</strong> Estamos sempre buscando novas formas de mostrar e analisar o que importa pro Brasil. Se você quer construir ou propor uma ideia, fala com a gente.</p>
           <p style="margin:0 0 24px;"><strong>Apoie com uma doação.</strong> Somos um movimento enxuto, tocado por voluntários, com projetos ambiciosos pela frente. Cada contribuição vira combustível direto pra construir, e seria de grande ajuda pra manter tudo de pé.</p>
-          <p style="margin:0;">${emailButton("Fazer uma doação", `${SITE_URL}/doar`)}&nbsp;&nbsp;${emailButton("Mande suas ideias", "mailto:contato@paxbrasiliana.com", "light")}</p>
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin-top:4px;">
+            <tr><td style="padding-bottom:10px;">${emailButton("Fazer uma doação", `${SITE_URL}/doar`)}</td></tr>
+            <tr><td>${emailButton("Mande suas ideias", "mailto:contato@paxbrasiliana.com", "light")}</td></tr>
+          </table>
         `,
       }),
     });
