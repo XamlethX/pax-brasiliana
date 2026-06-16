@@ -72,8 +72,16 @@ export async function addToAudience(
  * Branded button for transactional emails. Matches the site's flat,
  * zero-radius visual style (Coast Blue fill, mono uppercase label).
  */
-export function emailButton(label: string, href: string): string {
-  return `<a href="${href}" target="_blank" style="display:inline-block; background-color:#417CE5; color:#F8F6E8; text-decoration:none; padding:13px 26px; font-weight:600; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; font-family:'Courier New', Courier, monospace;">${esc(label)}</a>`;
+export function emailButton(
+  label: string,
+  href: string,
+  variant: "blue" | "light" = "blue"
+): string {
+  const colors =
+    variant === "light"
+      ? "background-color:#F8F6E8; color:#463C2E;"
+      : "background-color:#417CE5; color:#F8F6E8;";
+  return `<a href="${href}" target="_blank" style="display:inline-block; ${colors} text-decoration:none; padding:13px 26px; font-weight:600; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; font-family:'Courier New', Courier, monospace;">${esc(label)}</a>`;
 }
 
 /**
@@ -83,11 +91,45 @@ export function emailButton(label: string, href: string): string {
  */
 export function emailLayout(opts: {
   preheader?: string;
+  introBody?: string;
   heroImage?: string;
   heroAlt?: string;
-  body: string;
+  body?: string;
+  darkSection?: string;
 }): string {
-  const { preheader = "", heroImage, heroAlt = "", body } = opts;
+  const { preheader = "", introBody, heroImage, heroAlt = "", body, darkSection } = opts;
+
+  const introRow = introBody
+    ? `<tr>
+              <td style="padding:28px 32px 8px; font-family:Georgia, 'Times New Roman', serif; font-size:15px; line-height:1.65; color:#463C2E;">
+                ${introBody}
+              </td>
+            </tr>`
+    : "";
+
+  const heroRow = heroImage
+    ? `<tr>
+              <td style="padding:16px 0 0;">
+                <img src="${heroImage}" alt="${esc(heroAlt)}" width="600" style="display:block; width:100%; max-width:600px; height:auto; border:0;" />
+              </td>
+            </tr>`
+    : "";
+
+  const bodyRow = body
+    ? `<tr>
+              <td style="padding:28px 32px 32px; font-family:Georgia, 'Times New Roman', serif; font-size:15px; line-height:1.65; color:#463C2E;">
+                ${body}
+              </td>
+            </tr>`
+    : "";
+
+  const darkRow = darkSection
+    ? `<tr>
+              <td style="background-color:#463C2E; padding:28px 32px 32px; font-family:Georgia, 'Times New Roman', serif; font-size:15px; line-height:1.65; color:#F8F6E8;">
+                ${darkSection}
+              </td>
+            </tr>`
+    : "";
 
   return `<!DOCTYPE html>
 <html lang="pt-BR">
@@ -107,16 +149,10 @@ export function emailLayout(opts: {
                 Pax Brasiliana
               </td>
             </tr>
-            ${heroImage ? `<tr>
-              <td style="padding:16px 0 0;">
-                <img src="${heroImage}" alt="${esc(heroAlt)}" width="600" style="display:block; width:100%; max-width:600px; height:auto; border:0;" />
-              </td>
-            </tr>` : ""}
-            <tr>
-              <td style="padding:28px 32px 32px; font-family:Georgia, 'Times New Roman', serif; font-size:15px; line-height:1.65; color:#463C2E;">
-                ${body}
-              </td>
-            </tr>
+            ${introRow}
+            ${heroRow}
+            ${bodyRow}
+            ${darkRow}
             <tr>
               <td style="background-color:#463C2E; padding:24px 32px; font-family:'Courier New', Courier, monospace; font-size:11px; letter-spacing:0.04em; line-height:1.7; color:rgba(248,246,232,0.55);">
                 <p style="margin:0 0 6px; color:#F8F6E8;">Pax Brasiliana</p>

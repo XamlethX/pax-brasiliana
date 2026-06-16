@@ -56,7 +56,7 @@ export default function DonatePage() {
       <main id="main-content" className="flex-1">
         <section className="bg-sand/30 relative min-h-[600px] flex flex-col lg:flex-row w-full lg:pt-24">
           <img
-            src="/images/steel-mill.png"
+            src="/images/doar-bg.png"
             alt=""
             className="absolute inset-0 w-full h-full object-cover"
           />
