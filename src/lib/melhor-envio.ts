@@ -1,11 +1,13 @@
 /**
  * Cotação de frete via API da Melhor Envio.
  *
- * Configuração necessária (.env.local):
- * - MELHOR_ENVIO_TOKEN: token de integração (Melhor Envio → Configurações → Tokens)
+ * Configuração necessária:
  * - MELHOR_ENVIO_FROM_CEP: CEP de origem dos envios
  * - MELHOR_ENVIO_SANDBOX: "true" pra usar sandbox.melhorenvio.com.br (opcional)
+ * - Token OAuth: gerenciado em melhor-envio-token.ts (Supabase + auto-refresh,
+ *   com fallback pra MELHOR_ENVIO_TOKEN do env).
  */
+import { getValidAccessToken, ShippingNotConfiguredError } from "@/lib/melhor-envio-token";
 
 const ME_BASE_URL =
   process.env.MELHOR_ENVIO_SANDBOX === "true"
@@ -40,7 +42,8 @@ interface MelhorEnvioRawOption {
   error?: string | null;
 }
 
-export class ShippingNotConfiguredError extends Error {}
+// Re-export pra quem importa de "@/lib/melhor-envio".
+export { ShippingNotConfiguredError };
 
 /** CEP de destino inválido ou não encontrado (Melhor Envio retorna 422). */
 export class InvalidPostalCodeError extends Error {}
@@ -49,14 +52,12 @@ export async function calculateShipping(
   toPostalCode: string,
   products: ShippingProductInput[]
 ): Promise<ShippingOption[]> {
-  const token = process.env.MELHOR_ENVIO_TOKEN;
   const fromPostalCode = process.env.MELHOR_ENVIO_FROM_CEP;
-
-  if (!token || !fromPostalCode) {
-    throw new ShippingNotConfiguredError(
-      "Melhor Envio não configurado (MELHOR_ENVIO_TOKEN / MELHOR_ENVIO_FROM_CEP ausentes)."
-    );
+  if (!fromPostalCode) {
+    throw new ShippingNotConfiguredError("MELHOR_ENVIO_FROM_CEP ausente.");
   }
+
+  const token = await getValidAccessToken();
 
   const res = await fetch(`${ME_BASE_URL}/api/v2/me/shipment/calculate`, {
     method: "POST",

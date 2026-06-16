@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { storeTokens } from "@/lib/melhor-envio-token";
 
 export const runtime = "nodejs";
 
@@ -57,11 +58,24 @@ export async function GET(req: NextRequest) {
 
   const expiresDays = Math.round((data.expires_in ?? 0) / 86400);
 
+  // Grava no Supabase: a partir daqui a renovação é automática, sem mexer no env.
+  const stored = await storeTokens(data);
+
+  if (stored) {
+    return page(`
+      <h1>Frete configurado ✅</h1>
+      <p>Os tokens foram salvos no banco. A renovação agora é <strong>automática</strong>: você não precisa mais tocar nisso.</p>
+      <p>Validade inicial do access_token: ~${expiresDays} dias. O sistema renova sozinho antes de expirar.</p>
+      <p>Pode fechar esta página.</p>
+    `);
+  }
+
+  // Supabase indisponível: cai no modo manual (env var).
   return page(`
-    <h1>Token gerado ✅</h1>
-    <p>Copie estas linhas pro <code>.env.local</code> (substituindo os valores existentes) e reinicie o servidor:</p>
+    <h1>Token gerado ⚠️</h1>
+    <p>Não consegui salvar no Supabase (renovação automática indisponível). Use o modo manual: copie pro env e reinicie/redeploy.</p>
     <pre style="background:#f0f0f0; padding:1rem; overflow-x:auto;">MELHOR_ENVIO_TOKEN=${data.access_token}
 MELHOR_ENVIO_REFRESH_TOKEN=${data.refresh_token}</pre>
-    <p>Validade do access_token: ~${expiresDays} dias. Quando expirar, repita este fluxo (acesse <code>/api/shipping/oauth/start</code> de novo).</p>
+    <p>Validade: ~${expiresDays} dias. Quando expirar, repita <code>/api/shipping/oauth/start</code>.</p>
   `);
 }

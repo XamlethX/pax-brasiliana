@@ -47,9 +47,23 @@ create table if not exists public.contribuicoes (
   created_at    timestamptz not null default now()
 );
 
+-- ── melhor_envio_token: tokens OAuth da Melhor Envio (1 linha só) ───────────
+-- Persistido aqui porque o refresh_token rotaciona a cada uso, então não dá
+-- pra guardar em env var (imutável em runtime). O callback OAuth grava, e o
+-- cálculo de frete renova sozinho quando perto de expirar.
+create table if not exists public.melhor_envio_token (
+  id            int primary key default 1 check (id = 1),
+  access_token  text not null,
+  refresh_token text not null,
+  expires_at    timestamptz not null,
+  updated_at    timestamptz not null default now()
+);
+
 -- ── Row Level Security ──────────────────────────────────────────────────────
 alter table public.fabricantes  enable row level security;
 alter table public.contribuicoes enable row level security;
+-- Tokens: RLS ligado e SEM policy = ninguém anon acessa. Só service-role.
+alter table public.melhor_envio_token enable row level security;
 
 -- Qualquer um (anon) pode LER fabricantes aprovados.
 drop policy if exists "fabricantes_public_read" on public.fabricantes;
