@@ -788,6 +788,17 @@ export default function CadeiaProdutivaBrasileiraPage() {
     };
   }, []);
 
+  // Escape fecha a camada de cima: primeiro o modal, depois o painel de detalhe.
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key !== "Escape") return;
+      if (modalContribuir) setModalContribuir(false);
+      else if (fabricanteSelecionado) setFabricanteSelecionado(null);
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [modalContribuir, fabricanteSelecionado]);
+
   const filtrados = useMemo(() => {
     const q = normalizar(busca.trim());
     return fabricantes.filter((fab) => {

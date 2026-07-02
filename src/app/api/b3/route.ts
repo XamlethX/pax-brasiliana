@@ -19,8 +19,8 @@ export const dynamic = "force-dynamic";
  * Any ticker neither source returns is simply omitted — the client keeps its
  * seed (reference) values for that row, so the table is never empty.
  *
- * The whole result is cached in-memory for 60s so a page of visitors triggers
- * at most one upstream refresh per minute.
+ * The whole result is cached in-memory for 5 minutes (TTL_MS) so a page of
+ * visitors triggers at most one upstream refresh per window.
  */
 
 export interface LiveQuote {

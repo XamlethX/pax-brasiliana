@@ -1,6 +1,6 @@
 import Stripe from "stripe";
 import { NextRequest, NextResponse } from "next/server";
-import { getResend, esc, FROM, TO } from "@/lib/email";
+import { getResend, esc, emailLayout, emailButton, FROM, TO, SITE_URL } from "@/lib/email";
 
 export const runtime = "nodejs";
 
@@ -22,6 +22,7 @@ async function handleStoreOrder(session: Stripe.Checkout.Session) {
   const shippingAmount = session.shipping_cost?.amount_total;
   const productSlug = session.metadata?.slug ?? "—";
   const size = session.metadata?.size;
+  const quantity = session.metadata?.quantity;
 
   const shippingDetails = session.collected_information?.shipping_details;
   const shipping = shippingDetails?.address ?? session.customer_details?.address;
@@ -43,6 +44,7 @@ async function handleStoreOrder(session: Stripe.Checkout.Session) {
     subject: `[Loja] Novo pedido — ${productSlug}`,
     html: `
       <p><strong>Produto:</strong> ${esc(productSlug)}</p>
+      ${quantity ? `<p><strong>Quantidade:</strong> ${esc(quantity)}</p>` : ""}
       ${size ? `<p><strong>Tamanho:</strong> ${esc(size)}</p>` : ""}
       <p><strong>Valor total:</strong> ${esc(amount)}</p>
       ${shippingAmount != null ? `<p><strong>Frete incluso:</strong> ${esc(brl(shippingAmount))}</p>` : ""}
@@ -55,17 +57,20 @@ async function handleStoreOrder(session: Stripe.Checkout.Session) {
   });
 
   if (customerEmail) {
+    const firstName = customerName?.split(" ")[0];
     await resend.emails.send({
       from: FROM,
       to: customerEmail,
-      subject: "Pedido recebido — Pax Brasiliana",
-      html: `
-        <p>Olá${customerName ? `, ${esc(customerName)}` : ""}.</p>
-        <p>Seu pedido foi confirmado. Valor: ${esc(amount)}.</p>
-        <p>100% do valor vai diretamente para a missão da Pax Brasiliana.</p>
-        <p>Entraremos em contato com os detalhes de envio.</p>
-        <p>— Pax Brasiliana</p>
-      `,
+      subject: "Pedido confirmado — Pax Brasiliana",
+      html: emailLayout({
+        preheader: `Pedido confirmado (${amount}). Avisaremos assim que ele for despachado.`,
+        body: `
+          <p style="margin:0 0 16px;">Olá${firstName ? `, ${esc(firstName)}` : ""}.</p>
+          <p style="margin:0 0 16px;">Seu pedido foi confirmado. Valor total: <strong>${esc(amount)}</strong>${shippingAmount != null ? ` (frete incluso: ${esc(brl(shippingAmount))})` : ""}.</p>
+          <p style="margin:0 0 16px;">100% do valor vai diretamente para a missão da Pax Brasiliana: reacender a capacidade do Brasil de construir.</p>
+          <p style="margin:0;">Entraremos em contato em breve com os detalhes de envio e o código de rastreio.</p>
+        `,
+      }),
     });
   }
 }
@@ -98,17 +103,32 @@ async function handleDonation(session: Stripe.Checkout.Session) {
   });
 
   if (customerEmail) {
+    const firstName = customerName?.split(" ")[0];
     await resend.emails.send({
       from: FROM,
       to: customerEmail,
       subject: "Obrigado pela sua doação — Pax Brasiliana",
-      html: `
-        <p>Olá${customerName ? `, ${esc(customerName)}` : ""}.</p>
-        <p>Sua doação ${esc(freqLabel)} de ${esc(amount)}${isMonthly ? " por mês" : ""} foi confirmada.</p>
-        <p>100% do valor vai diretamente para a missão da Pax Brasiliana: reacender a capacidade do Brasil de construir coisas grandes.</p>
-        ${isMonthly ? "<p>Você pode cancelar a qualquer momento respondendo a este email.</p>" : ""}
-        <p>— Pax Brasiliana</p>
-      `,
+      html: emailLayout({
+        preheader: `Sua doação ${freqLabel} de ${amount} foi confirmada. Cada real constrói algo.`,
+        introBody: `
+          <p style="margin:0 0 16px;">Olá${firstName ? `, ${esc(firstName)}` : ""}.</p>
+          <p style="margin:0 0 16px;">Sua doação ${esc(freqLabel)} de <strong>${esc(amount)}${isMonthly ? " por mês" : ""}</strong> foi confirmada. Obrigado.</p>
+          <p style="margin:0;">Somos um movimento enxuto, tocado por voluntários — 100% da sua doação financia diretamente a missão: reacender a capacidade do Brasil de construir indústria, tecnologia e cultura.</p>
+        `,
+        heroImage: `${SITE_URL}/images/cidade-futura.png`,
+        heroAlt: "Ilustração de uma cidade brasileira do futuro",
+        darkSection: `
+          <p style="margin:0 0 20px; font-family:'Courier New', Courier, monospace; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:#F8F6E8;">O que a sua doação constrói</p>
+          <p style="margin:0 0 16px;"><strong>Projetos abertos.</strong> Ferramentas públicas como o mapa da cadeia produtiva brasileira e o rastreador de empresas da B3 — pesquisa e dados acessíveis a qualquer brasileiro.</p>
+          <p style="margin:0 0 16px;"><strong>Ideias em circulação.</strong> Ensaios, manifesto e uma plataforma de educação sobre a ambição industrial e tecnológica do Brasil.</p>
+          <p style="margin:0 0 24px;"><strong>Um movimento crescendo.</strong> Comunidade, eventos e novas instituições pra quem decidiu parar de esperar e começar a construir.</p>
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin-top:4px;">
+            <tr><td style="padding-bottom:10px;">${emailButton("Conheça os projetos", `${SITE_URL}/projetos`)}</td></tr>
+            <tr><td>${emailButton("Ler o manifesto", `${SITE_URL}/manifesto`, "light")}</td></tr>
+          </table>
+          ${isMonthly ? `<p style="margin:24px 0 0; font-size:13px; color:rgba(248,246,232,0.7);">Sua doação se renova mensalmente. Pra cancelar a qualquer momento, basta responder este email.</p>` : ""}
+        `,
+      }),
     });
   }
 }

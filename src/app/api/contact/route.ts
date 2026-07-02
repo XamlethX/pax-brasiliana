@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getResend, esc, clean, isValidEmail, TO, FROM } from "@/lib/email";
+import { getResend, esc, clean, isValidEmail, emailLayout, TO, FROM } from "@/lib/email";
 
 export const runtime = "nodejs";
 
@@ -43,11 +43,14 @@ export async function POST(req: NextRequest) {
       from: FROM,
       to: email,
       subject: "Recebemos sua mensagem — Pax Brasiliana",
-      html: `
-        <p>Olá, ${esc(nome)}.</p>
-        <p>Recebemos sua mensagem e retornaremos em breve.</p>
-        <p>— Pax Brasiliana</p>
-      `,
+      html: emailLayout({
+        preheader: "Recebemos sua mensagem e retornaremos em breve.",
+        body: `
+          <p style="margin:0 0 16px;">Olá, ${esc(nome)}.</p>
+          <p style="margin:0 0 16px;">Recebemos sua mensagem sobre "${esc(assunto)}" e retornaremos em breve.</p>
+          <p style="margin:0;">A gente lê tudo.</p>
+        `,
+      }),
     });
 
     return NextResponse.json({ ok: true });

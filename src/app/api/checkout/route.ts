@@ -1,5 +1,6 @@
 import Stripe from "stripe";
 import { NextRequest, NextResponse } from "next/server";
+import { getStoreProduct } from "@/data/store";
 
 export const runtime = "nodejs";
 
@@ -15,18 +16,19 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const { slug, title, price, size, shipping } = body ?? {};
+    const { slug, size, shipping } = body ?? {};
 
-    const numericPrice = Number(price);
     const quantity = Math.floor(Number(body?.quantity));
 
-    if (
-      typeof slug !== "string" || !slug ||
-      typeof title !== "string" || !title ||
-      !Number.isFinite(numericPrice) || numericPrice <= 0 ||
-      !Number.isFinite(quantity) || quantity < 1 || quantity > 99
-    ) {
+    // Preço e título vêm SEMPRE do catálogo (src/data/store.ts) — nunca do
+    // cliente, que só indica o slug. Impede checkout com preço adulterado.
+    const product = typeof slug === "string" ? getStoreProduct(slug) : undefined;
+
+    if (!product || !Number.isFinite(quantity) || quantity < 1 || quantity > 99) {
       return NextResponse.json({ error: "Dados do produto inválidos." }, { status: 400 });
+    }
+    if (typeof size === "string" && size && !product.sizes.includes(size)) {
+      return NextResponse.json({ error: "Tamanho inválido." }, { status: 400 });
     }
 
     // Frete calculado no frontend via Melhor Envio (CEP do cliente).
@@ -59,22 +61,22 @@ export async function POST(req: NextRequest) {
         {
           price_data: {
             currency: "brl",
-            unit_amount: Math.round(numericPrice * 100),
+            unit_amount: Math.round(product.price * 100),
             product_data: {
-              name: title,
+              name: product.title,
               description: size && size !== "Único" ? `Tamanho: ${size}` : undefined,
-              metadata: { slug },
+              metadata: { slug: product.slug },
             },
           },
           quantity,
         },
       ],
       success_url: `${ORIGIN}/store/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${ORIGIN}/store/product/${slug}`,
-      metadata: { slug, size: size ?? "" },
+      cancel_url: `${ORIGIN}/store/product/${product.slug}`,
+      metadata: { slug: product.slug, size: size ?? "", quantity: String(quantity) },
       payment_intent_data: {
-        description: `Pax Brasiliana — ${title}`,
-        metadata: { slug, size: size ?? "" },
+        description: `Pax Brasiliana — ${product.title}`,
+        metadata: { slug: product.slug, size: size ?? "" },
       },
     });
 
