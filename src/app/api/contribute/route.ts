@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getResend, esc, clean, isValidEmail, TO, FROM } from "@/lib/email";
+import { getResend, esc, clean, isValidEmail, emailLayout, emailButton, TO, FROM, SITE_URL } from "@/lib/email";
 
 export const runtime = "nodejs";
 
@@ -53,11 +53,15 @@ export async function POST(req: NextRequest) {
       from: FROM,
       to: email,
       subject: "Interesse recebido — Pax Brasiliana",
-      html: `
-        <p>Olá, ${esc(nome)}.</p>
-        <p>Recebemos seu interesse em contribuir com a Pax Brasiliana. Analisaremos seu perfil e entraremos em contato em breve.</p>
-        <p>— Pax Brasiliana</p>
-      `,
+      html: emailLayout({
+        preheader: "Recebemos seu interesse em contribuir. Vamos entrar em contato em breve.",
+        body: `
+          <p style="margin:0 0 16px;">Olá, ${esc(nome)}.</p>
+          <p style="margin:0 0 16px;">Recebemos seu interesse em contribuir com a Pax Brasiliana. Vamos ler seu perfil com atenção e entrar em contato em breve com formas concretas de ajudar.</p>
+          <p style="margin:0 0 24px;">Enquanto isso, um jeito rápido de se aprofundar:</p>
+          <p style="margin:0;">${emailButton("Ler o manifesto", `${SITE_URL}/manifesto`)}</p>
+        `,
+      }),
     });
 
     return NextResponse.json({ ok: true });
