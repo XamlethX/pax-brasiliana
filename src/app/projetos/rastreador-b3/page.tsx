@@ -319,7 +319,7 @@ export default function RastreadorB3() {
             </div>
 
             {/* Toolbar row 2: sort + view + refresh */}
-            <div className="flex items-center gap-2 mb-8">
+            <div className="flex flex-wrap items-center gap-2 mb-8">
               <select
                 value={sort}
                 onChange={(e) => setSort(e.target.value)}
