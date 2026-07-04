@@ -55,6 +55,7 @@ Movimento cultural-industrial voltado a imaginar, construir e acelerar o futuro 
 - Dev: `npx next dev` (port 3000)
 - Build: `npx next build`
 - Screenshots: `node scripts/screenshot-compare.mjs` (both | local | reference)
+- Diagnóstico de produção: `GET /api/status` (protegido por STATUS_SECRET em prod) — valida Stripe/Supabase/Melhor Envio/Resend com chamadas vivas. Recuperação operacional: **RUNBOOK.md** (prazo crítico: token Melhor Envio expira ~15/07/2026)
 
 ## Stale cache fix
 The Next.js dev server frequently produces `Cannot find module './XXX.js'` errors (stale webpack chunks in `.next/server/`). **After creating or modifying any page/component**, always run `rm -rf .next` and restart the dev server before testing. When verifying routes via curl or browser during a session, if ANY route returns a 500 with this error, delete `.next` immediately — the cache is corrupt and no route is trustworthy until it's rebuilt.

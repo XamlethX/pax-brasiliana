@@ -1,6 +1,11 @@
 import Stripe from "stripe";
 import { NextRequest, NextResponse } from "next/server";
 import { getStoreProduct } from "@/data/store";
+import {
+  calculateShipping,
+  InvalidPostalCodeError,
+  type ShippingOption,
+} from "@/lib/melhor-envio";
 
 export const runtime = "nodejs";
 
@@ -31,31 +36,71 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Tamanho inválido." }, { status: 400 });
     }
 
-    // Frete calculado no frontend via Melhor Envio (CEP do cliente).
-    // Se ausente (ex: cálculo indisponível), segue sem custo de envio.
-    let shippingOptions:
-      | NonNullable<Stripe.Checkout.SessionCreateParams["shipping_options"]>
-      | undefined;
-    const shippingName = shipping?.name;
-    const shippingPrice = Number(shipping?.price);
-    if (typeof shippingName === "string" && shippingName && Number.isFinite(shippingPrice) && shippingPrice >= 0) {
-      shippingOptions = [
-        {
-          shipping_rate_data: {
-            type: "fixed_amount",
-            fixed_amount: { amount: Math.round(shippingPrice * 100), currency: "brl" },
-            display_name: shippingName.slice(0, 100),
-          },
-        },
-      ];
+    // Frete NUNCA vem precificado do cliente: ele manda só o CEP e o id da
+    // opção que escolheu, e o servidor recota na Melhor Envio e cobra o preço
+    // da cotação. Impede checkout com frete adulterado (ex.: price 0 via curl).
+    const shippingId = shipping?.id != null ? String(shipping.id) : "";
+    const shippingCep =
+      typeof shipping?.cep === "string" ? shipping.cep.replace(/\D/g, "") : "";
+    if (!shippingId || shippingCep.length !== 8) {
+      return NextResponse.json(
+        { error: "Frete ausente. Calcule e selecione o frete antes de pagar." },
+        { status: 400 }
+      );
     }
+
+    let chosen: ShippingOption | undefined;
+    try {
+      const options = await calculateShipping(shippingCep, [
+        {
+          id: product.slug,
+          weightKg: product.shipping.weightKg,
+          widthCm: product.shipping.widthCm,
+          heightCm: product.shipping.heightCm,
+          lengthCm: product.shipping.lengthCm,
+          insuranceValue: product.price,
+          quantity,
+        },
+      ]);
+      chosen = options.find((opt) => opt.id === shippingId);
+    } catch (err) {
+      if (err instanceof InvalidPostalCodeError) {
+        return NextResponse.json({ error: "CEP de entrega inválido." }, { status: 400 });
+      }
+      // Sem cotação confiável (Melhor Envio fora ou não configurado), não
+      // vende com frete não verificado — inclui ShippingNotConfiguredError.
+      console.error("[checkout] falha ao confirmar frete", err);
+      return NextResponse.json(
+        { error: "Não foi possível confirmar o frete. Tente novamente em instantes." },
+        { status: 503 }
+      );
+    }
+    if (!chosen) {
+      return NextResponse.json(
+        { error: "Opção de frete indisponível. Recalcule o frete e tente de novo." },
+        { status: 409 }
+      );
+    }
+
+    const shippingOptions: NonNullable<
+      Stripe.Checkout.SessionCreateParams["shipping_options"]
+    > = [
+      {
+        shipping_rate_data: {
+          type: "fixed_amount",
+          fixed_amount: { amount: Math.round(chosen.price * 100), currency: "brl" },
+          display_name:
+            `${chosen.company} ${chosen.name}`.trim().slice(0, 100) || "Frete",
+        },
+      },
+    ];
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
       locale: "pt-BR",
       shipping_address_collection: { allowed_countries: ["BR"] },
-      ...(shippingOptions ? { shipping_options: shippingOptions } : {}),
+      shipping_options: shippingOptions,
       phone_number_collection: { enabled: true },
       line_items: [
         {
@@ -73,7 +118,16 @@ export async function POST(req: NextRequest) {
       ],
       success_url: `${ORIGIN}/store/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${ORIGIN}/store/product/${product.slug}`,
-      metadata: { slug: product.slug, size: size ?? "", quantity: String(quantity) },
+      metadata: {
+        slug: product.slug,
+        size: size ?? "",
+        quantity: String(quantity),
+        // Serviço confirmado pelo servidor — usado na hora de comprar a
+        // etiqueta na Melhor Envio.
+        shipping_service: chosen.id,
+        shipping_service_name: `${chosen.company} ${chosen.name}`.trim().slice(0, 100),
+        shipping_cep: shippingCep,
+      },
       payment_intent_data: {
         description: `Pax Brasiliana — ${product.title}`,
         metadata: { slug: product.slug, size: size ?? "" },

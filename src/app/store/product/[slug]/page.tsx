@@ -26,6 +26,7 @@ export default function ProductDetailPage() {
   const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [checkoutStatus, setCheckoutStatus] = useState<"idle" | "loading" | "error">("idle");
+  const [checkoutError, setCheckoutError] = useState("");
 
   const [cep, setCep] = useState("");
   const [shippingOptions, setShippingOptions] = useState<ShippingOption[]>([]);
@@ -103,26 +104,30 @@ export default function ProductDetailPage() {
       return;
     }
     setCheckoutStatus("loading");
+    setCheckoutError("");
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           slug,
-          title: product.title,
-          price: product.price,
           quantity,
           size: selectedSize || product.sizes[0],
+          // O servidor recota o frete a partir do CEP + id da opção e cobra o
+          // preço da cotação dele — nunca o preço vindo daqui.
           shipping: {
-            name: `${selectedShipping.company} ${selectedShipping.name}`.trim(),
-            price: selectedShipping.price,
+            id: selectedShipping.id,
+            cep: cep.replace(/\D/g, ""),
           },
         }),
       });
       const data = await res.json();
       if (!res.ok || !data.url) throw new Error(data.error ?? "Erro");
       window.location.href = data.url;
-    } catch {
+    } catch (err) {
+      setCheckoutError(
+        err instanceof Error && err.message !== "Erro" ? err.message : ""
+      );
       setCheckoutStatus("error");
     }
   };
@@ -301,7 +306,7 @@ export default function ProductDetailPage() {
               {/* Checkout */}
               {checkoutStatus === "error" && (
                 <p className="mt-4 text-clay text-accents font-mono">
-                  Erro ao processar. Tente novamente.
+                  {checkoutError || "Erro ao processar. Tente novamente."}
                 </p>
               )}
               <button
