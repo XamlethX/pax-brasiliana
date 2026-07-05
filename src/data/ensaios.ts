@@ -90,50 +90,6 @@ export const ensaios: Ensaio[] = [
       },
     ],
   },
-  {
-    slug: "reindustrializacao",
-    title: "O sonho brasileiro não será herdado, será construído",
-    desc: "A desindustrialização silenciosa das últimas décadas e o custo real que pagamos hoje.",
-    author: "Pax Brasiliana",
-    date: "15 Mai 2026",
-    isoDate: "2026-05-15",
-    category: "industria",
-    categoryLabel: "Indústria",
-    image: "/images/laboratorio-robos.png",
-    intro:
-      "Em 1985, a indústria de transformação respondia por cerca de um quarto do PIB brasileiro. Hoje, esse número beira os 11%. Não houve um colapso dramático, nenhuma data para marcar no calendário — apenas o desmonte lento de uma capacidade que levou gerações para ser construída. Este ensaio é sobre o que perdemos, por que perdemos, e por que recuperar essa capacidade não é saudosismo: é a condição para qualquer futuro próspero.",
-    sections: [
-      {
-        heading: "O encolhimento que ninguém anunciou",
-        content: [
-          "A desindustrialização brasileira foi precoce e silenciosa. Países ricos viram sua indústria encolher depois de atingir renda alta — o Brasil começou a perder densidade industrial ainda pobre, antes de completar a travessia para o desenvolvimento. Trocamos a complexidade da manufatura pela simplicidade da extração: voltamos a ser, em larga medida, uma economia de commodities.",
-          "O problema não é exportar soja, minério ou petróleo. O problema é depender quase exclusivamente disso. Uma economia que só sabe extrair e enviar matéria-prima para que outros transformem está, por definição, capturando a fatia mais magra da cadeia de valor — e exportando junto os empregos qualificados, a pesquisa aplicada e o adensamento tecnológico que a transformação industrial carrega.",
-        ],
-      },
-      {
-        heading: "Por que a indústria importa mais do que parece",
-        content: [
-          "A indústria não é apenas mais um setor ao lado de serviços e agropecuária. Ela é o motor que puxa os demais. É na manufatura que a produtividade cresce mais rápido, que a inovação encontra aplicação concreta, e que se formam as cadeias densas de fornecedores, engenheiros e técnicos que sustentam tudo o mais.",
-          "Quando uma fábrica de equipamentos complexos fecha, não se perde só a linha de montagem. Perde-se o ecossistema ao redor dela: as oficinas de precisão, os laboratórios de materiais, os engenheiros que aprenderam a resolver problemas reais, os fornecedores que se especializaram. Esse conhecimento tácito não está em nenhum manual — ele vive nas pessoas e nas organizações, e quando se dispersa, reconstruí-lo custa décadas.",
-          "É por isso que países que levam o futuro a sério — dos Estados Unidos à China, da Coreia à Alemanha — voltaram a tratar política industrial como política de Estado. Não por nostalgia, mas porque entenderam que quem não fabrica, não inova; e quem não inova, obedece.",
-        ],
-      },
-      {
-        heading: "O custo que já estamos pagando",
-        content: [
-          "A conta da desindustrialização chega disfarçada. Chega na forma de empregos que não existem, de salários que estagnaram, de uma balança comercial que depende do humor das commodities, e de uma vulnerabilidade estratégica que ficou nua durante a pandemia, quando o país descobriu não saber fabricar insumos básicos.",
-          "Chega também na forma de cérebros que partem. Sem indústria sofisticada, não há demanda para engenheiros, cientistas e técnicos de ponta — e eles vão construir o futuro de outros países. A fuga de talentos não é causa, é sintoma: pessoas ambiciosas vão para onde há projetos ambiciosos.",
-        ],
-      },
-      {
-        heading: "Reconstruir é uma decisão",
-        content: [
-          "Nada disso é destino. A reindustrialização não exige um milagre — exige decisão. Capital paciente fluindo para a produção em vez de para a renda fácil. Energia abundante e barata como vantagem competitiva. Um Estado que compra de quem produz aqui e exige contrapartidas tecnológicas. Uma cultura que volte a admirar quem constrói.",
-          "O Brasil tem terra, energia, mercado interno e talento. O que falta não é recurso — é a convicção de que ainda somos capazes de fazer coisas difíceis. Reindustrializar é, antes de tudo, recusar a ideia de que nosso lugar na divisão internacional do trabalho é apenas cavar buracos e plantar grãos. É decidir que queremos transformar — e construir o país que isso exige.",
-        ],
-      },
-    ],
-  },
 ];
 
 export function getEnsaio(slug: string): Ensaio | undefined {
@@ -142,5 +98,5 @@ export function getEnsaio(slug: string): Ensaio | undefined {
 
 export const ensaioCategorias: { label: string; value: string }[] = [
   { label: "TODOS", value: "todos" },
-  { label: "INDÚSTRIA", value: "industria" },
+  { label: "CULTURA", value: "cultura" },
 ];
