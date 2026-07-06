@@ -62,7 +62,7 @@ const organizationJsonLd = {
   name: SITE_NAME,
   alternateName: "PAX",
   url: SITE_URL,
-  logo: `${SITE_URL}/images/logo-dark.png`,
+  logo: `${SITE_URL}/images/logo-wordmark.png`,
   description: SITE_DESCRIPTION,
   sameAs: [
     "https://x.com/paxbrasiliana",

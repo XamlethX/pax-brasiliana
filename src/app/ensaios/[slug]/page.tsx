@@ -47,7 +47,7 @@ export default function EnsaioDetailPage() {
     publisher: {
       "@type": "Organization",
       name: "Pax Brasiliana",
-      logo: { "@type": "ImageObject", url: `${SITE_URL}/images/logo-dark.png` },
+      logo: { "@type": "ImageObject", url: `${SITE_URL}/images/logo-wordmark.png` },
     },
     mainEntityOfPage: `${SITE_URL}/ensaios/${essay.slug}`,
   };

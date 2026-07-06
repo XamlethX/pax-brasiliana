@@ -15,13 +15,12 @@ const navLinks = [
 
 export default function Navbar() {
   const pathname = usePathname();
-  const heroPages = ["/", "/about", "/projetos", "/ensaios", "/store", "/manifesto"];
-  // Pages that start with a hero path but render a LIGHT top (no dark hero),
-  // where a transparent navbar would make light-colored icons invisible.
-  const noHeroPages = ["/projetos/cadeia-produtiva-brasileira"];
-  const hasHero =
-    !noHeroPages.includes(pathname) &&
-    heroPages.some((p) => pathname === p || pathname.startsWith(p + "/"));
+  // Apenas páginas cujo TOPO é escuro (imagem/hero bark) recebem navbar
+  // transparente com logo e links em mist. Qualquer outra rota — incluindo
+  // novas páginas — começa "active" (fundo mist, conteúdo bark), evitando
+  // logo claro sobre fundo claro. Match exato, sem prefixos.
+  const darkHeroPages = ["/", "/about", "/projetos", "/projetos/rastreador-b3"];
+  const hasHero = darkHeroPages.includes(pathname);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [drawerClosing, setDrawerClosing] = useState(false);
   const [hidden, setHidden] = useState(false);
@@ -166,11 +165,7 @@ export default function Navbar() {
           <div className="h-full px-5 py-5 flex flex-col">
             {/* Top: logo + CTA + close */}
             <div className="flex items-center justify-between">
-              <img
-                src="/images/logo-dark-navbar.svg"
-                alt=""
-                className="w-14 h-auto object-contain"
-              />
+              <Logo className="w-14 h-auto text-bark" aria-hidden="true" />
               <div className="flex gap-2.5">
                 <Link
                   href="/get-involved"

@@ -14,7 +14,7 @@ export default function manifest(): MetadataRoute.Manifest {
     categories: ["education", "news", "politics"],
     icons: [
       { src: "/icon.svg", sizes: "any", type: "image/svg+xml", purpose: "any" },
-      { src: "/images/logo-symbol-dark.png", sizes: "512x512", type: "image/png" },
+      { src: "/images/logo-512.png", sizes: "512x512", type: "image/png" },
     ],
   };
 }
