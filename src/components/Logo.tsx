@@ -11,10 +11,65 @@ interface LogoProps {
 
 /**
  * Marca Pax Brasiliana — o Cruzeiro do Sul.
- * Estrela central construída em linhas horizontais + quatro estrelas de
- * quatro pontas. Vetor geométrico puro (stroke: currentColor), nítido em
- * qualquer tamanho e recolorível via CSS — use `text-bark`, `text-mist` etc.
+ * Estrela central de quatro pontas construída em barras horizontais densas,
+ * com uma estrela em negativo recortada no centro, cercada pelas demais
+ * estrelas do Cruzeiro. Geometria extraída 1:1 do desenho original,
+ * redesenhada como vetor limpo (fill: currentColor) — nítida em qualquer
+ * tamanho e recolorível via CSS (`text-bark`, `text-mist`, ...).
  */
+
+const BAR_H = 9;
+
+// Cada linha da estrela central: [cy, x1, x2] ou, quando a barra é dividida
+// pelo recorte central, [cy, x1, x2, x3, x4] (segmento esquerdo + direito).
+const ROWS: number[][] = [
+  [11.8, 281, 284],
+  [28.4, 279.8, 285.1],
+  [47, 276, 289.5],
+  [66.5, 270, 294],
+  [86.5, 267.4, 298.6],
+  [105, 260, 306.5],
+  [124.5, 252.5, 314.5],
+  [144.5, 241.1, 276.2, 289, 325],
+  [162, 230.2, 271, 293.6, 338.1],
+  [180.5, 212, 266, 299, 355.8],
+  [199, 179, 255, 310, 386],
+  [218.3, 112, 234, 330.4, 446.8],
+  [238.3, 7.9, 187, 378.5, 553],
+  [259, 111, 233.8, 330, 452],
+  [277.9, 178.6, 256.2, 314.7, 384.5],
+  [298.4, 213, 266, 299.7, 352],
+  [317.5, 232, 272, 294.1, 334],
+  [337, 245.8, 275.8, 289, 318.5],
+  [356.6, 254, 310.5],
+  [376.5, 262, 301.9],
+  [396.5, 268.5, 296.5],
+  [416.5, 272, 292],
+  [438, 277.7, 287],
+  [457.8, 281, 283.6],
+];
+
+// Estrelas de quatro pontas (côncavas): [cx, cy, rx, ry]
+const SPARKLES: [number, number, number, number][] = [
+  [416.7, 71, 26.5, 33.5],
+  [86.7, 179.5, 27, 29],
+  [508, 321, 27.5, 30.5],
+  [372.5, 433, 22.5, 26],
+];
+
+function sparklePath(rx: number, ry: number): string {
+  const cx = 0.3;
+  const cy = 0.12;
+  return [
+    `M 0 ${-ry}`,
+    `C ${rx * cy} ${-ry * cx}, ${rx * cx} ${-ry * cy}, ${rx} 0`,
+    `C ${rx * cx} ${ry * cy}, ${rx * cy} ${ry * cx}, 0 ${ry}`,
+    `C ${-rx * cy} ${ry * cx}, ${-rx * cx} ${ry * cy}, ${-rx} 0`,
+    `C ${-rx * cx} ${-ry * cy}, ${-rx * cy} ${-ry * cx}, 0 ${-ry}`,
+    "Z",
+  ].join(" ");
+}
+
 export default function Logo({
   className = "",
   style,
@@ -23,13 +78,6 @@ export default function Logo({
   "aria-label": ariaLabel,
   "aria-hidden": ariaHidden,
 }: LogoProps) {
-  const star = (x: number, y: number) => (
-    <g transform={`translate(${x}, ${y})`}>
-      <line x1="0" y1="-12" x2="0" y2="12" strokeWidth="10" />
-      <line x1="-12" y1="0" x2="12" y2="0" strokeWidth="10" />
-    </g>
-  );
-
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -43,30 +91,20 @@ export default function Logo({
       aria-hidden={ariaHidden}
       role={ariaLabel ? "img" : undefined}
     >
-      <g stroke="currentColor" strokeWidth="14" strokeLinecap="round">
-        {/* Estrela central — pirâmide superior */}
-        <line x1="280" y1="40" x2="280" y2="60" />
-        <line x1="260" y1="80" x2="300" y2="80" />
-        <line x1="240" y1="110" x2="320" y2="110" />
-        <line x1="240" y1="125" x2="320" y2="125" />
-        <line x1="220" y1="150" x2="340" y2="150" />
-        <line x1="220" y1="165" x2="340" y2="165" />
-        {/* Braços */}
-        <line x1="80" y1="200" x2="220" y2="200" />
-        <line x1="40" y1="235" x2="520" y2="235" />
-        <line x1="340" y1="270" x2="480" y2="270" />
-        {/* Pirâmide inferior */}
-        <line x1="220" y1="305" x2="340" y2="305" />
-        <line x1="220" y1="320" x2="340" y2="320" />
-        <line x1="240" y1="345" x2="320" y2="345" />
-        <line x1="240" y1="360" x2="320" y2="360" />
-        <line x1="260" y1="390" x2="300" y2="390" />
-        <line x1="280" y1="410" x2="280" y2="430" />
-        {/* As demais estrelas do Cruzeiro do Sul */}
-        {star(420, 150)}
-        {star(140, 250)}
-        {star(400, 340)}
-        {star(160, 380)}
+      <g fill="currentColor">
+        {ROWS.map(([cy, ...xs]) => {
+          const y = cy - BAR_H / 2;
+          const rects = [];
+          for (let i = 0; i < xs.length; i += 2) {
+            rects.push(
+              <rect key={`${cy}-${xs[i]}`} x={xs[i]} y={y} width={xs[i + 1] - xs[i]} height={BAR_H} />
+            );
+          }
+          return rects;
+        })}
+        {SPARKLES.map(([cx, cy, rx, ry]) => (
+          <path key={`${cx}-${cy}`} transform={`translate(${cx}, ${cy})`} d={sparklePath(rx, ry)} />
+        ))}
       </g>
     </svg>
   );
