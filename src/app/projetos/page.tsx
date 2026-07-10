@@ -5,6 +5,18 @@ import Link from "next/link";
 
 const projetos = [
   {
+    slug: "pax-mantle",
+    title: "Pax Mantle",
+    desc: "Converse com IAs de nuvem sem entregar seus dados pessoais. Um modelo local detecta e substitui informações sensíveis por fakes realistas antes de o prompt sair da sua máquina — e reidrata a resposta de volta. Software livre.",
+    features: [
+      "Detecção 100% local via Ollama",
+      "CPF, CNPJ, CEP e telefone BR",
+      "Substitutos realistas, nunca [REDACTED]",
+      "Código aberto sob licença MIT",
+    ],
+    image: "/images/pax-mantle-cover.svg",
+  },
+  {
     slug: "cadeia-produtiva-brasileira",
     title: "Cadeia Produtiva Brasileira",
     desc: "Índice aberto de fabricantes e industriais brasileiros por categoria, localização e capacidade produtiva. Mapa interativo, diretório por setor e taxonomia de toda a cadeia industrial.",
