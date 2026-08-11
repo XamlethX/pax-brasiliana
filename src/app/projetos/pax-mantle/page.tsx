@@ -3,7 +3,6 @@ import Footer from "@/components/Footer";
 import JoinCTA from "@/components/JoinCTA";
 
 const GITHUB_PAX = "https://github.com/XamlethX/pax-mantle";
-const GITHUB_UPSTREAM = "https://github.com/Praxis-Society/praxis-cloak";
 
 const passos = [
   {
@@ -289,18 +288,6 @@ export default function PaxMantlePage() {
                   </div>
                 ))}
               </dl>
-              <p className="text-sm text-mist/50 max-w-[640px]">
-                O Pax Mantle é uma adaptação brasileira, mantida pela Pax, do projeto open source{" "}
-                <a
-                  href={GITHUB_UPSTREAM}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="underline underline-offset-2 hover:text-mist transition-colors"
-                >
-                  Cloak (Praxis Society)
-                </a>
-                , com detecção estendida pra formatos de dados brasileiros e interface em português.
-              </p>
             </div>
             <div className="lg:w-1/3 flex flex-col gap-4 justify-end lg:pl-10">
               <a
