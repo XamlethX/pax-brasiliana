@@ -2,7 +2,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import JoinCTA from "@/components/JoinCTA";
 
-const GITHUB_PAX = "https://github.com/XamlethX";
+const GITHUB_PAX = "https://github.com/XamlethX/pax-mantle";
 const GITHUB_UPSTREAM = "https://github.com/Praxis-Society/praxis-cloak";
 
 const passos = [
