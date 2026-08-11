@@ -1,8 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import JoinCTA from "@/components/JoinCTA";
-
-const GITHUB_PAX = "https://github.com/XamlethX/pax-mantle";
+import GitHubCommandButton from "@/components/GitHubCommandButton";
 
 const passos = [
   {
@@ -153,7 +152,7 @@ export default function PaxMantlePage() {
           style={{ "--grid-line-color": "#463C2E4D" } as React.CSSProperties}
         >
           <div className="flex flex-col lg:flex-row gap-10 lg:gap-0 relative z-[1]">
-            <div className="lg:w-2/3 px-5 lg:px-10 flex flex-col gap-6">
+            <div className="lg:w-3/5 px-5 lg:px-10 flex flex-col gap-6">
               <div className="border-l-[0.5px] border-l-clay text-accents uppercase font-mono pl-2.5 text-bark/70">
                 Projeto · Software livre
               </div>
@@ -164,16 +163,8 @@ export default function PaxMantlePage() {
                 antes de o prompt sair da máquina — e traduz a resposta de volta pro seu mundo real.
               </p>
             </div>
-            <div className="lg:w-1/3 px-5 lg:px-10 flex flex-col gap-4 justify-end">
-              <a
-                href={GITHUB_PAX}
-                target="_blank"
-                rel="noreferrer"
-                className="uppercase font-mono leading-none flex gap-2 px-4 py-3.5 items-center transition-all duration-300 ease-out hover:opacity-80 text-accents text-mist bg-bark w-full justify-between"
-              >
-                <span>Pax no GitHub</span>
-                <ArrowIcon />
-              </a>
+            <div className="lg:w-2/5 px-5 lg:px-10 flex flex-col gap-4 justify-end">
+              <GitHubCommandButton />
               <a
                 href="#como-funciona"
                 className="uppercase font-mono leading-none flex gap-2 px-4 py-3.5 items-center transition-all duration-300 ease-out hover:opacity-80 text-accents text-mist bg-coast w-full justify-between"
@@ -271,7 +262,7 @@ export default function PaxMantlePage() {
         {/* Specs + GitHub */}
         <section className="bg-bark py-20 px-5 lg:px-10">
           <div className="flex flex-col lg:flex-row gap-10 lg:gap-0">
-            <div className="lg:w-2/3 flex flex-col gap-6">
+            <div className="lg:w-3/5 flex flex-col gap-6">
               <div className="border-l-[0.5px] border-l-clay text-accents uppercase font-mono pl-2.5 text-mist/70">
                 Ficha técnica
               </div>
@@ -289,16 +280,8 @@ export default function PaxMantlePage() {
                 ))}
               </dl>
             </div>
-            <div className="lg:w-1/3 flex flex-col gap-4 justify-end lg:pl-10">
-              <a
-                href={GITHUB_PAX}
-                target="_blank"
-                rel="noreferrer"
-                className="uppercase font-mono leading-none flex gap-2 px-4 py-3.5 items-center transition-all duration-300 ease-out hover:opacity-80 text-accents text-bark bg-mist w-full justify-between"
-              >
-                <span>Ver no GitHub</span>
-                <ArrowIcon fill="#463C2E" />
-              </a>
+            <div className="lg:w-2/5 flex flex-col gap-4 justify-end lg:pl-10">
+              <GitHubCommandButton />
             </div>
           </div>
         </section>
