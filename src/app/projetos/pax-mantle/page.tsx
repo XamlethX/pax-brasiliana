@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import JoinCTA from "@/components/JoinCTA";
 import GitHubCommandButton from "@/components/GitHubCommandButton";
+import Image from "next/image";
 
 const passos = [
   {
@@ -40,95 +41,6 @@ const pilares = [
     desc: "Código aberto sob licença MIT, adaptado pro Brasil: detecção de CPF, CNPJ, CEP e telefone brasileiro que o pipeline original, centrado nos EUA, não cobria.",
   },
 ];
-
-function PipelineIllustration() {
-  return (
-    <svg
-      viewBox="0 0 1120 560"
-      xmlns="http://www.w3.org/2000/svg"
-      role="img"
-      aria-label="Diagrama do pipeline do Pax Mantle: o prompt passa pela detecção e substituição locais antes de ir pra nuvem, e a resposta é reidratada de volta."
-      className="w-full h-auto"
-    >
-      {/* device boundary */}
-      <rect x="20" y="40" width="700" height="480" fill="#E4DECC" fillOpacity="0.35" stroke="#463C2E" strokeWidth="1" strokeDasharray="6 4" />
-      <text x="40" y="76" fontFamily="var(--font-mono, monospace)" fontSize="14" letterSpacing="1.5" fill="#463C2E">
-        SEU COMPUTADOR
-      </text>
-
-      {/* prompt card */}
-      <g>
-        <rect x="56" y="120" width="240" height="180" fill="#F8F6E8" stroke="#463C2E" strokeWidth="1" />
-        <text x="76" y="152" fontFamily="var(--font-mono, monospace)" fontSize="13" letterSpacing="1" fill="#463C2E">SEU PROMPT</text>
-        <rect x="76" y="172" width="160" height="12" fill="#463C2E" fillOpacity="0.25" />
-        <rect x="76" y="196" width="90" height="12" fill="#F45141" />
-        <rect x="174" y="196" width="90" height="12" fill="#463C2E" fillOpacity="0.25" />
-        <rect x="76" y="220" width="190" height="12" fill="#463C2E" fillOpacity="0.25" />
-        <rect x="76" y="244" width="120" height="12" fill="#F45141" />
-        <text x="76" y="284" fontFamily="var(--font-mono, monospace)" fontSize="11" fill="#F45141">■ DADO PESSOAL</text>
-      </g>
-
-      {/* arrow prompt -> mantle */}
-      <line x1="296" y1="210" x2="384" y2="210" stroke="#463C2E" strokeWidth="2" />
-      <path d="M376 203 L388 210 L376 217" fill="#463C2E" />
-
-      {/* mantle block */}
-      <g>
-        <rect x="392" y="104" width="288" height="290" fill="#463C2E" />
-        <text x="536" y="142" fontFamily="var(--font-mono, monospace)" fontSize="14" letterSpacing="2" fill="#F8F6E8" textAnchor="middle">PAX MANTLE</text>
-        <line x1="416" y1="158" x2="656" y2="158" stroke="#F8F6E8" strokeOpacity="0.3" strokeWidth="1" />
-        <text x="416" y="190" fontFamily="var(--font-mono, monospace)" fontSize="12" fill="#C3BE92">1 · DETECTA</text>
-        <rect x="416" y="202" width="150" height="9" fill="#F45141" />
-        <text x="416" y="242" fontFamily="var(--font-mono, monospace)" fontSize="12" fill="#C3BE92">2 · DECIDE O QUE FICA</text>
-        <rect x="416" y="254" width="72" height="9" fill="#DFCB5A" />
-        <rect x="496" y="254" width="72" height="9" fill="#F45141" />
-        <text x="416" y="294" fontFamily="var(--font-mono, monospace)" fontSize="12" fill="#C3BE92">3 · SUBSTITUI POR FAKES</text>
-        <rect x="416" y="306" width="150" height="9" fill="#417CE5" />
-        <text x="416" y="352" fontFamily="var(--font-mono, monospace)" fontSize="11" fill="#F8F6E8" fillOpacity="0.65">2 MODELOS LOCAIS · OLLAMA</text>
-        <text x="416" y="372" fontFamily="var(--font-mono, monospace)" fontSize="11" fill="#F8F6E8" fillOpacity="0.65">NADA SENSÍVEL SAI DAQUI</text>
-      </g>
-
-      {/* arrow mantle -> cloud (crossing the boundary) */}
-      <line x1="680" y1="210" x2="812" y2="210" stroke="#463C2E" strokeWidth="2" />
-      <path d="M804 203 L816 210 L804 217" fill="#463C2E" />
-      <text x="748" y="196" fontFamily="var(--font-mono, monospace)" fontSize="11" fill="#463C2E" fillOpacity="0.6" textAnchor="middle">PROMPT LIMPO</text>
-
-      {/* cloud card */}
-      <g>
-        <rect x="820" y="120" width="240" height="180" fill="#E4DECC" stroke="#463C2E" strokeWidth="1" />
-        <text x="840" y="152" fontFamily="var(--font-mono, monospace)" fontSize="13" letterSpacing="1" fill="#463C2E">LLM NA NUVEM</text>
-        <rect x="840" y="172" width="160" height="12" fill="#463C2E" fillOpacity="0.25" />
-        <rect x="840" y="196" width="90" height="12" fill="#417CE5" />
-        <rect x="938" y="196" width="90" height="12" fill="#463C2E" fillOpacity="0.25" />
-        <rect x="840" y="220" width="190" height="12" fill="#463C2E" fillOpacity="0.25" />
-        <rect x="840" y="244" width="120" height="12" fill="#417CE5" />
-        <text x="840" y="284" fontFamily="var(--font-mono, monospace)" fontSize="11" fill="#417CE5">■ SUBSTITUTO REALISTA</text>
-      </g>
-
-      {/* return path: cloud -> rehydrate -> answer */}
-      <line x1="940" y1="300" x2="940" y2="452" stroke="#463C2E" strokeWidth="2" />
-      <line x1="940" y1="452" x2="316" y2="452" stroke="#463C2E" strokeWidth="2" />
-      <path d="M324 445 L312 452 L324 459" fill="#463C2E" />
-      <text x="748" y="440" fontFamily="var(--font-mono, monospace)" fontSize="11" fill="#463C2E" fillOpacity="0.6" textAnchor="middle">RESPOSTA VOLTA</text>
-
-      {/* rehydration station on the return path, inside the device */}
-      <g>
-        <rect x="392" y="420" width="288" height="64" fill="#417CE5" />
-        <text x="536" y="448" fontFamily="var(--font-mono, monospace)" fontSize="12" letterSpacing="1.5" fill="#F8F6E8" textAnchor="middle">4 · REIDRATA LOCALMENTE</text>
-        <text x="536" y="468" fontFamily="var(--font-mono, monospace)" fontSize="11" fill="#F8F6E8" fillOpacity="0.8" textAnchor="middle">fakes → suas entidades reais</text>
-      </g>
-
-      {/* answer card */}
-      <g>
-        <rect x="56" y="404" width="240" height="96" fill="#F8F6E8" stroke="#463C2E" strokeWidth="1" />
-        <text x="76" y="434" fontFamily="var(--font-mono, monospace)" fontSize="13" letterSpacing="1" fill="#463C2E">SUA RESPOSTA</text>
-        <rect x="76" y="452" width="160" height="12" fill="#463C2E" fillOpacity="0.25" />
-        <rect x="76" y="476" width="90" height="12" fill="#F45141" />
-        <rect x="174" y="476" width="60" height="12" fill="#463C2E" fillOpacity="0.25" />
-      </g>
-    </svg>
-  );
-}
 
 export default function PaxMantlePage() {
   return (
@@ -175,10 +87,39 @@ export default function PaxMantlePage() {
             <div className="border-l-[0.5px] border-l-clay text-accents uppercase font-mono pl-2.5 text-bark/70">
               O pipeline
             </div>
-            <div className="bg-sand/30 border-[0.5px] border-bark/40 shadow-md p-5 lg:p-10 overflow-x-auto">
-              <div className="min-w-[720px]">
-                <PipelineIllustration />
+            <div className="overflow-hidden border-[0.5px] border-bark/40 bg-sand/30 shadow-md">
+              <div className="grid grid-cols-3 border-b-[0.5px] border-bark/25 bg-mist font-mono text-[10px] uppercase tracking-[0.08em] text-bark/65 sm:text-xs">
+                <div className="border-r-[0.5px] border-bark/20 px-3 py-3 sm:px-5">Seu computador</div>
+                <div className="border-r-[0.5px] border-bark/20 px-3 py-3 text-center sm:px-5">Pax Mantle · local</div>
+                <div className="px-3 py-3 text-right sm:px-5">IA na nuvem</div>
               </div>
+              <Image
+                src="/images/pax-mantle-pipeline-functional-v1.png"
+                alt="Um único computador envia o prompt para o Pax Mantle, que troca dados pessoais vermelhos por substitutos azuis antes de chegar à IA na nuvem. A resposta volta pela faixa inferior e os dados reais são restaurados localmente."
+                width={1775}
+                height={886}
+                sizes="(min-width: 1024px) calc(100vw - 80px), calc(100vw - 40px)"
+                className="h-auto w-full"
+              />
+              <ol className="grid grid-cols-1 border-t-[0.5px] border-bark/25 bg-mist sm:grid-cols-2 lg:grid-cols-4">
+                {[
+                  ["01", "Detecta", "O prompt entra com dados pessoais em vermelho."],
+                  ["02", "Substitui", "Só os dados sensíveis viram substitutos azuis."],
+                  ["03", "Consulta", "A nuvem recebe um prompt coerente e protegido."],
+                  ["04", "Restaura", "Na volta, os dados reais reaparecem localmente."],
+                ].map(([n, title, desc], index) => (
+                  <li
+                    key={n}
+                    className={`flex gap-3 px-4 py-4 ${index > 0 ? "border-t-[0.5px] border-bark/20 sm:border-l-[0.5px] sm:border-t-0" : ""} ${index === 2 ? "sm:border-l-0 lg:border-l-[0.5px]" : ""}`}
+                  >
+                    <span className="font-mono text-xs text-clay">{n}</span>
+                    <span className="flex flex-col gap-1">
+                      <strong className="font-mono text-xs uppercase font-normal text-bark">{title}</strong>
+                      <span className="text-xs leading-relaxed text-bark/55">{desc}</span>
+                    </span>
+                  </li>
+                ))}
+              </ol>
             </div>
             <p className="text-accents font-mono uppercase text-bark/40 max-w-[720px]">
               A substituição de ida e volta é o diferencial: a nuvem vê um prompt coerente,
