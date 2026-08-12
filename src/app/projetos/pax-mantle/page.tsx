@@ -42,17 +42,6 @@ const pilares = [
   },
 ];
 
-function ArrowIcon({ fill = "#F8F6E8" }: { fill?: string }) {
-  return (
-    <svg width="12" height="10" viewBox="0 0 12 10" fill="none" aria-hidden="true">
-      <path
-        d="M6.295 0.705L10.085 4.5L-2.40413e-07 4.5L-1.96701e-07 5.5L10.085 5.5L6.295 9.295L7 10L12 5L7 -3.0598e-07L6.295 0.705Z"
-        fill={fill}
-      />
-    </svg>
-  );
-}
-
 export default function PaxMantlePage() {
   return (
     <div className="flex flex-col min-h-dvh">
@@ -77,13 +66,6 @@ export default function PaxMantlePage() {
             </div>
             <div className="lg:w-2/5 px-5 lg:px-10 flex flex-col gap-4 justify-end">
               <GitHubCommandButton />
-              <a
-                href="#como-funciona"
-                className="uppercase font-mono leading-none flex gap-2 px-4 py-3.5 items-center transition-all duration-300 ease-out hover:opacity-80 text-accents text-mist bg-coast w-full justify-between"
-              >
-                <span>Como funciona</span>
-                <ArrowIcon />
-              </a>
             </div>
           </div>
         </section>
